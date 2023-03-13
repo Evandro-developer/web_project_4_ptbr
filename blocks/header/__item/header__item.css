@@ -1,0 +1,6 @@
+.header__item {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "header__avatar header__briefing";
+}

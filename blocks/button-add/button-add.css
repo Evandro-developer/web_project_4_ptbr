@@ -1,0 +1,8 @@
+.button-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 150px;
+  max-height: 50px;
+  border-radius: 2px;
+}
