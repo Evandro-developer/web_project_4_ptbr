@@ -8,6 +8,7 @@
   row-gap: 18px;
   align-items: flex-start;
   justify-content: flex-start;
+  transition: 0.4s ease-in-out;
   position: relative;
 }
 
@@ -21,7 +22,7 @@
   }
 }
 
-@media (max-width: 444px) {
+@media (max-width: 580px) {
   * {
     transition: 0.4s ease-in-out;
   }

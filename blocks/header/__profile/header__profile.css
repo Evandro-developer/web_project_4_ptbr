@@ -7,6 +7,7 @@
   padding: 36px 0 46px;
   margin: 0;
   box-sizing: border-box;
+  transition: 0.4s ease-in-out;
 }
 
 @media (max-width: 900px) {
@@ -32,7 +33,7 @@
   }
 }
 
-@media (max-width: 444px) {
+@media (max-width: 580px) {
   * {
     transition: 0.4s ease-in-out;
   }

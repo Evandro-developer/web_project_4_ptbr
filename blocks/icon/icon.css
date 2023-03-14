@@ -1,0 +1,13 @@
+.icon {
+  width: 21px;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  opacity: 1;
+  transition: 0.4s ease-in-out;
+}
+
+.icon:hover {
+  opacity: 0.6;
+  transition: 0.4s ease-in-out;
+}

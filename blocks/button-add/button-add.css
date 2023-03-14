@@ -7,7 +7,7 @@
   border-radius: 2px #fff;
   box-sizing: border-box;
   opacity: 1;
-  transition: 0.8s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 
 .button-add:hover {
@@ -33,7 +33,7 @@
   }
 }
 
-@media (max-width: 444px) {
+@media (max-width: 580px) {
   * {
     transition: 0.4s ease-in-out;
   }

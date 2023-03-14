@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: 0.4s ease-in-out;
 }
 
 @media (max-width: 768px) {
@@ -17,7 +18,7 @@
   }
 }
 
-@media (max-width: 444px) {
+@media (max-width: 580px) {
   * {
     transition: 0.4s ease-in-out;
   }

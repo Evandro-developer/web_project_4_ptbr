@@ -1,0 +1,7 @@
+.elements__briefing {
+  margin: 0;
+  padding: 26px 15px 31px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

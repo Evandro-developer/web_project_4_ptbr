@@ -6,12 +6,21 @@
   top: 16px;
   right: -32px;
   opacity: 1;
-  transition: 0.8s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 
 .button-edit:hover {
   transition: 0.4s ease-in-out;
   opacity: 0.6;
+}
+
+@media (max-width: 580px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .button-edit {
+    top: 10px;
+  }
 }
 
 @media (max-width: 444px) {
