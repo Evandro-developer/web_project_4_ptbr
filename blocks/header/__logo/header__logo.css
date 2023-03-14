@@ -10,7 +10,7 @@
     transition: 0.4s ease-in-out;
   }
   .header__logo {
-    margin: 45px 0 41px 19px;
+    padding-left: 19px;
   }
 }
 

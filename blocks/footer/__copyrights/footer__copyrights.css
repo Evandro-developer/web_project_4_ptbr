@@ -1,0 +1,21 @@
+.footer__copyrights {
+  max-width: 318px;
+  max-height: 18px;
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #545454;
+  margin: 0;
+  padding: 0;
+  align-self: left;
+}
+
+@media (max-width: 900px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .footer__copyrights {
+    margin: 0 0 0 19px;
+  }
+}

@@ -21,3 +21,12 @@
     max-width: 842px;
   }
 }
+
+@media (max-width: 580px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .elements {
+    padding-bottom: 50px;
+  }
+}
