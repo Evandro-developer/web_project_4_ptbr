@@ -2,7 +2,42 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 150px;
-  max-height: 50px;
-  border-radius: 2px;
+  width: 150px;
+  height: 50px;
+  border-radius: 2px #fff;
+  box-sizing: border-box;
+  opacity: 1;
+  transition: 0.8s ease-in-out;
+}
+
+.button-add:hover {
+  transition: 0.4s ease-in-out;
+  opacity: 0.6;
+}
+
+@media (max-width: 900px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .button-add {
+    margin-left: 39px;
+  }
+}
+
+@media (max-width: 768px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .button-add {
+    margin: 0;
+  }
+}
+
+@media (max-width: 444px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .button-add {
+    width: 288px;
+  }
 }

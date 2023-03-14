@@ -1,6 +1,26 @@
 .header__logo {
   width: 173px;
   height: 33px;
-  margin: 0;
-  padding: 45px 0 41px;
+  padding: 0;
+  margin: 45px 0 41px;
+}
+
+@media (max-width: 900px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header__logo {
+    margin: 45px 0 41px 19px;
+  }
+}
+
+@media (max-width: 444px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header__logo {
+    width: 126px;
+    height: 24px;
+    margin: 27px 0 32px 28px;
+  }
 }

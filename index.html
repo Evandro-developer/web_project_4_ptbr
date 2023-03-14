@@ -16,12 +16,12 @@
         <header class="header">
           <picture>
             <source
-              media="(min-width: )"
-              srcset="./images/header__logo-small.svg"
+              media="(max-width: 444px)"
+              srcset="./images/logo_small.png"
               class="header__logo"
             />
             <img
-              src="./images/header__logo.svg"
+              src="./images/logo.png"
               alt="Logo Around The U.S."
               class="header__logo"
             />
@@ -31,7 +31,7 @@
             <div class="header__item">
               <picture>
                 <img
-                  src="./images/header__avatar.svg"
+                  src="./images/avatar.svg"
                   alt="Imagem do Avatar"
                   class="header__avatar"
                 />
@@ -40,17 +40,26 @@
                 <h1 class="header__title">Jacques Cousteau</h1>
                 <h2 class="header__subtitle">Explorar</h2>
                 <picture>
+                  <source
+                    class="button-edit"
+                    media="(max-width: 444px)"
+                    srcset="./images/button_edit_small.png"
+                  />
                   <img
                     class="button-edit"
-                    src="./images/header__edit-button.svg"
+                    src="./images/button_edit.png"
                     alt="Imagem de button editar"
                   />
                 </picture>
               </div>
             </div>
             <picture class="header__button">
+              <source
+                media="(max-width: 444px)"
+                srcset="./images/Button_Add_large.png"
+              />
               <img
-                src="./images/header__add-button.svg"
+                src="./images/Button_Add.png"
                 alt="Imagem de button adicionar"
                 class="button-add"
               />

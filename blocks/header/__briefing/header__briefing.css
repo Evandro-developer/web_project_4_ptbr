@@ -1,15 +1,33 @@
 .header__briefing {
   max-width: 415px;
   max-height: 77px;
-  margin-left: 30px;
-  padding: 0;
-  display: grid;
-  grid-gap: 18px 16px;
-  padding: 0;
-  align-items: last baseline;
+  margin: 0;
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 18px;
+  align-items: flex-start;
   justify-content: flex-start;
-  grid-template-columns: auto;
-  grid-template-areas:
-    "header__title button"
-    "header__subtitle .";
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header__briefing {
+    margin: 0;
+    padding: 0 0 36px;
+  }
+}
+
+@media (max-width: 444px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header__briefing {
+    align-items: center;
+    justify-content: center;
+    row-gap: 14px;
+  }
 }

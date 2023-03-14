@@ -8,5 +8,14 @@
   color: #fff;
   margin: 0;
   padding: 0;
-  grid-area: header__title;
+}
+
+@media (max-width: 444px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header__title {
+    font-size: 22px;
+    line-height: 26px;
+  }
 }
