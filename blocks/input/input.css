@@ -1,9 +1,0 @@
-.input {
-  display: flex;
-  flex-direction: column;
-  row-gap: 40px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: inherit;
-  box-sizing: border-box;
-}

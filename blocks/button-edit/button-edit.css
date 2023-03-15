@@ -5,6 +5,7 @@
   position: absolute;
   top: 16px;
   right: -32px;
+  cursor: pointer;
   opacity: 1;
   transition: 0.4s ease-in-out;
 }

@@ -6,6 +6,7 @@
   height: 50px;
   border-radius: 2px #fff;
   box-sizing: border-box;
+  cursor: pointer;
   opacity: 1;
   transition: 0.4s ease-in-out;
 }

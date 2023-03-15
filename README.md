@@ -1,16 +1,18 @@
-# Projeto 4:  EUA Afora
+# Projeto 4: Around The U.S.
 
-### Visão geral
+---
 
-* Figma
-* Imagens
+Funcionalidades:
+Site responsivo para diversas dimensões de telas.
+Links com transição suave de sobreposição e saída.
+Posicionamento absoluto de imagens para efeitos.
+Utilização de display flexível para o layout nas seções.
+Organização das pastas de arquivos e imagens pelo método BEM - Bloco/Elemento/Modificador.
+Importação de estilos com o atributo @import das pastas de arquivos e imagens.
+Compatibilidade cross-browser e prefixos de fornecedores.
+Utilização de linguagem html com semântica adequada aos seus devidos propósitos.
+Recurso source para arquivos de imagem, auxilia no carregamento da imagem conforme a solicitação do layout.
+JavaScript para controle de Formulário Popup para interação do usuário.
+Link para o GitHub: https://evandro-developer.github.io/web_project_4_ptbr.index.html/
 
-**Figma**
-
-* [Link para o projeto no Figma](https://www.figma.com/file/XfB6BSINvliub43JgKza1e/WEB.-Sprint-4.-Around-The-U.S.-desktop-%2B-mobile-pt)
-
-**Imagens**
-
-A maneira como você fará isso no trabalho é exportando imagens diretamente do Figma — recomendamos fazer isso para praticar mais. Não se esqueça de otimizá-los [aqui](https://tinypng.com/), para que seu projeto carregue mais rápido.
-
-Divirta-se com JavaScript!
+---

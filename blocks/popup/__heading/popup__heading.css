@@ -1,4 +1,4 @@
-.form__heading {
+.popup__heading {
   font-family: inter;
   font-weight: 900;
   font-size: 24px;
@@ -12,8 +12,9 @@
   * {
     transition: 0.4s ease-in-out;
   }
-  .form__heading {
+  .popup__heading {
     font-size: 18px;
     line-height: 22px;
+    padding-bottom: 70px;
   }
 }
