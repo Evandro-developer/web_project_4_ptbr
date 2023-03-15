@@ -1,0 +1,9 @@
+.input__text {
+  font-family: inter;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  border: 0;
+  border-bottom: 1px solid #545454;
+  width: 100%;
+}

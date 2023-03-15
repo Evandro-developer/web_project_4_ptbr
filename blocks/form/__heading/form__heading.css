@@ -1,0 +1,19 @@
+.form__heading {
+  font-family: inter;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 30px;
+  padding-bottom: 50px;
+  margin: 0;
+  transition: 0.4s ease-in-out;
+}
+
+@media (max-width: 580px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .form__heading {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

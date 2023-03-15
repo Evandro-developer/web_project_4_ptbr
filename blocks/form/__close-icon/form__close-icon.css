@@ -1,0 +1,20 @@
+.form__close-icon {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: -45px;
+  right: -45px;
+  transition: 0.4s ease-in-out;
+}
+
+@media (max-width: 580px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .form__close-icon {
+    width: 26px;
+    height: 26px;
+    top: -40px;
+    right: 0;
+  }
+}

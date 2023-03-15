@@ -21,3 +21,14 @@
 @import url(./blocks/icon/icon.css);
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__copyrights/footer__copyrights.css);
+@import url(./blocks/form/form.css);
+@import url(./blocks/form/__container/form__container.css);
+@import url(./blocks/form/__heading/form__heading.css);
+@import url(./blocks/form/__submit-btn/form__submit-btn.css);
+@import url(./blocks/form/__submit-btn/_action_add/form__submit-btn_action_add.css);
+@import url(./blocks/input/input.css);
+@import url(./blocks/input/__text/input__text.css);
+@import url(./blocks/input/__text/_type/input__text_type_name.css);
+@import url(./blocks/input/__text/_type/input__text_type_job.css);
+@import url(./blocks/input/__text/_button/input__text_button.css);
+@import url(./blocks/form/__close-icon/form__close-icon.css);

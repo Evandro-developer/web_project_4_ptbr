@@ -1,0 +1,27 @@
+.form {
+  height: 330px;
+  width: 430px;
+  position: fixed;
+  top: 195px;
+  left: 50%;
+  transform: translate(-50%);
+  background-color: #fff;
+  border-radius: 10px solid rgba(0, 0, 0, 0.15);
+  transition: 0.4s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  row-gap: 34px;
+  z-index: 20;
+  transition: 0.4s ease-in-out;
+  display: none;
+}
+
+@media (max-width: 580px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .form {
+    width: 282px;
+    height: 322px;
+  }
+}

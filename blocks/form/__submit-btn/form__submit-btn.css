@@ -1,0 +1,23 @@
+.form__submit-btn {
+  width: 358px;
+  height: 50px;
+  width: 100%;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  margin: 0;
+  padding: 0;
+  transition: 0.4s ease-in-out;
+}
+
+/*@media (max-width: 580px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .form {
+    width: 238px;
+    height: 46px;
+  }
+}
