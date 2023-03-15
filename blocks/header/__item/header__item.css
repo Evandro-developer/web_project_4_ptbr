@@ -12,8 +12,8 @@
     transition: 0.4s ease-in-out;
   }
   .header__item {
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
   }
 }

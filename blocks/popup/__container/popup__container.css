@@ -12,7 +12,7 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 580px) {
+@media (max-width: 768px) {
   * {
     transition: 0.4s ease-in-out;
   }
