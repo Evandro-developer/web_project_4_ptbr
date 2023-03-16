@@ -7,6 +7,8 @@
   right: -32px;
   cursor: pointer;
   opacity: 1;
+  -webkit-transition: 0.4s ease-in-out;
+  -o-transition: 0.4s ease-in-out;
   transition: 0.4s ease-in-out;
 }
 
@@ -24,12 +26,12 @@
   }
 }
 
-@media (max-width: 444px) {
+@media (max-width: 580px) {
   * {
     transition: 0.4s ease-in-out;
   }
   .button-edit {
-    top: 8px;
+    top: 6px;
     right: -24px;
     width: 18px;
     height: 18px;

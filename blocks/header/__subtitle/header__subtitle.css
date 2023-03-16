@@ -8,7 +8,7 @@
   padding: 0;
 }
 
-@media (max-width: 444px) {
+@media (max-width: 580px) {
   * {
     transition: 0.4s ease-in-out;
   }

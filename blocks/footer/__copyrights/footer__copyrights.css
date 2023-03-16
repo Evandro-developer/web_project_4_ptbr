@@ -8,6 +8,8 @@
   color: #545454;
   margin: 0;
   padding: 0;
+  -ms-flex-item-align: left;
+  -ms-grid-row-align: left;
   align-self: left;
 }
 

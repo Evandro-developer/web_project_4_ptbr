@@ -3,6 +3,7 @@
   max-height: 361px;
   border-radius: 10px;
   background-color: #fff;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   overflow: hidden;
 }

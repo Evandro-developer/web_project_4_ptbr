@@ -1,5 +1,6 @@
 .elements.image {
   width: 282px;
   height: 282px;
+  -o-object-fit: contain;
   object-fit: contain;
 }
