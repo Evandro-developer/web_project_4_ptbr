@@ -15,23 +15,22 @@
   transition: 0.4s ease-in-out;
 }
 
+@media (max-width: 900px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header__item {
+    padding-bottom: 36px;
+  }
+}
+
 @media (max-width: 768px) {
   * {
     transition: 0.4s ease-in-out;
   }
   .header__item {
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-  }
-}
-
-@media (max-width: 580px) {
-  * {
-    transition: 0.4s ease-in-out;
-  }
-  .header__item {
-    align-items: center;
     justify-content: center;
+    padding: 0;
   }
 }

@@ -1,4 +1,4 @@
-.button-add {
+.header__add-btn {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -20,7 +20,7 @@
   transition: 0.4s ease-in-out;
 }
 
-.button-add:hover {
+.header__add-btn:hover {
   transition: 0.4s ease-in-out;
   opacity: 0.6;
 }
@@ -29,16 +29,7 @@
   * {
     transition: 0.4s ease-in-out;
   }
-  .button-add {
-    margin-left: 39px;
-  }
-}
-
-@media (max-width: 768px) {
-  * {
-    transition: 0.4s ease-in-out;
-  }
-  .button-add {
+  .header__add-btn {
     margin: 0;
   }
 }
@@ -47,7 +38,7 @@
   * {
     transition: 0.4s ease-in-out;
   }
-  .button-add {
-    width: 288px;
+  .header__add-btn {
+    width: 282px;
   }
 }

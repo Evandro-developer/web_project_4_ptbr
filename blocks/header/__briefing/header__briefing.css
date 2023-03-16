@@ -40,6 +40,6 @@
   .header__briefing {
     align-items: center;
     justify-content: center;
-    row-gap: 14px;
+    padding-bottom: 22px;
   }
 }
