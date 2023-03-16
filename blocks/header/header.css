@@ -26,7 +26,7 @@
   * {
     transition: 0.4s ease-in-out;
   }
-  .header__title {
+  .header {
     font-size: 22px;
     line-height: 26px;
     max-width: 320px;
