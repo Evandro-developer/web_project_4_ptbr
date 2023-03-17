@@ -11,6 +11,9 @@
   -ms-flex-item-align: left;
   -ms-grid-row-align: left;
   align-self: left;
+  -webkit-transition: 0.4s ease-in-out;
+  -o-transition: 0.4s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 
 @media (max-width: 900px) {
@@ -19,5 +22,23 @@
   }
   .footer__copyrights {
     margin: 0 0 0 19px;
+  }
+}
+
+@media (max-width: 768px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .footer__copyrights {
+    margin: 0;
+  }
+}
+
+@media (max-width: 580px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .footer__copyrights {
+    margin-left: 19px;
   }
 }

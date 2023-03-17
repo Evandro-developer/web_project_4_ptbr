@@ -10,6 +10,27 @@
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  -webkit-transition: 0.4s ease-in-out;
+  -o-transition: 0.4s ease-in-out;
+  transition: 0.4s ease-in-out;
+}
+
+@media (max-width: 900px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .footer {
+    max-width: 768px;
+  }
+}
+
+@media (max-width: 768px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .footer {
+    max-width: 580px;
+  }
 }
 
 @media (max-width: 580px) {
@@ -18,5 +39,6 @@
   }
   .footer {
     padding-bottom: 36px;
+    max-width: 320px;
   }
 }

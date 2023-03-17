@@ -2,13 +2,13 @@
 <html lang="pt">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Web Site responsivo web_project_4" />
-  <meta name="keywords" content="HTML, CSS & JavaScript" />
-  <meta name="author" content="Evandro de Melo Aluno da Practicum" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Web Site responsivo web_project_4"/>
+  <meta name="keywords" content="HTML, CSS & JavaScript"/>
+  <meta name="author" content="Evandro de Melo Aluno da Practicum"/>
   <title>Around The U.S.</title>
-  <link rel="stylesheet" href="./index.css" />
+  <link rel="stylesheet" href="./index.css"/>
 </head>
 
 <body>
@@ -16,27 +16,27 @@
     <div class="root">
       <header class="header">
         <picture>
-          <source media="(max-width: 444px)" srcset="./images/logo_small.png" />
-          <img src="./images/logo.png" alt="Logo Around The U.S." class="header__logo" />
+          <source media="(max-width: 580px)" srcset="./images/logo_small.png"/>
+          <img src="./images/logo.png" alt="Logo Around The U.S." class="header__logo"/>
         </picture>
         <div class="header__line"></div>
         <div class="header__profile">
           <div class="header__item">
             <picture>
-              <img src="./images/avatar.svg" alt="Imagem do Avatar" class="header__avatar" />
+              <img src="./images/avatar.svg" alt="Imagem do Avatar" class="header__avatar"/>
             </picture>
             <div class="header__briefing">
               <h1 class="header__title">Jacques Cousteau</h1>
               <h2 class="header__subtitle">Explorar</h2>
               <picture>
-                <source media="(max-width: 444px)" srcset="./images/button_edit_small.png" />
-                <img src="images/button_edit.png" alt="Imagem de button editar" class="header__edit-btn" />
+                <source media="(max-width: 444px)" srcset="./images/button_edit_small.png"/>
+                <img class="button-edit" src="images/button_edit.png" alt="Imagem de button editar"/>
               </picture>
             </div>
           </div>
           <picture>
-            <source media="(max-width: 580px)" srcset="./images/button_add_large.png" />
-            <img src="./images/button_add.png" alt="Imagem de button adicionar" class="header__add-btn" />
+            <source media="(max-width: 580px)" srcset="./images/button_add_large.png"/>
+            <img src="./images/button_add.png" alt="Imagem de button adicionar" class="button-add"/>
           </picture>
         </div>
       </header>
@@ -45,99 +45,99 @@
           <form action="submit" class="popup__form">
             <div class="popup__container">
               <picture>
-                <source media="(max-width: 580px)" srcset="./images/close_icon_small.png" />
+                <source media="(max-width: 580px)" srcset="./images/close_icon_small.png"/>
                 <img src="./images/close_icon.png" alt="Imagem do ícone de fechamento da janela do popup"
-                  class="popup__close-btn" />
+                  class="popup__close-btn"/>
               </picture>
               <h2 class="popup__heading">Editar perfil</h2>
-              <input type="text" placeholder="Jacques Cousteau" class="popup__text popup__text_type_name" required />
-              <input type="text" placeholder="Explorar" class="popup__text popup__text_type_job" required />
+              <input type="text" placeholder="Jacques Cousteau" class="popup__text popup__text_type_name" required/>
+              <input type="text" placeholder="Explorar" class="popup__text popup__text_type_job" required/>
               <button class="popup__submit-btn">Salvar</button>
             </div>
           </form>
         </section>
         <section class="elements">
-          <div class="elements__item">
+          <ul class="elements__item">
             <picture>
               <img src="./images/vale-de-yosemite.svg"
                 alt="Imagem do vale de Yosemite com um rio, árvores, montanhas ao fundo e muita natureza"
-                class="elements__image" />
+                class="elements__image"/>
             </picture>
-            <div class="elements__briefing">
+            <li class="elements__briefing">
               <h2 class="elements__title">Vale de Yosemite</h2>
               <picture>
                 <img src="./images/heart_icon_disabled.png" alt="Icon de coração apenas com bordas"
-                  class="elements__heart-icon-btn" />
+                  class="button-heart-icon"/>
               </picture>
-            </div>
-          </div>
-          <div class="elements__item">
+            </li>
+          </ul>
+          <ul class="elements__item">
             <picture>
               <img src="./images/lago-louise.svg" alt="Imagem do Lago Louise com montanhas ao fundo e muita natureza"
-                class="elements__image" />
+                class="elements__image"/>
             </picture>
-            <div class="elements__briefing">
+            <li class="elements__briefing">
               <h2 class="elements__title">Lago Louise</h2>
               <picture>
                 <img src="./images/heart_icon_disabled.png" alt="Icon de coração apenas com bordas"
-                  class="elements__heart-icon-btn" />
+                  class="button-heart-icon"/>
               </picture>
-            </div>
-          </div>
-          <div class="elements__item">
+            </li>
+          </ul>
+          <ul class="elements__item">
             <picture>
               <img src="./images/grand_canyon_national_park.png"
-                alt="Imagem do vale Grand Canyon com montanhas ao fundo e muita natureza" class="elements__image" />
+                alt="Imagem do vale Grand Canyon com montanhas ao fundo e muita natureza" class="elements__image"/>
             </picture>
-            <div class="elements__briefing">
+            <li class="elements__briefing">
               <h2 class="elements__title">Grand Canyon National Park</h2>
               <picture>
                 <img src="./images/heart_icon_disabled.png" alt="Icon de coração apenas com bordas"
-                  class="elements__heart-icon-btn" />
+                  class="button-heart-icon"/>
               </picture>
-            </div>
-          </div>
-          <div class="elements__item">
+            </li>
+          </ul>
+          <ul class="elements__item">
             <picture>
               <img src="./images/latemar.svg" alt="Imagem do vale de Latemar, montanhas ao fundo e céu estrelado"
-                class="elements__image" />
+                class="elements__image"/>
             </picture>
-            <div class="elements__briefing">
+            <li class="elements__briefing">
               <h2 class="elements__title">Latemar</h2>
               <picture>
                 <img src="./images/heart_icon_disabled.png" alt="Icon de coração apenas com bordas"
-                  class="elements__heart-icon-btn" />
+                  class="button-heart-icon"/>
               </picture>
-            </div>
-          </div>
-          <div class="elements__item">
+            </li>
+          </ul>
+          <ul class="elements__item">
             <picture>
               <img src="./images/vanoise.svg"
                 alt="Imagem do Parque Nacional Vanoise com Lago, montanhas ao fundo e muita natureza"
-                class="elements__image" />
+                class="elements__image"/>
             </picture>
-            <div class="elements__briefing">
+            <li class="elements__briefing">
               <h2 class="elements__title">Vanoise National Park</h2>
               <picture>
                 <img src="./images/heart_icon_disabled.png" alt="Icon de coração apenas com bordas"
-                  class="elements__heart-icon-btn" />
+                  class="button-heart-icon"/>
               </picture>
-            </div>
-          </div>
-          <div class="elements__item">
+            </li>
+          </ul>
+          <ul class="elements__item">
             <picture>
               <img src="./images/lago-di-braies.svg"
                 alt="Imagem do Lago di Braies com um deck, barcos ancorados, montanhas ao fundo e muita natureza"
-                class="elements__image" />
+                class="elements__image"/>
             </picture>
-            <div class="elements__briefing">
+            <li class="elements__briefing">
               <h2 class="elements__title">Lago Di Braies</h2>
               <picture>
                 <img src="./images/heart_icon_disabled.png" alt="Icon de coração apenas com bordas"
-                  class="elements__heart-icon-btn" />
+                  class="button-heart-icon"/>
               </picture>
-            </div>
-          </div>
+            </li>
+          </ul>
         </section>
       </main>
       <footer class="footer">

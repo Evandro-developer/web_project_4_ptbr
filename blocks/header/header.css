@@ -20,6 +20,25 @@
   -webkit-box-align: start;
   -ms-flex-align: start;
   align-items: flex-start;
+  transition: 0.4s ease-in-out;
+}
+
+@media (max-width: 900px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header {
+    max-width: 768px;
+  }
+}
+
+@media (max-width: 768px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header {
+    max-width: 580px;
+  }
 }
 
 @media (max-width: 580px) {

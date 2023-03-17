@@ -6,4 +6,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   overflow: hidden;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }

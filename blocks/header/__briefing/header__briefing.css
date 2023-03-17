@@ -30,6 +30,8 @@
   .header__briefing {
     margin: 0;
     padding: 0 0 36px;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -38,8 +40,6 @@
     transition: 0.4s ease-in-out;
   }
   .header__briefing {
-    align-items: center;
-    justify-content: center;
     padding-bottom: 22px;
   }
 }

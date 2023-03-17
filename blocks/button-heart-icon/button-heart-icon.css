@@ -1,4 +1,4 @@
-.elements__heart-icon-btn {
+.button-heart-icon {
   width: 21px;
   height: 19px;
   cursor: pointer;
@@ -7,7 +7,7 @@
   transition: 0.4s ease-in-out;
 }
 
-.elements__heart-icon-btn:hover {
+.button-heart-icon:hover {
   transition: 0.4s ease-in-out;
   opacity: 0.6;
 }

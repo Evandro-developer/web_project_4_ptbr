@@ -1,10 +1,10 @@
-.header__edit-btn {
+.button-edit {
   width: 24px;
   height: 24px;
   border-radius: 2px #fff;
   position: absolute;
   top: 15px;
-  right: -45px;
+  right: -38px;
   cursor: pointer;
   opacity: 1;
   -webkit-transition: 0.4s ease-in-out;
@@ -12,17 +12,25 @@
   transition: 0.4s ease-in-out;
 }
 
-.header__edit-btn:hover {
+.button-edit:hover {
   transition: 0.4s ease-in-out;
   opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .button-edit {
+    top: 4px;
+  }
 }
 
 @media (max-width: 580px) {
   * {
     transition: 0.4s ease-in-out;
   }
-  .header__edit-btn {
-    top: 4px;
+  .button-edit {
     right: -24px;
     width: 18px;
     height: 18px;

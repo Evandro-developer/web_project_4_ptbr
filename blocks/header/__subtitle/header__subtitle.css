@@ -6,6 +6,9 @@
   color: #fff;
   margin: 0;
   padding: 0;
+  -webkit-transition: 0.4s ease-in-out;
+  -o-transition: 0.4s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 
 @media (max-width: 580px) {

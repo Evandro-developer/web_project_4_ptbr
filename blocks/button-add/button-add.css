@@ -1,4 +1,4 @@
-.header__add-btn {
+.button-add {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -20,7 +20,7 @@
   transition: 0.4s ease-in-out;
 }
 
-.header__add-btn:hover {
+.button-add:hover {
   transition: 0.4s ease-in-out;
   opacity: 0.6;
 }
@@ -29,7 +29,7 @@
   * {
     transition: 0.4s ease-in-out;
   }
-  .header__add-btn {
+  .button-add {
     margin: 0;
   }
 }
@@ -38,7 +38,7 @@
   * {
     transition: 0.4s ease-in-out;
   }
-  .header__add-btn {
+  .button-add {
     width: 282px;
   }
 }
