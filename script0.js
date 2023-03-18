@@ -13,13 +13,13 @@ popupButtonEdit.addEventListener("click", function (evt) {
   nameInput.value = nameOutput.textContent;
   jobInput.value = jobOutput.textContent;
 
-  popup.classList.add("popup_opened");
+  popup.style.display = "flex";
 });
 
 popupButtonClose.addEventListener("click", function (evt) {
   evt.preventDefault();
 
-  popup.classList.remove("popup_opened");
+  popup.style.display = "none";
 });
 
 popupButtonSubmit.addEventListener("click", function (evt) {
@@ -28,7 +28,7 @@ popupButtonSubmit.addEventListener("click", function (evt) {
   nameOutput.textContent = nameInput.value;
   jobOutput.textContent = jobInput.value;
 
-  popup.classList.remove("popup_opened");
+  popup.style.display = "none";
 });
 
 document.addEventListener("keydown", function (evt) {
@@ -40,7 +40,7 @@ document.addEventListener("keydown", function (evt) {
       evt.preventDefault();
       nameOutput.textContent = nameInput.value;
       jobOutput.textContent = jobInput.value;
-      popup.classList.remove("popup_opened");
+      popup.style.display = "none";
     }
   }
 });
