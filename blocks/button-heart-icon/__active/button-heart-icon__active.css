@@ -1,0 +1,13 @@
+.button-heart-icon__active {
+  width: 21px;
+  height: 19px;
+  cursor: pointer;
+  -webkit-transition: 0.4s ease-in-out;
+  -o-transition: 0.4s ease-in-out;
+  transition: 0.4s ease-in-out;
+}
+
+.button-heart-icon__active:hover {
+  transition: 0.4s ease-in-out;
+  opacity: 0.6;
+}
