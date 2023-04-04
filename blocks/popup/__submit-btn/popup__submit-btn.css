@@ -1,6 +1,7 @@
 .popup__submit-btn {
   width: 358px;
   height: 50px;
+  max-width: 100%;
   background-color: #000;
   display: -webkit-box;
   display: -ms-flexbox;
