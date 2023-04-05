@@ -21,10 +21,10 @@
   -o-transition: 0.4s ease-in-out;
   transition: 0.4s ease-in-out;
   z-index: 0;
-  /* animation: fadeIn 0.4s ease-in-out forwards; */
+  animation: fadeIn 0.4s ease-in-out forwards;
 }
 
-/* @keyframes fadeIn {
+@keyframes fadeIn {
   from {
     opacity: 0;
     visibility: hidden;
@@ -33,7 +33,7 @@
     opacity: 1;
     visibility: visible;
   }
-} */
+}
 
 @media (max-width: 900px) {
   * {

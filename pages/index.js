@@ -1,8 +1,8 @@
 //-------------------------------------------------------------------------------
 
-POPUP_OPENED_CLASS = "popup__opened";
-OPENED_CARD_ADD_CLASS = "popup__opened_card_add";
-OPENED_CARD_IMG_CLASS = "popup-card-img__opened";
+const openPopup = "popup__opened";
+const openPopupCardAdd = "popup__opened_card_add";
+const openPopupCardImg = "popup-card-img__opened";
 
 //-------------------------------------------------------------------------------
 
@@ -49,30 +49,36 @@ const cardElements = document.querySelectorAll(".card");
 
 //-------------------------------------------------------------------------------
 
-let initialCards = [
+const initialCards = [
   {
     name: "Yosemite Valley",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
+    alt: "Imagem do vale de Yosemite com um rio, árvores, montanhas ao fundo e muita natureza",
   },
   {
     name: "Lake Louise",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
+    alt: "Imagem do Lago Louise com montanhas ao fundo e natureza exuberante",
   },
   {
     name: "Bald Mountains",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
+    alt: "Imagem das Montanhas Carecas, vegetação com árvores e ao fundo o pör do sol",
   },
   {
     name: "Latemar",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
+    alt: "Imagem do vale de Latemar, montanhas ao fundo e céu estrelado",
   },
   {
     name: "Vanoise National Park",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
+    alt: "Imagem do Parque Nacional Vanoise com Lago, montanhas ao fundo e natureza belissima",
   },
   {
     name: "Lago di Braies",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
+    alt: "Imagem do Lago di Braies com um deck, barcos ancorados e montanhas ao fundo e natureza preservada",
   },
 ];
 
@@ -80,11 +86,11 @@ let initialCards = [
 
 const toggle = (className, element) => element.classList.toggle(className);
 
-const popupOpened = () => toggle(POPUP_OPENED_CLASS, popup);
+const popupOpened = () => toggle(openPopup, popup);
 
-const popupOpenedCardAdd = () => toggle(OPENED_CARD_ADD_CLASS, popupCardAdd);
+const popupOpenedCardAdd = () => toggle(openPopupCardAdd, popupCardAdd);
 
-const popupOpenedCardImg = () => toggle(OPENED_CARD_IMG_CLASS, popupCard);
+const popupOpenedCardImg = () => toggle(openPopupCardImg, popupCard);
 
 //-------------------------------------------------------------------------------
 
@@ -95,17 +101,17 @@ const toggleDisplay = (displayValue, openedFunc, element) => {
 };
 
 const handlePopupToggle = () =>
-  popup.classList.contains(POPUP_OPENED_CLASS)
+  popup.classList.contains(openPopup)
     ? toggleDisplay("hidden", popupOpened, popup)
     : toggleDisplay("block", popupOpened, popup);
 
 const handlePopupCardAddToggle = () =>
-  popupCardAdd.classList.contains(OPENED_CARD_ADD_CLASS)
+  popupCardAdd.classList.contains(openPopupCardAdd)
     ? toggleDisplay("hidden", popupOpenedCardAdd, popupCardAdd)
     : toggleDisplay("block", popupOpenedCardAdd, popupCardAdd);
 
 const handlePopupCardImgToggle = () =>
-  popupCard.classList.contains(OPENED_CARD_IMG_CLASS)
+  popupCard.classList.contains(openPopupCardImg)
     ? toggleDisplay("hidden", popupOpenedCardImg, popupCard)
     : toggleDisplay("block", popupOpenedCardImg, popupCard);
 
@@ -196,13 +202,14 @@ const handleCardDelete = (evt) => {
 
 //-------------------------------------------------------------------------
 
-let renderCards = () => {
+const renderCards = () => {
   return allCards.map((card) => {
     const cardTemplate = document.querySelector("#cards-template").content;
     const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
     const cardImage = cardElement.querySelector(".card__image");
     cardImage.src = card.link;
+    cardImage.setAttribute("alt", card.name + card.alt);
 
     const cardTitle = cardElement.querySelector(".card__title");
     cardTitle.textContent = card.name;
@@ -227,7 +234,7 @@ let renderCards = () => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  let cards = renderCards(allCards);
+  const cards = renderCards(allCards);
   document.querySelector(".cards").prepend(...cards);
 });
 
