@@ -148,6 +148,7 @@ const handleCardFormSubmit = (name, link) => {
   const newCard = {
     name: name,
     link: link,
+    alt: "Imagem de " + name,
   };
 
   allCards = [newCard, ...allCards];
@@ -209,7 +210,7 @@ const renderCards = () => {
 
     const cardImage = cardElement.querySelector(".card__image");
     cardImage.src = card.link;
-    cardImage.setAttribute("alt", card.name + card.alt);
+    cardImage.setAttribute("alt", "Imagem de " + card.name);
 
     const cardTitle = cardElement.querySelector(".card__title");
     cardTitle.textContent = card.name;
