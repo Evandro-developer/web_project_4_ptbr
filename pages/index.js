@@ -135,12 +135,12 @@ const handleProfileFormSubmit = (evt) => {
 
 //-------------------------------------------------------------------------------
 
-let allCards = [];
-
 const handleCardFormAdd = (evt) => {
   evt.preventDefault();
   handlePopupCardAddToggle();
 };
+
+let allCards = [];
 
 allCards = initialCards;
 
