@@ -13,6 +13,19 @@ const jobOutput = document.querySelector(".header__subtitle");
 
 //-------------------------------------------------------------------------------
 
+const initialProfile = [
+  {
+    name: nameOutput.textContent,
+    job: jobOutput.textContent,
+  },
+];
+
+let newProfiles = [];
+
+let allProfiles = [...initialProfile];
+
+//-------------------------------------------------------------------------------
+
 const toggle = (className, element) => element.classList.toggle(className);
 
 const popupOpened = () => toggle(openPopup, popup);
@@ -32,26 +45,11 @@ const handlePopupToggle = () =>
 
 //-------------------------------------------------------------------------------
 
-const initialProfile = [
-  {
-    name: nameOutput.textContent,
-    job: jobOutput.textContent,
-  },
-];
-
-let newProfiles = [];
-
-let allProfiles = [...initialProfile];
-
-//-------------------------------------------------------------------------------
-
 const createNewProfile = (name, job) => {
   if (!name || !job) {
     return null;
   }
-
   const isProfileExist = allProfiles.some((profile) => profile.name === name);
-
   if (!isProfileExist) {
     let createdNewProfile = {
       name: name,
@@ -83,11 +81,10 @@ const handleProfileFormEdit = (evt) => {
 
 const handleProfileFormSubmit = (evt) => {
   evt.preventDefault();
-
   const name = nameInput.value;
   const job = jobInput.value;
-  const isValid = name !== "" && job !== "";
 
+  const isValid = name !== "" && job !== "";
   if (isValid) {
     nameOutput.textContent = nameInput.value;
     jobOutput.textContent = jobInput.value;
@@ -117,15 +114,6 @@ const placeInputCardAdd = document.querySelector(".popup__text_type_place");
 const imgLinkInputCardAdd = document.querySelector(
   ".popup__text_type_img-link"
 );
-
-//-------------------------------------------------------------------------------
-
-const popupOpenedCardAdd = () => toggle(openPopupCardAdd, popupCardAdd);
-
-const handlePopupCardAddToggle = () =>
-  popupCardAdd.classList.contains(openPopupCardAdd)
-    ? toggleDisplay("hidden", popupOpenedCardAdd, popupCardAdd)
-    : toggleDisplay("block", popupOpenedCardAdd, popupCardAdd);
 
 //-------------------------------------------------------------------------------
 
@@ -165,6 +153,15 @@ const initialCards = [
 let newCards = [];
 
 let allCards = [];
+
+//-------------------------------------------------------------------------------
+
+const popupOpenedCardAdd = () => toggle(openPopupCardAdd, popupCardAdd);
+
+const handlePopupCardAddToggle = () =>
+  popupCardAdd.classList.contains(openPopupCardAdd)
+    ? toggleDisplay("hidden", popupOpenedCardAdd, popupCardAdd)
+    : toggleDisplay("block", popupOpenedCardAdd, popupCardAdd);
 
 //-------------------------------------------------------------------------------
 
@@ -209,24 +206,20 @@ const handleCardFormAdd = (evt) => {
   handlePopupCardAddToggle();
 };
 
-const handleCardFormSubmit = (name, link) => {
-  addNewCard(name, link);
-  handlePopupCardAddToggle();
-  placeInputCardAdd.value = "";
-  imgLinkInputCardAdd.value = "";
-  allCards = getAllCards();
-  addNewCardToDOM();
-  console.log("newCards:", newCards);
-  console.log("allCards:", allCards);
-};
-
-const handleCardFormSubmitClick = (evt) => {
+const handleCardFormSubmit = (evt) => {
   evt.preventDefault();
   const name = placeInputCardAdd.value;
   const link = imgLinkInputCardAdd.value;
 
   if (name && link) {
-    handleCardFormSubmit(name, link);
+    addNewCard(name, link);
+    handlePopupCardAddToggle();
+    placeInputCardAdd.value = "";
+    imgLinkInputCardAdd.value = "";
+    allCards = getAllCards();
+    addNewCardToDOM();
+    console.log("newCards:", newCards);
+    console.log("allCards:", allCards);
   }
 };
 
@@ -322,14 +315,14 @@ const handleButtonClick = (evt) => {
     case popupBtnProfileFormSubmit:
       handleProfileFormSubmit(evt);
       break;
-    case popupBtnCardAdd:
-      handleCardFormAdd(evt);
-      break;
     case popupBtnCardAddClosed:
       handlePopupCardAddToggle(evt);
       break;
+    case popupBtnCardAdd:
+      handleCardFormAdd(evt);
+      break;
     case popupBtnCardAddSubmit:
-      handleCardFormSubmitClick(evt);
+      handleCardFormSubmit(evt);
       break;
     case popupCardImgClosed:
       handlePopupCardImgToggle(evt);
