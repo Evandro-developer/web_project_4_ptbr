@@ -4,7 +4,7 @@
   border-radius: 2px #fff;
   position: absolute;
   top: 15px;
-  right: -38px;
+  right: -32px;
   cursor: pointer;
   opacity: 1;
   -webkit-transition: 0.4s ease-in-out;
@@ -24,14 +24,6 @@
   }
   .button-edit {
     top: 4px;
-  }
-}
-
-@media (max-width: 580px) {
-  * {
-    transition: 0.4s ease-in-out;
-  }
-  .button-edit {
     right: -24px;
     width: 18px;
     height: 18px;

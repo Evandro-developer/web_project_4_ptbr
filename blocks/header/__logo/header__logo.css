@@ -22,7 +22,9 @@
     transition: 0.4s ease-in-out;
   }
   .header__logo {
-    padding: 0;
+    width: 126px;
+    height: 24px;
+    margin: 27px 0 32px;
   }
 }
 
@@ -33,6 +35,6 @@
   .header__logo {
     width: 126px;
     height: 24px;
-    margin: 27px 0 32px 28px;
+    margin: 27px 0 32px;
   }
 }
