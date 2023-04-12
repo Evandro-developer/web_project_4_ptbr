@@ -8,6 +8,7 @@ const popupBtnClosed = document.querySelector(".popup__close-btn");
 const popupBtnProfileFormSubmit = document.querySelector(".popup__submit-btn");
 const nameInput = document.querySelector(".popup__text_type_name");
 const jobInput = document.querySelector(".popup__text_type_job");
+const profileContainer = document.querySelector(".profiles");
 const nameOutput = document.querySelector(".header__title");
 const jobOutput = document.querySelector(".header__subtitle");
 
@@ -169,7 +170,7 @@ const addNewCard = (name, link) => {
 
 const addNewCardToDOM = () => {
   const cards = document.querySelector(".cards");
-  const newCardToDOM = renderCards()[0];
+  const newCardToDOM = renderCards(allCards)[0];
   cards.insertBefore(newCardToDOM, cards.firstChild);
   newCardToDOM.animate([{ opacity: 0 }, { opacity: 1 }], {
     duration: 400,
@@ -216,7 +217,6 @@ const handleCardLike = (evt) => {
   heartIcon.src = isActive
     ? "./images/heart_icon_disabled.png"
     : "./images/heart_icon_enabled.png";
-  console.log("Bolean", isActive);
 };
 
 //------------------------------------------------------------------------------------------------------------
@@ -251,12 +251,16 @@ const handlePopupCardImgToggle = () =>
 
 //------------------------------------------------------------------------------------------------------------
 
-const renderCards = () => {
-  return allCards.map((card) => {
+const renderCards = (cards) => {
+  return cards.map((card) => {
     const cardTemplate = document.querySelector("#cards-template").content;
+
     const cardsContainer = cardTemplate.querySelector(".cards");
+
     const cardElement = cardsContainer.querySelector(".card").cloneNode(true);
+
     const imgLinkOutputCardAdd = cardElement.querySelector(".card__image");
+
     imgLinkOutputCardAdd.src = card.link;
     imgLinkOutputCardAdd.setAttribute("alt", `imagem de ${card.name}`);
     imgLinkOutputCardAdd.addEventListener("click", () => {
@@ -282,12 +286,10 @@ const renderCards = () => {
   });
 };
 
-//------------------------------------------------------------------------------------------------------------
-
 const addCardsToDOM = () => {
-  const cards = document.querySelector(".cards");
-  const cardsToDOM = renderCards();
-  cards.prepend(...cardsToDOM);
+  const cardsContainer = document.querySelector(".cards");
+  const cardsToDOM = renderCards(allCards);
+  cardsContainer.prepend(...cardsToDOM);
 };
 
 //------------------------------------------------------------------------------------------------------------
