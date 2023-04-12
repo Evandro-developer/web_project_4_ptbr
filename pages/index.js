@@ -1,22 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
 
-// // aciona apenas uma vez - quando o usuário pressiona a tecla
-// document.addEventListener("keypress", function () {
-//   console.log("Você pressionou a tecla");
-// });
-
-// // vai acionar diversas vezes enquanto a tecla é pressionada
-// document.addEventListener("keydown", function () {
-//   console.log("Você está apertando a tecla");
-// });
-
-// // aciona apena uma vez - quando o usuário libera a tecla
-// document.addEventListener("keyup", function () {
-//   console.log("Você liberou a tecla");
-// });
-
-//------------------------------------------------------------------------------------------------------------
-
 const openPopup = "popup__opened";
 const popup = document.querySelector(".popup");
 const popupForm = document.querySelector(".popup__container");
@@ -25,6 +8,7 @@ const popupBtnClosed = document.querySelector(".popup__close-btn");
 const popupBtnProfileFormSubmit = document.querySelector(".popup__submit-btn");
 const nameInput = document.querySelector(".popup__text_type_name");
 const jobInput = document.querySelector(".popup__text_type_job");
+const profileContainer = document.querySelector(".profiles");
 const nameOutput = document.querySelector(".header__title");
 const jobOutput = document.querySelector(".header__subtitle");
 
@@ -186,7 +170,7 @@ const addNewCard = (name, link) => {
 
 const addNewCardToDOM = () => {
   const cards = document.querySelector(".cards");
-  const newCardToDOM = renderCards()[0];
+  const newCardToDOM = renderCards(allCards)[0];
   cards.insertBefore(newCardToDOM, cards.firstChild);
   newCardToDOM.animate([{ opacity: 0 }, { opacity: 1 }], {
     duration: 400,
@@ -226,28 +210,13 @@ const handleCardFormSubmit = (evt) => {
 
 //------------------------------------------------------------------------------------------------------------
 
-// const handleCardLike = (evt) => {
-//   const heartIcon = evt.target.closest(".button-heart-icon");
-//   const isActive = heartIcon.dataset.active === "true";
-//   heartIcon.dataset.active = isActive ? "false" : "true";
-//   heartIcon.src = isActive
-//     ? "./images/heart_icon_disabled.png"
-//     : "./images/heart_icon_enabled.png";
-// };
-
-//------------------------------------------------------------------------------------------------------------
-
 const handleCardLike = (evt) => {
   const heartIcon = evt.target.closest(".button-heart-icon");
-  console.log("heart", heartIcon);
   const isActive = heartIcon.getAttribute("data-active") === "true";
-  console.log("Bolean", isActive);
   heartIcon.setAttribute("data-active", !isActive);
-  console.log("Bolean", isActive);
   heartIcon.src = isActive
     ? "./images/heart_icon_disabled.png"
     : "./images/heart_icon_enabled.png";
-  console.log("Bolean", isActive);
 };
 
 //------------------------------------------------------------------------------------------------------------
@@ -282,12 +251,16 @@ const handlePopupCardImgToggle = () =>
 
 //------------------------------------------------------------------------------------------------------------
 
-const renderCards = () => {
-  return allCards.map((card) => {
+const renderCards = (cards) => {
+  return cards.map((card) => {
     const cardTemplate = document.querySelector("#cards-template").content;
+
     const cardsContainer = cardTemplate.querySelector(".cards");
+
     const cardElement = cardsContainer.querySelector(".card").cloneNode(true);
+
     const imgLinkOutputCardAdd = cardElement.querySelector(".card__image");
+
     imgLinkOutputCardAdd.src = card.link;
     imgLinkOutputCardAdd.setAttribute("alt", `imagem de ${card.name}`);
     imgLinkOutputCardAdd.addEventListener("click", () => {
@@ -313,79 +286,10 @@ const renderCards = () => {
   });
 };
 
-//------------------------------------------------------------------------------------------------------------
-
-// const renderCards = () => {
-//   const cardTemplate = document.querySelector("#cards-template").content;
-//   const cardsContainer = cardTemplate.querySelector(".cards");
-//   const cardElement = cardsContainer.querySelector(".card").cloneNode(true);
-//   const imgLinkOutputCardAdd = cardElement.querySelector(".card__image");
-//   const trashIcon = cardElement.querySelector(".button-trash-icon");
-//   const cardBriefing = cardElement.querySelector(".card__briefing");
-//   const placeOutputCardAdd = cardBriefing.querySelector(".card__title");
-//   const heartIcon = cardBriefing.querySelector(".button-heart-icon");
-
-//   imgLinkOutputCardAdd.addEventListener("click", () => {
-//     handlePopupCardImgToggle();
-//     popupCardImg.src = card.link;
-//     popupCardName.textContent = card.name;
-//   });
-
-//   trashIcon.addEventListener("click", handleCardDelete);
-
-//   placeOutputCardAdd.textContent = card.name;
-
-//   heartIcon.addEventListener("click", handleCardLike);
-
-//   cardsContainer.prepend(cardElement);
-
-//   return cardElement;
-// };
-
-//------------------------------------------------------------------------------------------------------------
-
-// const createCardElement = (card) => {
-//   const cardTemplate = document.querySelector("#cards-template").content;
-//   const cardsContainer = cardTemplate.querySelector(".cards");
-//   const cardElement = cardsContainer.querySelector(".card").cloneNode(true);
-//   const imgLinkOutputCardAdd = cardElement.querySelector(".card__image");
-//   imgLinkOutputCardAdd.src = card.link;
-//   imgLinkOutputCardAdd.setAttribute("alt", `imagem de ${card.name}`);
-//   imgLinkOutputCardAdd.addEventListener("click", () => {
-//     handlePopupCardImgToggle();
-//     popupCardImg.src = card.link;
-//     popupCardName.textContent = card.name;
-//   });
-
-//   const trashIcon = cardElement.querySelector(".button-trash-icon");
-//   trashIcon.addEventListener("click", handleCardDelete);
-
-//   const cardBriefing = cardElement.querySelector(".card__briefing");
-
-//   const placeOutputCardAdd = cardBriefing.querySelector(".card__title");
-//   placeOutputCardAdd.textContent = card.name;
-
-//   const heartIcon = cardBriefing.querySelector(".button-heart-icon");
-//   heartIcon.addEventListener("click", handleCardLike);
-
-//   cardsContainer.prepend(cardElement);
-
-//   return cardElement;
-// };
-
-// const renderCards = () => {
-//   const cardsContainer = document.querySelector(".cards");
-//   cardsContainer.innerHTML = "";
-//   const cardElements = allCards.map((card) => createCardElement(card));
-//   cardsContainer.append(...cardElements);
-// };
-
-//------------------------------------------------------------------------------------------------------------
-
 const addCardsToDOM = () => {
-  const cards = document.querySelector(".cards");
-  const cardsToDOM = renderCards();
-  cards.prepend(...cardsToDOM);
+  const cardsContainer = document.querySelector(".cards");
+  const cardsToDOM = renderCards(allCards);
+  cardsContainer.prepend(...cardsToDOM);
 };
 
 //------------------------------------------------------------------------------------------------------------
@@ -423,19 +327,3 @@ document.addEventListener("click", handleButtonClick);
 document.addEventListener("DOMContentLoaded", addCardsToDOM);
 
 //------------------------------------------------------------------------------------------------------------
-
-// const buttons = {
-//   popupBtnClosed: handlePopupToggle,
-//   popupBtnProfileFormEdit: handleProfileFormEdit,
-//   popupBtnProfileFormSubmit: handleProfileFormSubmit,
-//   popupBtnCardAddClosed: handlePopupCardAddToggle,
-//   popupBtnCardAdd: handleCardFormAdd,
-//   popupBtnCardAddSubmit: handleCardFormSubmit,
-//   popupCardImgClosed: handlePopupCardImgToggle,
-// };
-// const handleButtonClick = (evt) => {
-//   const action = buttons[evt.target.id];
-//   action(evt);
-// };
-
-// document.addEventListener("click", handleButtonClick);
