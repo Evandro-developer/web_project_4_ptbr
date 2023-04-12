@@ -1,4 +1,4 @@
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const openPopup = "popup__opened";
 const popup = document.querySelector(".popup");
@@ -11,7 +11,7 @@ const jobInput = document.querySelector(".popup__text_type_job");
 const nameOutput = document.querySelector(".header__title");
 const jobOutput = document.querySelector(".header__subtitle");
 
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const initialProfile = [
   {
@@ -24,13 +24,13 @@ let newProfiles = [];
 
 let allProfiles = [...initialProfile];
 
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const toggle = (className, element) => element.classList.toggle(className);
 
 const popupOpened = () => toggle(openPopup, popup);
 
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const toggleDisplay = (displayValue, openedFunc, element) => {
   typeof openedFunc === "function" && openedFunc();
@@ -43,62 +43,54 @@ const handlePopupToggle = () =>
     ? toggleDisplay("hidden", popupOpened, popup)
     : toggleDisplay("block", popupOpened, popup);
 
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const createNewProfile = (name, job) => {
-  if (!name || !job) {
-    return null;
-  }
-  const isProfileExist = allProfiles.some((profile) => profile.name === name);
-  if (!isProfileExist) {
-    let createdNewProfile = {
-      name: name,
-      job: job,
-    };
-    return createdNewProfile;
-  }
+  return name && job && !allProfiles.some((profile) => profile.name === name)
+    ? { name, job }
+    : null;
 };
 
 const addNewProfile = (name, job) => {
-  const addedNewProfile = createNewProfile(name, job);
-  if (addedNewProfile) {
-    newProfiles = [addedNewProfile, ...newProfiles];
-    allProfiles = [...newProfiles, ...initialProfile];
-  }
+  const newProfile = createNewProfile(name, job);
+  newProfile && (newProfiles = [newProfile, ...newProfiles]);
+  allProfiles = [...newProfiles, ...initialProfile];
 };
 
 console.log("newProfiles:", newProfiles);
 console.log("allProfiles:", allProfiles);
 
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const handleProfileFormEdit = (evt) => {
   evt.preventDefault();
-  nameInput.placeholder = nameOutput.textContent;
-  jobInput.placeholder = jobOutput.textContent;
+  const { textContent: outputName } = nameOutput;
+  const { textContent: outputJob } = jobOutput;
+  nameInput.placeholder = outputName;
+  jobInput.placeholder = outputJob;
   handlePopupToggle();
 };
 
 const handleProfileFormSubmit = (evt) => {
   evt.preventDefault();
-  const name = nameInput.value;
-  const job = jobInput.value;
+  const { value: name } = nameInput;
+  const { value: job } = jobInput;
 
-  const isValid = name !== "" && job !== "";
-  if (isValid) {
-    nameOutput.textContent = nameInput.value;
-    jobOutput.textContent = jobInput.value;
+  if (name && job) {
     addNewProfile(name, job);
     handlePopupToggle();
     nameInput.value = "";
     jobInput.value = "";
-  }
+    nameOutput.textContent = name;
+    jobOutput.textContent = job;
 
-  console.log("newProfiles:", newProfiles);
-  console.log("allProfiles:", allProfiles);
+    console.log(`Perfil adicionado: ${name} ${job}`);
+    console.log("newProfiles:", newProfiles);
+    console.log("allProfiles:", allProfiles);
+  }
 };
 
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const openPopupCardAdd = "popup__opened_card_add";
 const popupCardAdd = document.querySelector(".popup_card_add");
@@ -115,7 +107,7 @@ const imgLinkInputCardAdd = document.querySelector(
   ".popup__text_type_img-link"
 );
 
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const initialCards = [
   {
@@ -152,9 +144,9 @@ const initialCards = [
 
 let newCards = [];
 
-let allCards = [];
+let allCards = [...initialCards];
 
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const popupOpenedCardAdd = () => toggle(openPopupCardAdd, popupCardAdd);
 
@@ -163,41 +155,32 @@ const handlePopupCardAddToggle = () =>
     ? toggleDisplay("hidden", popupOpenedCardAdd, popupCardAdd)
     : toggleDisplay("block", popupOpenedCardAdd, popupCardAdd);
 
-//-------------------------------------------------------------------------------
-
-const addNewCard = (name, link) => {
-  const addedNewCard = createNewCard(name, link);
-  newCards = [addedNewCard, ...newCards];
-};
+//------------------------------------------------------------------------------------------------------------
 
 const createNewCard = (name, link) => {
-  const createdNewCard = {
-    name,
-    link,
-    alt: `Imagem de ${name}`,
-  };
-  return createdNewCard;
+  return name && link ? { name, link, alt: `Imagem de ${name}` } : null;
 };
 
-const getAllCards = () =>
-  newCards.length > 0 ? [...newCards, ...initialCards] : initialCards;
-
-//-------------------------------------------------------------------------------
-
-allCards = getAllCards();
-
-//-------------------------------------------------------------------------------
+const addNewCard = (name, link) => {
+  const newCard = createNewCard(name, link);
+  newCard && (newCards = [newCard, ...newCards]);
+  allCards = [...newCards, ...initialCards];
+};
 
 const addNewCardToDOM = () => {
   const cards = document.querySelector(".cards");
-  const newCardElement = renderCards()[0];
-  cards.insertBefore(newCardElement, cards.firstChild);
+  const newCardToDOM = renderCards()[0];
+  cards.insertBefore(newCardToDOM, cards.firstChild);
+  newCardToDOM.animate([{ opacity: 0 }, { opacity: 1 }], {
+    duration: 400,
+    easing: "ease-in-out",
+  });
 };
 
 console.log("newCards:", newCards);
 console.log("allCards:", allCards);
 
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const handleCardFormAdd = (evt) => {
   evt.preventDefault();
@@ -208,43 +191,48 @@ const handleCardFormAdd = (evt) => {
 
 const handleCardFormSubmit = (evt) => {
   evt.preventDefault();
-  const name = placeInputCardAdd.value;
-  const link = imgLinkInputCardAdd.value;
+  const { value: name } = placeInputCardAdd;
+  const { value: link } = imgLinkInputCardAdd;
 
   if (name && link) {
     addNewCard(name, link);
+    addNewCardToDOM();
     handlePopupCardAddToggle();
     placeInputCardAdd.value = "";
     imgLinkInputCardAdd.value = "";
-    allCards = getAllCards();
-    addNewCardToDOM();
+
+    console.log(`Card adicionado: ${name} ${link}`);
     console.log("newCards:", newCards);
     console.log("allCards:", allCards);
   }
 };
 
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const handleCardLike = (evt) => {
   const heartIcon = evt.target.closest(".button-heart-icon");
+  console.log("heart", heartIcon);
   const isActive = heartIcon.getAttribute("data-active") === "true";
+  console.log("Bolean", isActive);
   heartIcon.setAttribute("data-active", !isActive);
+  console.log("Bolean", isActive);
   heartIcon.src = isActive
     ? "./images/heart_icon_disabled.png"
     : "./images/heart_icon_enabled.png";
+  console.log("Bolean", isActive);
 };
 
-//-------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const handleCardDelete = (evt) => {
-  const item = evt.target.closest(".card");
-  item.animate([{ opacity: 1 }, { opacity: 0 }], {
+  const cardDelete = evt.target.closest(".card");
+  cardDelete.animate([{ opacity: 1 }, { opacity: 0 }], {
     duration: 400,
     easing: "ease-in-out",
-  }).onfinish = () => item.remove();
+  }).onfinish = () => cardDelete.remove();
 };
 
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const openPopupCardImg = "popup-card-img__opened";
 const popupCard = document.querySelector(".popup-card-img");
@@ -255,7 +243,7 @@ const popupCardImgClosed = document.querySelector(
   ".popup-card-img__closed-btn"
 );
 
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const popupOpenedCardImg = () => toggle(openPopupCardImg, popupCard);
 
@@ -264,18 +252,24 @@ const handlePopupCardImgToggle = () =>
     ? toggleDisplay("hidden", popupOpenedCardImg, popupCard)
     : toggleDisplay("block", popupOpenedCardImg, popupCard);
 
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const renderCards = () => {
   return allCards.map((card) => {
     const cardTemplate = document.querySelector("#cards-template").content;
-    const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
-
+    const cardsContainer = cardTemplate.querySelector(".cards");
+    const cardElement = cardsContainer.querySelector(".card").cloneNode(true);
     const imgLinkOutputCardAdd = cardElement.querySelector(".card__image");
     imgLinkOutputCardAdd.src = card.link;
-    imgLinkOutputCardAdd.setAttribute("alt", `Imagem de ${card.name}`);
+    imgLinkOutputCardAdd.setAttribute("alt", `imagem de ${card.name}`);
+    imgLinkOutputCardAdd.addEventListener("click", () => {
+      handlePopupCardImgToggle();
+      popupCardImg.src = card.link;
+      popupCardName.textContent = card.name;
+    });
 
     const trashIcon = cardElement.querySelector(".button-trash-icon");
+    trashIcon.addEventListener("click", handleCardDelete);
 
     const cardBriefing = cardElement.querySelector(".card__briefing");
 
@@ -283,26 +277,23 @@ const renderCards = () => {
     placeOutputCardAdd.textContent = card.name;
 
     const heartIcon = cardBriefing.querySelector(".button-heart-icon");
-
     heartIcon.addEventListener("click", handleCardLike);
-    trashIcon.addEventListener("click", handleCardDelete);
 
-    imgLinkOutputCardAdd.addEventListener("click", () => {
-      handlePopupCardImgToggle();
-      popupCardImg.src = card.link;
-      popupCardName.textContent = card.name;
-    });
+    cardsContainer.prepend(cardElement);
 
     return cardElement;
   });
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  const cards = renderCards();
-  document.querySelector(".cards").prepend(...cards);
-});
+//------------------------------------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------
+const addCardsToDOM = () => {
+  const cards = document.querySelector(".cards");
+  const cardsToDOM = renderCards();
+  cards.prepend(...cardsToDOM);
+};
+
+//------------------------------------------------------------------------------------------------------------
 
 const handleButtonClick = (evt) => {
   switch (evt.target) {
@@ -330,4 +321,10 @@ const handleButtonClick = (evt) => {
   }
 };
 
+//------------------------------------------------------------------------------------------------------------
+
 document.addEventListener("click", handleButtonClick);
+
+document.addEventListener("DOMContentLoaded", addCardsToDOM);
+
+//------------------------------------------------------------------------------------------------------------
