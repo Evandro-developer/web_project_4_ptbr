@@ -211,11 +211,8 @@ const handleCardFormSubmit = (evt) => {
 
 const handleCardLike = (evt) => {
   const heartIcon = evt.target.closest(".button-heart-icon");
-  console.log("heart", heartIcon);
   const isActive = heartIcon.getAttribute("data-active") === "true";
-  console.log("Bolean", isActive);
   heartIcon.setAttribute("data-active", !isActive);
-  console.log("Bolean", isActive);
   heartIcon.src = isActive
     ? "./images/heart_icon_disabled.png"
     : "./images/heart_icon_enabled.png";
