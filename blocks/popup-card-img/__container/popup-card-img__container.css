@@ -11,7 +11,7 @@
   max-height: 75vh;
   width: initial;
   height: initial;
-  min-width: 240px;
+  min-width: 282px;
   min-height: 300px;
   -webkit-transition: 0.4s ease-in-out;
   -o-transition: 0.4s ease-in-out;
@@ -19,4 +19,14 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   display: flex;
+}
+
+@media (max-width: 768px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+
+  .popup-card-img__container {
+    max-width: 282px;
+  }
 }
