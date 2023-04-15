@@ -1,11 +1,11 @@
 //------------------------------------------------------------------------------------------------------------
 
 const openPopup = "popup__opened";
-const popup = document.querySelector(".popup");
+const popup = document.querySelector("#popup");
 const popupForm = document.querySelector(".popup__container");
 const popupBtnProfileFormEdit = document.querySelector(".button-edit");
-const popupBtnClosed = document.querySelector(".popup__close-btn");
-const popupBtnProfileFormSubmit = document.querySelector(".popup__submit-btn");
+const popupBtnClosed = document.querySelector("#popup__close-btn");
+const popupBtnProfileFormSubmit = document.querySelector("#popup__submit-btn");
 const nameInput = document.querySelector(".popup__text_type_name");
 const jobInput = document.querySelector(".popup__text_type_job");
 const profileContainer = document.querySelector(".profiles");
@@ -23,7 +23,16 @@ const initialProfile = [
 
 let newProfiles = [];
 
-let allProfiles = [...initialProfile];
+const getAllProfiles = () => {
+  return [
+    ...(newProfiles.length > 0
+      ? newProfiles.map((profile) => ({ ...profile }))
+      : []),
+    ...initialProfile.map((profile) => ({ ...profile })),
+  ];
+};
+
+let allProfiles = getAllProfiles();
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -33,14 +42,20 @@ const popupOpened = () => toggle(openPopup, popup);
 
 //------------------------------------------------------------------------------------------------------------
 
+const callIfFunction = (func) => typeof func === "function" && func();
+
 const toggleDisplay = (displayValue, openedFunc, element) => {
-  typeof openedFunc === "function" && openedFunc();
+  callIfFunction(openedFunc);
   const style = element.style;
   return (style.display = displayValue);
 };
 
+//------------------------------------------------------------------------------------------------------------
+
+const contains = (className, element) => element.classList.contains(className);
+
 const handlePopupToggle = () =>
-  popup.classList.contains(openPopup)
+  contains(openPopup, popup)
     ? toggleDisplay("hidden", popupOpened, popup)
     : toggleDisplay("block", popupOpened, popup);
 
@@ -54,8 +69,11 @@ const createNewProfile = (name, job) => {
 
 const addNewProfile = (name, job) => {
   const newProfile = createNewProfile(name, job);
-  newProfile && (newProfiles = [newProfile, ...newProfiles]);
-  allProfiles = [...newProfiles, ...initialProfile];
+  if (newProfile) {
+    newProfiles = [newProfile, ...newProfiles];
+    allProfiles = getAllProfiles();
+  }
+  return { allProfiles, newProfiles };
 };
 
 console.log("newProfiles:", newProfiles);
@@ -80,10 +98,10 @@ const handleProfileFormSubmit = (evt) => {
   if (name && job) {
     addNewProfile(name, job);
     handlePopupToggle();
-    nameInput.value = "";
-    jobInput.value = "";
     nameOutput.textContent = name;
     jobOutput.textContent = job;
+    nameInput.value = "";
+    jobInput.value = "";
 
     console.log(`Perfil adicionado: ${name} ${job}`);
     console.log("newProfiles:", newProfiles);
@@ -94,14 +112,14 @@ const handleProfileFormSubmit = (evt) => {
 //------------------------------------------------------------------------------------------------------------
 
 const openPopupCardAdd = "popup__opened_card_add";
-const popupCardAdd = document.querySelector(".popup_card_add");
+const popupCardAdd = document.querySelector("#popup_card_add");
 const popupFormCardAdd = document.querySelector(".popup__container_card_add");
-const popupBtnCardAdd = document.querySelector(".button-add");
+const popupBtnCardAdd = document.querySelector("#button-add");
 const popupBtnCardAddClosed = document.querySelector(
-  ".popup__close-btn_card_add"
+  "#popup__close-btn_card_add"
 );
 const popupBtnCardAddSubmit = document.querySelector(
-  ".popup__submit-btn_card_add"
+  "#popup__submit-btn_card_add"
 );
 const placeInputCardAdd = document.querySelector(".popup__text_type_place");
 const imgLinkInputCardAdd = document.querySelector(
@@ -145,14 +163,21 @@ const initialCards = [
 
 let newCards = [];
 
-let allCards = [...initialCards];
+const getAllCards = () => {
+  return [
+    ...(newCards.length > 0 ? newCards.map((card) => ({ ...card })) : []),
+    ...initialCards.map((card) => ({ ...card })),
+  ];
+};
+
+let allCards = getAllCards();
 
 //------------------------------------------------------------------------------------------------------------
 
 const popupOpenedCardAdd = () => toggle(openPopupCardAdd, popupCardAdd);
 
 const handlePopupCardAddToggle = () =>
-  popupCardAdd.classList.contains(openPopupCardAdd)
+  contains(openPopupCardAdd, popupCardAdd)
     ? toggleDisplay("hidden", popupOpenedCardAdd, popupCardAdd)
     : toggleDisplay("block", popupOpenedCardAdd, popupCardAdd);
 
@@ -164,18 +189,35 @@ const createNewCard = (name, link) => {
 
 const addNewCard = (name, link) => {
   const newCard = createNewCard(name, link);
-  newCard && (newCards = [newCard, ...newCards]);
-  allCards = [...newCards, ...initialCards];
+  if (newCard) {
+    newCards = [newCard, ...newCards];
+    allCards = getAllCards();
+  }
+  return { allCards, newCards };
+};
+
+const animateOpacity = (
+  element,
+  startOpacity,
+  endOpacity,
+  duration,
+  removeOnFinish = false
+) => {
+  element.animate([{ opacity: startOpacity }, { opacity: endOpacity }], {
+    duration: duration,
+    easing: "ease-in-out",
+  }).onfinish = () => {
+    if (removeOnFinish) {
+      element.remove();
+    }
+  };
 };
 
 const addNewCardToDOM = () => {
   const cards = document.querySelector(".cards");
   const newCardToDOM = renderCards(allCards)[0];
   cards.insertBefore(newCardToDOM, cards.firstChild);
-  newCardToDOM.animate([{ opacity: 0 }, { opacity: 1 }], {
-    duration: 400,
-    easing: "ease-in-out",
-  });
+  animateOpacity(newCardToDOM, 0, 1, 400);
 };
 
 console.log("newCards:", newCards);
@@ -223,21 +265,18 @@ const handleCardLike = (evt) => {
 
 const handleCardDelete = (evt) => {
   const cardDelete = evt.target.closest(".card");
-  cardDelete.animate([{ opacity: 1 }, { opacity: 0 }], {
-    duration: 400,
-    easing: "ease-in-out",
-  }).onfinish = () => cardDelete.remove();
+  animateOpacity(cardDelete, 1, 0, 400, true);
 };
 
 //------------------------------------------------------------------------------------------------------------
 
 const openPopupCardImg = "popup-card-img__opened";
-const popupCard = document.querySelector(".popup-card-img");
+const popupCard = document.querySelector("#popup-card-img");
 const popupCardItem = document.querySelector(".popup-card-img__container");
 const popupCardImg = document.querySelector(".popup-card-img__image");
 const popupCardName = document.querySelector(".popup-card-img__title");
 const popupCardImgClosed = document.querySelector(
-  ".popup-card-img__closed-btn"
+  "#popup-card-img__closed-btn"
 );
 
 //------------------------------------------------------------------------------------------------------------
@@ -245,46 +284,52 @@ const popupCardImgClosed = document.querySelector(
 const popupOpenedCardImg = () => toggle(openPopupCardImg, popupCard);
 
 const handlePopupCardImgToggle = () =>
-  popupCard.classList.contains(openPopupCardImg)
+  contains(openPopupCardImg, popupCard)
     ? toggleDisplay("hidden", popupOpenedCardImg, popupCard)
     : toggleDisplay("block", popupOpenedCardImg, popupCard);
 
 //------------------------------------------------------------------------------------------------------------
 
-const renderCards = (cards) => {
-  return cards.map((card) => {
-    const cardTemplate = document.querySelector("#cards-template").content;
+const renderCard = (card) => {
+  const cardTemplate = document.querySelector("#cards-template").content;
 
-    const cardsContainer = cardTemplate.querySelector(".cards");
+  const cardsContainer = cardTemplate.querySelector(".cards");
 
-    const cardElement = cardsContainer.querySelector(".card").cloneNode(true);
+  const cardElement = cardsContainer.querySelector(".card").cloneNode(true);
 
-    const imgLinkOutputCardAdd = cardElement.querySelector(".card__image");
+  const imgLinkOutputCardAdd = cardElement.querySelector(".card__image");
 
-    imgLinkOutputCardAdd.src = card.link;
-    imgLinkOutputCardAdd.setAttribute("alt", `imagem de ${card.name}`);
-    imgLinkOutputCardAdd.addEventListener("click", () => {
-      handlePopupCardImgToggle();
-      popupCardImg.src = card.link;
-      popupCardName.textContent = card.name;
-    });
-
-    const trashIcon = cardElement.querySelector(".button-trash-icon");
-    trashIcon.addEventListener("click", handleCardDelete);
-
-    const cardBriefing = cardElement.querySelector(".card__briefing");
-
-    const placeOutputCardAdd = cardBriefing.querySelector(".card__title");
-    placeOutputCardAdd.textContent = card.name;
-
-    const heartIcon = cardBriefing.querySelector(".button-heart-icon");
-    heartIcon.addEventListener("click", handleCardLike);
-
-    cardsContainer.prepend(cardElement);
-
-    return cardElement;
+  imgLinkOutputCardAdd.src = card.link;
+  imgLinkOutputCardAdd.setAttribute("alt", `imagem de ${card.name}`);
+  imgLinkOutputCardAdd.addEventListener("click", () => {
+    handlePopupCardImgToggle();
+    popupCardImg.src = card.link;
+    popupCardName.textContent = card.name;
   });
+
+  const trashIcon = cardElement.querySelector(".button-trash-icon");
+  trashIcon.addEventListener("click", handleCardDelete);
+
+  const cardBriefing = cardElement.querySelector(".card__briefing");
+
+  const placeOutputCardAdd = cardBriefing.querySelector(".card__title");
+  placeOutputCardAdd.textContent = card.name;
+
+  const heartIcon = cardBriefing.querySelector(".button-heart-icon");
+  heartIcon.addEventListener("click", handleCardLike);
+
+  cardsContainer.prepend(cardElement);
+
+  return cardElement;
 };
+
+//------------------------------------------------------------------------------------------------------------
+
+const renderCards = (cards) => {
+  return cards.map((card) => renderCard(card));
+};
+
+//------------------------------------------------------------------------------------------------------------
 
 const addCardsToDOM = () => {
   const cardsContainer = document.querySelector(".cards");
@@ -294,30 +339,19 @@ const addCardsToDOM = () => {
 
 //------------------------------------------------------------------------------------------------------------
 
+const buttonFunctions = {
+  "popup__close-btn": handlePopupToggle,
+  "button-edit": handleProfileFormEdit,
+  "popup__submit-btn": handleProfileFormSubmit,
+  "popup__close-btn_card_add": handlePopupCardAddToggle,
+  "button-add": handleCardFormAdd,
+  "popup__submit-btn_card_add": handleCardFormSubmit,
+  "popup-card-img__closed-btn": handlePopupCardImgToggle,
+};
+
 const handleButtonClick = (evt) => {
-  switch (evt.target) {
-    case popupBtnClosed:
-      handlePopupToggle(evt);
-      break;
-    case popupBtnProfileFormEdit:
-      handleProfileFormEdit(evt);
-      break;
-    case popupBtnProfileFormSubmit:
-      handleProfileFormSubmit(evt);
-      break;
-    case popupBtnCardAddClosed:
-      handlePopupCardAddToggle(evt);
-      break;
-    case popupBtnCardAdd:
-      handleCardFormAdd(evt);
-      break;
-    case popupBtnCardAddSubmit:
-      handleCardFormSubmit(evt);
-      break;
-    case popupCardImgClosed:
-      handlePopupCardImgToggle(evt);
-      break;
-  }
+  const buttonFunctionId = buttonFunctions[evt.target.id];
+  buttonFunctionId ? buttonFunctionId(evt) : null;
 };
 
 //------------------------------------------------------------------------------------------------------------

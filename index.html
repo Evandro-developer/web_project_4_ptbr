@@ -30,47 +30,47 @@
               <h2 class="header__subtitle">Explorer</h2>
               <picture>
                 <source media="(max-width: 768px)" srcset="./images/button_edit_small.png">
-                <img class="button-edit" src="images/button_edit.png" alt="Imagem de button editar">
+                <img class="button-edit" src="images/button_edit.png" alt="Imagem de button editar" id="button-edit">
               </picture>
             </div>
           </div>
           <picture>
             <source media="(max-width: 768px)" srcset="./images/button_add_large.png">
-            <img src="./images/button_add.png" alt="Imagem de button adicionar" class="button-add">
+            <img src="./images/button_add.png" alt="Imagem de button adicionar" class="button-add" id="button-add">
           </picture>
         </div>
       </header>
       <main>
-        <section class="popup">
-          <form class="popup__container">
+        <section class="popup" id="popup">
+          <form class="popup__container" id="popup__container">
             <picture>
               <source media="(max-width: 580px)" srcset="./images/close_icon_small.png">
               <img src="./images/close_icon.png" alt="Imagem do ícone de fechamento da janela do popup"
-                class="popup__close-btn">
+                class="popup__close-btn" id="popup__close-btn">
             </picture>
             <h2 class="popup__heading">Edit Profile</h2>
-            <input type="text" class="popup__text popup__text_type_name" required>
-            <input type="text" class="popup__text popup__text_type_job" required>
-            <button type="submit" class="popup__submit-btn">Save</button>
+            <input type="text" class="popup__text popup__text_type_name" id="popup__text_type_name" required>
+            <input type="text" class="popup__text popup__text_type_job" id="popup__text_type_job" required>
+            <button type="submit" class="popup__submit-btn" id="popup__submit-btn">Save</button>
           </form>
         </section>
-        <section class="popup popup_card_add">
-          <form class="popup__container popup__container_card_add">
+        <section class="popup popup_card_add" id="popup_card_add">
+          <form class="popup__container popup__container_card_add" id="popup__container_card_add">
             <picture>
               <source media="(max-width: 580px)" srcset="./images/close_icon_small.png">
               <img src="./images/close_icon.png" alt="Imagem do ícone de fechamento da janela do popup"
-                class="popup__close-btn popup__close-btn_card_add">
+                class="popup__close-btn popup__close-btn_card_add" id="popup__close-btn_card_add">
             </picture>
             <h2 class="popup__heading popup__heading_card_add">New Place</h2>
-            <input type="text" class="popup__text popup__text_type_place" required>
-            <input type="text" class="popup__text popup__text_type_img-link" required>
-            <button type="submit" class="popup__submit-btn popup__submit-btn_card_add">
+            <input type="text" class="popup__text popup__text_type_place" id="popup__text_type_place" required>
+            <input type="text" class="popup__text popup__text_type_img-link" id="popup__text_type_img-link" required>
+            <button type="submit" class="popup__submit-btn popup__submit-btn_card_add" id="popup__submit-btn_card_add">
               Save
             </button>
           </form>
         </section>
-        <section class="popup-card-img">
-          <div class="popup-card-img__container">
+        <section class="popup-card-img" id="popup-card-img">
+          <div class="popup-card-img__container" id="popup-card-img__container">
             <picture>
               <img src="https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg"
                 alt="Imagem do vale de Yosemite com um rio, árvores, montanhas ao fundo e muita natureza"
@@ -80,7 +80,7 @@
             <picture>
               <source media="(max-width: 580px)" srcset="./images/close_icon_small.png">
               <img src="./images/close_icon.png" alt="Imagem do ícone de fechamento da janela do popup"
-                class="popup-card-img__closed-btn">
+                class="popup-card-img__closed-btn" id="popup-card-img__closed-btn">
             </picture>
           </div>
         </section>
