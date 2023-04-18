@@ -1,3 +1,9 @@
 .popup__text_type_img-link {
   margin-bottom: 60px;
 }
+
+.popup__text_type_img-link:invalid {
+  border-bottom: 1px solid #FF0000;
+}
+
+
