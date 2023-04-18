@@ -396,8 +396,8 @@ const addCardsAndEventsToDOM = () => {
   const cardsContainer = document.querySelector(".cards");
   const cardsToDOM = renderCards(allCards);
   cardsContainer.prepend(...cardsToDOM);
-  addEventToDOM("click", handleCardLike, cardsContainer);
-  addEventToDOM("click", handleCardDelete, cardsContainer);
+  addEventToDOM("mousedown", handleCardLike, cardsContainer);
+  addEventToDOM("mousedown", handleCardDelete, cardsContainer);
   addEventToDOM("keydown", handleKeyPress, document);
   addEventToDOM("mousedown", handleOutsideClick, document);
   addEventToDOM("keydown", handleKeyPressCardAdd, document);
@@ -427,7 +427,7 @@ const handleButtonClick = (evt) => {
 //------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
-document.addEventListener("click", handleButtonClick);
+document.addEventListener("mousedown", handleButtonClick);
 
 document.addEventListener("DOMContentLoaded", addCardsAndEventsToDOM);
 
