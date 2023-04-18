@@ -1,4 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const openPopup = "popup__opened";
 const popup = document.querySelector("#popup");
@@ -111,6 +112,7 @@ const handleProfileFormSubmit = (evt) => {
   }
 };
 
+//------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
 const openPopupCardAdd = "popup__opened_card_add";
@@ -251,22 +253,24 @@ const handleCardFormSubmit = (evt) => {
 };
 
 //------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
-const openPopupCardImg = "popup-card-img__opened";
-const popupCard = document.querySelector("#popup-card-img");
+const popupCardImgOpenned = "popup-card-img__opened";
+const popupCardOpenImg = document.querySelector("#popup-card-img");
 const popupCardItem = document.querySelector(".popup-card-img__container");
 const popupCardImg = document.querySelector(".popup-card-img__image");
 const popupCardName = document.querySelector(".popup-card-img__title");
-const popupCardImgClosed = document.querySelector(
+const popupBtnCardImgClosed = document.querySelector(
   "#popup-card-img__closed-btn"
 );
 
 //------------------------------------------------------------------------------------------------------------
 
-const popupOpenedCardImg = () => togglePopup(openPopupCardImg, popupCard);
+const popupOpenedCardImg = () =>
+  togglePopup(popupCardImgOpenned, popupCardOpenImg);
 
 const handlePopupCardImgToggle = () =>
-  togglePopupDisplay(openPopupCardImg, popupCard, popupOpenedCardImg);
+  togglePopupDisplay(popupCardImgOpenned, popupCardOpenImg, popupOpenedCardImg);
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -305,6 +309,7 @@ const renderCards = (cards) => {
 };
 
 //------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const handleCardLike = (evt) => {
   if (contains("button-heart-icon", evt.target)) {
@@ -325,19 +330,83 @@ const handleCardDelete = (evt) => {
   }
 };
 
-const addEventToCardsContainer = (evt, handler) => {
-  const cardsContainer = document.querySelector(".cards");
-  cardsContainer.addEventListener(evt, handler);
+//------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
+
+const closePopupFunction = (element, closeClass) => () => {
+  element.classList.remove(closeClass);
 };
 
-const addCardsToDOM = () => {
+const handleKeyPressFunction = (closeClass) => (evt) => {
+  evt.key === "Escape" ? closeClass() : null;
+};
+
+const handleOutsideClickFunction = (element, closeClass, btnClosed) => (evt) =>
+  element.contains(evt.target) && evt.target !== btnClosed
+    ? closeClass()
+    : null;
+
+//------------------------------------------------------------------------------------------------------------
+
+const closePopup = closePopupFunction(popup, openPopup);
+
+const handleKeyPress = handleKeyPressFunction(closePopup);
+
+const handleOutsideClick = handleOutsideClickFunction(
+  popup,
+  closePopup,
+  popupBtnClosed
+);
+
+//------------------------------------------------------------------------------------------------------------
+
+const closePopupCardAdd = closePopupFunction(popupCardAdd, openPopupCardAdd);
+
+const handleKeyPressCardAdd = handleKeyPressFunction(closePopupCardAdd);
+
+const handleOutsideClickCardAdd = handleOutsideClickFunction(
+  popupCardAdd,
+  closePopupCardAdd,
+  popupBtnCardAddClosed
+);
+
+//------------------------------------------------------------------------------------------------------------
+
+const closePopupCardImg = closePopupFunction(
+  popupCardOpenImg,
+  popupCardImgOpenned
+);
+
+const handleKeyPressCardImg = handleKeyPressFunction(closePopupCardImg);
+
+const handleOutsideClickCardImg = handleOutsideClickFunction(
+  popupCardOpenImg,
+  closePopupCardImg,
+  popupBtnCardImgClosed
+);
+
+//------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
+
+const addEventToDOM = (evt, handler, element) => {
+  element.addEventListener(evt, handler);
+};
+
+const addCardsAndEventsToDOM = () => {
   const cardsContainer = document.querySelector(".cards");
   const cardsToDOM = renderCards(allCards);
   cardsContainer.prepend(...cardsToDOM);
-  addEventToCardsContainer("click", handleCardLike);
-  addEventToCardsContainer("click", handleCardDelete);
+  addEventToDOM("click", handleCardLike, cardsContainer);
+  addEventToDOM("click", handleCardDelete, cardsContainer);
+  addEventToDOM("keydown", handleKeyPress, document);
+  addEventToDOM("mousedown", handleOutsideClick, document);
+  addEventToDOM("keydown", handleKeyPressCardAdd, document);
+  addEventToDOM("mousedown", handleOutsideClickCardAdd, document);
+  addEventToDOM("keydown", handleKeyPressCardImg, document);
+  addEventToDOM("mousedown", handleOutsideClickCardImg, document);
 };
 
+//------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
 const buttonFunctions = {
@@ -356,9 +425,11 @@ const handleButtonClick = (evt) => {
 };
 
 //------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 document.addEventListener("click", handleButtonClick);
 
-document.addEventListener("DOMContentLoaded", addCardsToDOM);
+document.addEventListener("DOMContentLoaded", addCardsAndEventsToDOM);
 
+//------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
