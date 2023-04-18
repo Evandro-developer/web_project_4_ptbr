@@ -42,7 +42,7 @@
       </header>
       <main>
         <section class="popup" id="popup">
-          <form class="popup__container" id="popup__container">
+          <form class="popup__container" id="popup__profile_edit" novalidate>
             <picture>
               <source media="(max-width: 580px)" srcset="./images/close_icon_small.png">
               <img src="./images/close_icon.png" alt="Imagem do ícone de fechamento da janela do popup"
@@ -55,7 +55,7 @@
           </form>
         </section>
         <section class="popup popup_card_add" id="popup_card_add">
-          <form class="popup__container popup__container_card_add" id="popup__container_card_add">
+          <form class="popup__container popup__container_card_add" id="popup__card_add" novalidate>
             <picture>
               <source media="(max-width: 580px)" srcset="./images/close_icon_small.png">
               <img src="./images/close_icon.png" alt="Imagem do ícone de fechamento da janela do popup"
@@ -63,7 +63,7 @@
             </picture>
             <h2 class="popup__heading popup__heading_card_add">New Place</h2>
             <input type="text" class="popup__text popup__text_type_place" id="popup__text_type_place" required>
-            <input type="text" class="popup__text popup__text_type_img-link" id="popup__text_type_img-link" required>
+            <input type="url" class="popup__text popup__text_type_img-link" id="popup__text_type_img-link" required>
             <button type="submit" class="popup__submit-btn popup__submit-btn_card_add" id="popup__submit-btn_card_add">
               Save
             </button>
@@ -72,11 +72,11 @@
         <section class="popup-card-img" id="popup-card-img">
           <div class="popup-card-img__container" id="popup-card-img__container">
             <picture>
-              <img src="https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg"
-                alt="Imagem do vale de Yosemite com um rio, árvores, montanhas ao fundo e muita natureza"
+              <img type="url" src=""
+                alt=""
                 class="popup-card-img__image">
             </picture>
-            <h2 class="popup-card-img__title">Yosemite Valley</h2>
+            <h2 class="popup-card-img__title"></h2>
             <picture>
               <source media="(max-width: 580px)" srcset="./images/close_icon_small.png">
               <img src="./images/close_icon.png" alt="Imagem do ícone de fechamento da janela do popup"
@@ -96,7 +96,7 @@
     <section class="cards">
       <ul class="card">
         <picture>
-          <img src="./images/trash_icon.svg" alt="Icon de remocão para lixeira" class="button-trash-icon">
+          <img src="./images/trash_icon.svg" alt="Icon de remocão para lixeira" class="button-trash-icon" id="button-trash-icon">
         </picture>
         <picture>
           <img src="#" alt="" class="card__image">
@@ -105,7 +105,7 @@
           <h2 class="card__title"></h2>
           <picture>
             <img src="./images/heart_icon_disabled.png" alt="Icon de coração apenas com bordas"
-              class="button-heart-icon" data-active="false">
+              class="button-heart-icon" data-active="false" id="button-heart-icon">
           </picture>
         </li>
       </ul>
