@@ -8,7 +8,6 @@ const popupBtnClosed = document.querySelector("#popup__close-btn");
 const popupBtnProfileFormSubmit = document.querySelector("#popup__submit-btn");
 const nameInput = document.querySelector(".popup__text_type_name");
 const jobInput = document.querySelector(".popup__text_type_job");
-const profileContainer = document.querySelector(".profiles");
 const nameOutput = document.querySelector(".header__title");
 const jobOutput = document.querySelector(".header__subtitle");
 
@@ -38,9 +37,7 @@ let allProfiles = getAllProfiles();
 
 const toggle = (className, element) => element.classList.toggle(className);
 
-const popupOpened = () => toggle(openPopup, popup);
-
-//------------------------------------------------------------------------------------------------------------
+const togglePopup = (className, element) => toggle(className, element);
 
 const callIfFunction = (func) => typeof func === "function" && func();
 
@@ -50,14 +47,19 @@ const toggleDisplay = (displayValue, openedFunc, element) => {
   return (style.display = displayValue);
 };
 
-//------------------------------------------------------------------------------------------------------------
-
 const contains = (className, element) => element.classList.contains(className);
 
+const togglePopupDisplay = (className, element, openedFunc) => {
+  const isOpen = contains(className, element);
+  toggleDisplay(isOpen ? "hidden" : "block", openedFunc, element);
+};
+
+//------------------------------------------------------------------------------------------------------------
+
+const popupOpened = () => togglePopup(openPopup, popup);
+
 const handlePopupToggle = () =>
-  contains(openPopup, popup)
-    ? toggleDisplay("hidden", popupOpened, popup)
-    : toggleDisplay("block", popupOpened, popup);
+  togglePopupDisplay(openPopup, popup, popupOpened);
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -157,7 +159,7 @@ const initialCards = [
   {
     name: "Lago di Braies",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
-    alt: "Imagem do Lago di Braies com um deck, barcos ancorados e montanhas ao fundo e natureza preservada",
+    alt: "Imagem do Lago di Braies com um deck, barcos ancorados, montanhas ao fundo e natureza preservada",
   },
 ];
 
@@ -174,12 +176,10 @@ let allCards = getAllCards();
 
 //------------------------------------------------------------------------------------------------------------
 
-const popupOpenedCardAdd = () => toggle(openPopupCardAdd, popupCardAdd);
+const popupOpenedCardAdd = () => togglePopup(openPopupCardAdd, popupCardAdd);
 
 const handlePopupCardAddToggle = () =>
-  contains(openPopupCardAdd, popupCardAdd)
-    ? toggleDisplay("hidden", popupOpenedCardAdd, popupCardAdd)
-    : toggleDisplay("block", popupOpenedCardAdd, popupCardAdd);
+  togglePopupDisplay(openPopupCardAdd, popupCardAdd, popupOpenedCardAdd);
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -252,24 +252,6 @@ const handleCardFormSubmit = (evt) => {
 
 //------------------------------------------------------------------------------------------------------------
 
-const handleCardLike = (evt) => {
-  const heartIcon = evt.target.closest(".button-heart-icon");
-  const isActive = heartIcon.getAttribute("data-active") === "true";
-  heartIcon.setAttribute("data-active", !isActive);
-  heartIcon.src = isActive
-    ? "./images/heart_icon_disabled.png"
-    : "./images/heart_icon_enabled.png";
-};
-
-//------------------------------------------------------------------------------------------------------------
-
-const handleCardDelete = (evt) => {
-  const cardDelete = evt.target.closest(".card");
-  animateOpacity(cardDelete, 1, 0, 400, true);
-};
-
-//------------------------------------------------------------------------------------------------------------
-
 const openPopupCardImg = "popup-card-img__opened";
 const popupCard = document.querySelector("#popup-card-img");
 const popupCardItem = document.querySelector(".popup-card-img__container");
@@ -281,12 +263,10 @@ const popupCardImgClosed = document.querySelector(
 
 //------------------------------------------------------------------------------------------------------------
 
-const popupOpenedCardImg = () => toggle(openPopupCardImg, popupCard);
+const popupOpenedCardImg = () => togglePopup(openPopupCardImg, popupCard);
 
 const handlePopupCardImgToggle = () =>
-  contains(openPopupCardImg, popupCard)
-    ? toggleDisplay("hidden", popupOpenedCardImg, popupCard)
-    : toggleDisplay("block", popupOpenedCardImg, popupCard);
+  togglePopupDisplay(openPopupCardImg, popupCard, popupOpenedCardImg);
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -298,7 +278,6 @@ const renderCard = (card) => {
   const cardElement = cardsContainer.querySelector(".card").cloneNode(true);
 
   const imgLinkOutputCardAdd = cardElement.querySelector(".card__image");
-
   imgLinkOutputCardAdd.src = card.link;
   imgLinkOutputCardAdd.setAttribute("alt", `imagem de ${card.name}`);
   imgLinkOutputCardAdd.addEventListener("click", () => {
@@ -308,7 +287,6 @@ const renderCard = (card) => {
   });
 
   const trashIcon = cardElement.querySelector(".button-trash-icon");
-  trashIcon.addEventListener("click", handleCardDelete);
 
   const cardBriefing = cardElement.querySelector(".card__briefing");
 
@@ -316,14 +294,11 @@ const renderCard = (card) => {
   placeOutputCardAdd.textContent = card.name;
 
   const heartIcon = cardBriefing.querySelector(".button-heart-icon");
-  heartIcon.addEventListener("click", handleCardLike);
 
   cardsContainer.prepend(cardElement);
 
   return cardElement;
 };
-
-//------------------------------------------------------------------------------------------------------------
 
 const renderCards = (cards) => {
   return cards.map((card) => renderCard(card));
@@ -331,10 +306,36 @@ const renderCards = (cards) => {
 
 //------------------------------------------------------------------------------------------------------------
 
+const handleCardLike = (evt) => {
+  if (contains("button-heart-icon", evt.target)) {
+    const heartIcon = evt.target.closest(".button-heart-icon");
+    const isActive = heartIcon.getAttribute("data-active") === "true";
+    heartIcon.setAttribute("data-active", !isActive);
+    heartIcon.src = isActive
+      ? "./images/heart_icon_disabled.png"
+      : "./images/heart_icon_enabled.png";
+    animateOpacity(heartIcon, 0, 1, 400);
+  }
+};
+
+const handleCardDelete = (evt) => {
+  if (contains("button-trash-icon", evt.target)) {
+    const cardDelete = evt.target.closest(".card");
+    animateOpacity(cardDelete, 1, 0, 400, true);
+  }
+};
+
+const addEventToCardsContainer = (evt, handler) => {
+  const cardsContainer = document.querySelector(".cards");
+  cardsContainer.addEventListener(evt, handler);
+};
+
 const addCardsToDOM = () => {
   const cardsContainer = document.querySelector(".cards");
   const cardsToDOM = renderCards(allCards);
   cardsContainer.prepend(...cardsToDOM);
+  addEventToCardsContainer("click", handleCardLike);
+  addEventToCardsContainer("click", handleCardDelete);
 };
 
 //------------------------------------------------------------------------------------------------------------
