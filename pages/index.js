@@ -157,6 +157,7 @@ const initialCards = [
     name: "Lago di Braies",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
     alt: "Imagem do Lago di Braies com um deck, barcos ancorados, montanhas ao fundo e natureza preservada",
+    alt: "Imagem do Lago di Braies com um deck, barcos ancorados, montanhas ao fundo e natureza preservada",
   },
 ];
 
@@ -253,7 +254,7 @@ const popupCardImgOpen = document.querySelector("#popup-card-img");
 const popupCardItem = document.querySelector(".popup-card-img__container");
 const popupCardImg = document.querySelector(".popup-card-img__image");
 const popupCardName = document.querySelector(".popup-card-img__title");
-const popupCardImgClosed = document.querySelector(
+const popupBtnCardImgClosed = document.querySelector(
   "#popup-card-img__closed-btn"
 );
 
