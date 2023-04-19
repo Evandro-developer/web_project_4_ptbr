@@ -1,3 +1,7 @@
 .popup__text_type_job {
   margin-bottom: 60px;
 }
+
+.popup__text_type_job:invalid {
+  border-bottom: 1px solid #FF0000;
+}
