@@ -1,4 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const openPopup = "popup__opened";
 const popup = document.querySelector("#popup");
@@ -35,28 +36,25 @@ let allProfiles = getAllProfiles();
 
 //------------------------------------------------------------------------------------------------------------
 
-const toggle = (className, element) => element.classList.toggle(className);
-
-const togglePopup = (className, element) => toggle(className, element);
+const toggle = (popupClassOpenned, popupClass) =>
+  popupClass.classList.toggle(popupClassOpenned);
 
 const callIfFunction = (func) => typeof func === "function" && func();
 
-const toggleDisplay = (displayValue, openedFunc, element) => {
+const toggleDisplay = (displayValue, openedFunc, popupClass) => {
   callIfFunction(openedFunc);
-  const style = element.style;
+  const style = popupClass.style;
   return (style.display = displayValue);
 };
 
 const contains = (className, element) => element.classList.contains(className);
 
-const togglePopupDisplay = (className, element, openedFunc) => {
-  const isOpen = contains(className, element);
-  toggleDisplay(isOpen ? "hidden" : "block", openedFunc, element);
+const togglePopupDisplay = (popupClassOpenned, popupClass, openedFunc) => {
+  const isOpen = contains(popupClassOpenned, popupClass);
+  toggleDisplay(isOpen ? "hidden" : "block", openedFunc, popupClass);
 };
 
-//------------------------------------------------------------------------------------------------------------
-
-const popupOpened = () => togglePopup(openPopup, popup);
+const popupOpened = () => toggle(openPopup, popup);
 
 const handlePopupToggle = () =>
   togglePopupDisplay(openPopup, popup, popupOpened);
@@ -80,8 +78,6 @@ const addNewProfile = (name, job) => {
 
 console.log("newProfiles:", newProfiles);
 console.log("allProfiles:", allProfiles);
-
-//------------------------------------------------------------------------------------------------------------
 
 const handleProfileFormEdit = (evt) => {
   evt.preventDefault();
@@ -111,6 +107,7 @@ const handleProfileFormSubmit = (evt) => {
   }
 };
 
+//------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
 const openPopupCardAdd = "popup__opened_card_add";
@@ -176,7 +173,7 @@ let allCards = getAllCards();
 
 //------------------------------------------------------------------------------------------------------------
 
-const popupOpenedCardAdd = () => togglePopup(openPopupCardAdd, popupCardAdd);
+const popupOpenedCardAdd = () => toggle(openPopupCardAdd, popupCardAdd);
 
 const handlePopupCardAddToggle = () =>
   togglePopupDisplay(openPopupCardAdd, popupCardAdd, popupOpenedCardAdd);
@@ -223,8 +220,6 @@ const addNewCardToDOM = () => {
 console.log("newCards:", newCards);
 console.log("allCards:", allCards);
 
-//------------------------------------------------------------------------------------------------------------
-
 const handleCardFormAdd = (evt) => {
   evt.preventDefault();
   placeInputCardAdd.placeholder = "Title";
@@ -251,9 +246,10 @@ const handleCardFormSubmit = (evt) => {
 };
 
 //------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const openPopupCardImg = "popup-card-img__opened";
-const popupCard = document.querySelector("#popup-card-img");
+const popupCardImgOpen = document.querySelector("#popup-card-img");
 const popupCardItem = document.querySelector(".popup-card-img__container");
 const popupCardImg = document.querySelector(".popup-card-img__image");
 const popupCardName = document.querySelector(".popup-card-img__title");
@@ -263,10 +259,10 @@ const popupCardImgClosed = document.querySelector(
 
 //------------------------------------------------------------------------------------------------------------
 
-const popupOpenedCardImg = () => togglePopup(openPopupCardImg, popupCard);
+const popupOpenedCardImg = () => toggle(openPopupCardImg, popupCardImgOpen);
 
 const handlePopupCardImgToggle = () =>
-  togglePopupDisplay(openPopupCardImg, popupCard, popupOpenedCardImg);
+  togglePopupDisplay(openPopupCardImg, popupCardImgOpen, popupOpenedCardImg);
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -280,7 +276,7 @@ const renderCard = (card) => {
   const imgLinkOutputCardAdd = cardElement.querySelector(".card__image");
   imgLinkOutputCardAdd.src = card.link;
   imgLinkOutputCardAdd.setAttribute("alt", `imagem de ${card.name}`);
-  imgLinkOutputCardAdd.addEventListener("click", () => {
+  imgLinkOutputCardAdd.addEventListener("mousedown", () => {
     handlePopupCardImgToggle();
     popupCardImg.src = card.link;
     popupCardName.textContent = card.name;
@@ -305,6 +301,7 @@ const renderCards = (cards) => {
 };
 
 //------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const handleCardLike = (evt) => {
   if (contains("button-heart-icon", evt.target)) {
@@ -325,20 +322,62 @@ const handleCardDelete = (evt) => {
   }
 };
 
-const addEventToCardsContainer = (evt, handler) => {
-  const cardsContainer = document.querySelector(".cards");
-  cardsContainer.addEventListener(evt, handler);
+//------------------------------------------------------------------------------------------------------------
+
+const closePopupFunction = (popupClass, popupClassOpenned) => () => {
+  popupClass.classList.remove(popupClassOpenned);
 };
 
-const addCardsToDOM = () => {
+const handleKeyPressFunction = (closeFunction) => (evt) => {
+  evt.key === "Escape" ? closeFunction() : null;
+};
+
+const handleOutsideClickFunction = (popupClass, closeFunction) => (evt) =>
+  contains(popupClass, evt.target)
+    ? closeFunction(evt.target.closest(`.${popupClass}`))
+    : null;
+
+const closePopup = closePopupFunction(popup, openPopup);
+const handleKeyPress = handleKeyPressFunction(closePopup);
+const handleOutsideClick = handleOutsideClickFunction("popup", closePopup);
+
+const closePopupCardAdd = closePopupFunction(popupCardAdd, openPopupCardAdd);
+const handleKeyPressCardAdd = handleKeyPressFunction(closePopupCardAdd);
+const handleOutsideClickCardAdd = handleOutsideClickFunction(
+  "popup_card_add",
+  closePopupCardAdd
+);
+
+const closePopupCardImg = closePopupFunction(
+  popupCardImgOpen,
+  openPopupCardImg
+);
+const handleKeyPressCardImg = handleKeyPressFunction(closePopupCardImg);
+const handleOutsideClickCardImg = handleOutsideClickFunction(
+  "popup-card-img",
+  closePopupCardImg
+);
+
+//------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
+
+const addEventToDOM = (evt, handler, element) => {
+  element.addEventListener(evt, handler);
+};
+
+const addCardsAndEventsToDOM = () => {
   const cardsContainer = document.querySelector(".cards");
   const cardsToDOM = renderCards(allCards);
   cardsContainer.prepend(...cardsToDOM);
-  addEventToCardsContainer("click", handleCardLike);
-  addEventToCardsContainer("click", handleCardDelete);
+  addEventToDOM("mousedown", handleCardLike, cardsContainer);
+  addEventToDOM("mousedown", handleCardDelete, cardsContainer);
+  addEventToDOM("keydown", handleKeyPress, document);
+  addEventToDOM("mousedown", handleOutsideClick, popup);
+  addEventToDOM("keydown", handleKeyPressCardAdd, document);
+  addEventToDOM("mousedown", handleOutsideClickCardAdd, popupCardAdd);
+  addEventToDOM("keydown", handleKeyPressCardImg, document);
+  addEventToDOM("mousedown", handleOutsideClickCardImg, popupCardImgOpen);
 };
-
-//------------------------------------------------------------------------------------------------------------
 
 const buttonFunctions = {
   "popup__close-btn": handlePopupToggle,
@@ -359,6 +398,7 @@ const handleButtonClick = (evt) => {
 
 document.addEventListener("click", handleButtonClick);
 
-document.addEventListener("DOMContentLoaded", addCardsToDOM);
+document.addEventListener("DOMContentLoaded", addCardsAndEventsToDOM);
 
+//------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
