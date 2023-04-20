@@ -227,6 +227,8 @@ const handleCardFormAdd = (evt) => {
   placeInputCardAdd.placeholder = "Title";
   imgLinkInputCardAdd.placeholder = "Image url";
   handlePopupCardAddToggle();
+  placeInputCardAdd.value = "";
+  imgLinkInputCardAdd.value = "";
 };
 
 const handleCardFormSubmit = (evt) => {
@@ -235,9 +237,12 @@ const handleCardFormSubmit = (evt) => {
   const { value: link } = imgLinkInputCardAdd;
 
   if (name && link) {
+    const popupFormCardAdd = document.querySelector(".popup__form_card-add");
     addNewCard(name, link);
     addNewCardToDOM();
     handlePopupCardAddToggle();
+    placeInputCardAdd.value = "";
+    imgLinkInputCardAdd.value = "";
   }
 };
 
@@ -357,6 +362,21 @@ const handleOutsideClickCardImg = handleOutsideClickFunction(
 //------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
+const buttonFunctions = {
+  "popup__closed-btn": handlePopupToggle,
+  "popup__closed-btn_card_add": handlePopupCardAddToggle,
+  "popup-card-img__closed-btn": handlePopupCardImgToggle,
+  "button-edit": handleProfileFormEdit,
+  "button-add": handleCardFormAdd,
+  popup__button: handleProfileFormSubmit,
+  popup__button_card_add: handleCardFormSubmit,
+};
+
+const handleButtonClick = (evt) => {
+  const buttonFunctionId = buttonFunctions[evt.target.id];
+  buttonFunctionId ? buttonFunctionId(evt) : null;
+};
+
 const addEventToDOM = (evt, handler, element) => {
   element.addEventListener(evt, handler);
 };
@@ -373,27 +393,11 @@ const addCardsAndEventsToDOM = () => {
   addEventToDOM("keydown", handleKeyPress, document);
   addEventToDOM("keydown", handleKeyPressCardAdd, document);
   addEventToDOM("keydown", handleKeyPressCardImg, document);
+  addEventToDOM("click", handleButtonClick, document);
   enableValidation(validationOptions);
 };
 
-const buttonFunctions = {
-  "popup__closed-btn": handlePopupToggle,
-  "popup__closed-btn_card_add": handlePopupCardAddToggle,
-  "popup-card-img__closed-btn": handlePopupCardImgToggle,
-  "button-edit": handleProfileFormEdit,
-  "button-add": handleCardFormAdd,
-  popup__button: handleProfileFormSubmit,
-  popup__button_card_add: handleCardFormSubmit,
-};
-
-const handleButtonClick = (evt) => {
-  const buttonFunctionId = buttonFunctions[evt.target.id];
-  buttonFunctionId ? buttonFunctionId(evt) : null;
-};
-
 //------------------------------------------------------------------------------------------------------------
-
-document.addEventListener("click", handleButtonClick);
 
 document.addEventListener("DOMContentLoaded", addCardsAndEventsToDOM);
 

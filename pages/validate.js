@@ -6,16 +6,19 @@ export const formInput = form.querySelector(".popup__input");
 export const formError = form.querySelector(`.${formInput.id}-error`);
 
 export const showInputError = (formElement, inputElement, errorMessage) => {
-  const errorElement = formElement.querySelector(
-    `.${inputElement.classList[1]}-error`
-  );
+  console.log("Executando showInputError");
+
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+
   inputElement.classList.add("popup__input_type_error");
   errorElement.textContent = errorMessage;
   errorElement.classList.add("popup__input-error_active");
 };
 
 export const hideInputError = (formElement, inputElement) => {
+  console.log("Executando hideInputError");
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+
   errorElement &&
     (inputElement.classList.remove("popup__input_type_error"),
     errorElement.classList.remove("popup__input-error_active"),
@@ -72,7 +75,7 @@ const enableValidation = () => {
 
 export const validationOptions = {
   formSelector: ".popup__form",
-  inputSelector: ".popup__input",
+  inputSelector: "popup__input",
   submitButtonSelector: ".popup__button",
   inactiveButtonClass: "popup__button_disabled",
   inputErrorClass: "popup__input_type_error",
@@ -81,7 +84,7 @@ export const validationOptions = {
 
 export { enableValidation };
 
-enableValidation(validationOptions);
+enableValidation();
 
 //------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------

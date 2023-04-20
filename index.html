@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
   <title>Around The U.S.</title>
   <link rel="stylesheet" href="./pages/index.css">
 </head>
+
 <body>
   <div class="page">
     <div class="root">
@@ -47,12 +49,16 @@
                 class="popup__closed-btn" id="popup__closed-btn">
             </picture>
             <h2 class="popup__heading">Edit Profile</h2>
-            <input type="text" class="popup__input popup__input_type_name" id="popup__input_type_name" required
-              minlength="2" maxlength="40">
-            <span class="popup__input_type_error popup__input_type_name-error"></span>
-            <input type="text" class="popup__input popup__input_type_job" id="popup__input_type_job" required
-              minlength="2" maxlength="200">
-            <span class="popup__input_type_error popup__input_type_job-error"></span>
+            <label class="popup__field">
+              <input type="text" class="popup__input popup__input_type_name " id="popup-input-type-name" required
+                minlength="2" maxlength="40">
+              <span class="popup__input-error popup-input-type-name-error"></span>
+            </label>
+            <label class="popup__field">
+              <input type="text" class="popup__input popup__input_type_job" id="popup-input-type-job" required
+                minlength="2" maxlength="200">
+              <span class="popup__input-error popup-input-type-job-error"></span>
+            </label>
             <button type="submit" class="popup__button" id="popup__button">
               Save
             </button>
@@ -66,11 +72,15 @@
                 class="popup__closed-btn popup__closed-btn_card_add" id="popup__closed-btn_card_add">
             </picture>
             <h2 class="popup__heading popup__heading_card_add">New Place</h2>
-            <input type="text" class="popup__input popup__input_type_place" id="popup__input_type_place" required
-              minlength="2" maxlength="30">
-            <span class="popup__input_type_error popup__input_type_place-error"></span>
-            <input type="url" class="popup__input popup__input_type_img-link" id="popup__input_type_img-link" required>
-            <span class="popup__input_type_error popup__input_type_img-link-error"></span>
+            <label class="popup__field">
+              <input type="text" class="popup__input popup__input_type_place" id="popup-input-type-place" required
+                minlength="2" maxlength="30">
+              <span class="popup__input-error popup-input-type-place-error"></span>
+            </label>
+            <label class="popup__field">
+              <input type="url" class="popup__input popup__input_type_img-link" id="popup-input-type-img-link" required>
+              <span class="popup__input-error popup-input-type-img-link-error"></span>
+            </label>
             <button type="submit" class="popup__button popup__button_card_add" id="popup__button_card_add">
               Save
             </button>
@@ -119,4 +129,5 @@
   <script type="module" src="./pages/validate.js"></script>
   <script type="module" src="./pages/index.js"></script>
 </body>
+
 </html>

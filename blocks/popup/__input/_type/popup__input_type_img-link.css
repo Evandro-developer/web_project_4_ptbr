@@ -1,5 +1,6 @@
 .popup__input_type_img-link {
-  margin-top: 40px;
+  margin: 0;
+  outline-color: #545454;
 }
 
 .popup__input_type_img-link:invalid {
