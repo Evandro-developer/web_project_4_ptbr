@@ -1,8 +1,0 @@
-.popup__text_type_place {
-  margin-bottom: 40px;
-}
-
-.popup__text_type_place:invalid {
-  border-bottom: 1px solid #FF0000;
-}
-

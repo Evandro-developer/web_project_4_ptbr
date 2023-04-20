@@ -18,6 +18,7 @@ JavaScript para controle de Formulário Popup para interação do usuário;
 Utilização dos princípios DRY "Don't Repeat Yourself" para JavaScript;
 Abertura e fechamento das janelas Popups com suavização;
 Propagação e delegação de eventos "Esc", "Mousedown" e "Click" otimizados para melhor desempenho;
-Link para o GitHub: https://evandro-developer.github.io/web_project_4_ptbr.index.html/
+Campos de entrada dos Popups com validação para fins de UX;
+Link para o GitHub: https://evandro-developer.github.io/web_project_4_ptbr.index.html
 
 ---

@@ -1,0 +1,11 @@
+.popup__input_type_img-link {
+  margin-top: 40px;
+}
+
+.popup__input_type_img-link:invalid {
+  border-bottom-color: #ff0000;
+}
+
+.popup__input_type_img-link:valid {
+  border-bottom-color: #545454;
+}

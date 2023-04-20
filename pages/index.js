@@ -1,14 +1,28 @@
 //------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
+import { enableValidation } from "./validate.js";
+
+const validationOptions = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
+
+//------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
+
 const openPopup = "popup__opened";
 const popup = document.querySelector("#popup");
-const popupForm = document.querySelector(".popup__container");
+const popupForm = document.querySelector(".popup__form");
 const popupBtnProfileFormEdit = document.querySelector(".button-edit");
-const popupBtnClosed = document.querySelector("#popup__close-btn");
-const popupBtnProfileFormSubmit = document.querySelector("#popup__submit-btn");
-const nameInput = document.querySelector(".popup__text_type_name");
-const jobInput = document.querySelector(".popup__text_type_job");
+const popupBtnClosed = document.querySelector("#popup__closed-btn");
+const popupBtnProfileFormSubmit = document.querySelector("#popup__button");
+const nameInput = document.querySelector(".popup__input_type_name");
+const jobInput = document.querySelector(".popup__input_type_job");
 const nameOutput = document.querySelector(".header__title");
 const jobOutput = document.querySelector(".header__subtitle");
 
@@ -76,9 +90,6 @@ const addNewProfile = (name, job) => {
   return { allProfiles, newProfiles };
 };
 
-console.log("newProfiles:", newProfiles);
-console.log("allProfiles:", allProfiles);
-
 const handleProfileFormEdit = (evt) => {
   evt.preventDefault();
   const { textContent: outputName } = nameOutput;
@@ -86,6 +97,7 @@ const handleProfileFormEdit = (evt) => {
   nameInput.placeholder = outputName;
   jobInput.placeholder = outputJob;
   handlePopupToggle();
+  popupForm.reset();
 };
 
 const handleProfileFormSubmit = (evt) => {
@@ -98,12 +110,7 @@ const handleProfileFormSubmit = (evt) => {
     handlePopupToggle();
     nameOutput.textContent = name;
     jobOutput.textContent = job;
-    nameInput.value = "";
-    jobInput.value = "";
-
-    console.log(`Perfil adicionado: ${name} ${job}`);
-    console.log("newProfiles:", newProfiles);
-    console.log("allProfiles:", allProfiles);
+    popupForm.reset();
   }
 };
 
@@ -112,17 +119,15 @@ const handleProfileFormSubmit = (evt) => {
 
 const openPopupCardAdd = "popup__opened_card_add";
 const popupCardAdd = document.querySelector("#popup_card_add");
-const popupFormCardAdd = document.querySelector(".popup__container_card_add");
+const popupFormCardAdd = document.querySelector(".popup__form_card-add");
 const popupBtnCardAdd = document.querySelector("#button-add");
 const popupBtnCardAddClosed = document.querySelector(
-  "#popup__close-btn_card_add"
+  "#popup__closed-btn_card_add"
 );
-const popupBtnCardAddSubmit = document.querySelector(
-  "#popup__submit-btn_card_add"
-);
-const placeInputCardAdd = document.querySelector(".popup__text_type_place");
+const popupBtnCardAddSubmit = document.querySelector("#popup__button_card_add");
+const placeInputCardAdd = document.querySelector(".popup__input_type_place");
 const imgLinkInputCardAdd = document.querySelector(
-  ".popup__text_type_img-link"
+  ".popup__input_type_img-link"
 );
 
 //------------------------------------------------------------------------------------------------------------
@@ -156,7 +161,6 @@ const initialCards = [
   {
     name: "Lago di Braies",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
-    alt: "Imagem do Lago di Braies com um deck, barcos ancorados, montanhas ao fundo e natureza preservada",
     alt: "Imagem do Lago di Braies com um deck, barcos ancorados, montanhas ao fundo e natureza preservada",
   },
 ];
@@ -218,9 +222,6 @@ const addNewCardToDOM = () => {
   animateOpacity(newCardToDOM, 0, 1, 400);
 };
 
-console.log("newCards:", newCards);
-console.log("allCards:", allCards);
-
 const handleCardFormAdd = (evt) => {
   evt.preventDefault();
   placeInputCardAdd.placeholder = "Title";
@@ -237,12 +238,6 @@ const handleCardFormSubmit = (evt) => {
     addNewCard(name, link);
     addNewCardToDOM();
     handlePopupCardAddToggle();
-    placeInputCardAdd.value = "";
-    imgLinkInputCardAdd.value = "";
-
-    console.log(`Card adicionado: ${name} ${link}`);
-    console.log("newCards:", newCards);
-    console.log("allCards:", allCards);
   }
 };
 
@@ -372,22 +367,23 @@ const addCardsAndEventsToDOM = () => {
   cardsContainer.prepend(...cardsToDOM);
   addEventToDOM("mousedown", handleCardLike, cardsContainer);
   addEventToDOM("mousedown", handleCardDelete, cardsContainer);
-  addEventToDOM("keydown", handleKeyPress, document);
   addEventToDOM("mousedown", handleOutsideClick, popup);
-  addEventToDOM("keydown", handleKeyPressCardAdd, document);
   addEventToDOM("mousedown", handleOutsideClickCardAdd, popupCardAdd);
-  addEventToDOM("keydown", handleKeyPressCardImg, document);
   addEventToDOM("mousedown", handleOutsideClickCardImg, popupCardImgOpen);
+  addEventToDOM("keydown", handleKeyPress, document);
+  addEventToDOM("keydown", handleKeyPressCardAdd, document);
+  addEventToDOM("keydown", handleKeyPressCardImg, document);
+  enableValidation(validationOptions);
 };
 
 const buttonFunctions = {
-  "popup__close-btn": handlePopupToggle,
-  "button-edit": handleProfileFormEdit,
-  "popup__submit-btn": handleProfileFormSubmit,
-  "popup__close-btn_card_add": handlePopupCardAddToggle,
-  "button-add": handleCardFormAdd,
-  "popup__submit-btn_card_add": handleCardFormSubmit,
+  "popup__closed-btn": handlePopupToggle,
+  "popup__closed-btn_card_add": handlePopupCardAddToggle,
   "popup-card-img__closed-btn": handlePopupCardImgToggle,
+  "button-edit": handleProfileFormEdit,
+  "button-add": handleCardFormAdd,
+  popup__button: handleProfileFormSubmit,
+  popup__button_card_add: handleCardFormSubmit,
 };
 
 const handleButtonClick = (evt) => {
