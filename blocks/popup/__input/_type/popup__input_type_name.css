@@ -1,12 +1,23 @@
-.popup__input_type_name {
-  margin: 0;
-  outline-color: #545454;
+* {
+  transition: 0.4s ease-in-out;
 }
 
-.popup__input_type_name:invalid {
-  border-bottom-color: #ff0000;
+.popup__input_type_name {
+  margin: 0;
+  opacity: 0.6;
+}
+
+.popup__input_type_name:focus {
+  border-bottom-color: rgba(255, 0, 0);
+  opacity: 1;
+}
+
+.popup__input_type_name:hover {
+  border-bottom-color: rgba(255, 0, 0);
+  opacity: 1;
 }
 
 .popup__input_type_name:valid {
   border-bottom-color: #545454;
+  opacity: 1;
 }

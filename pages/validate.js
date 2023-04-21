@@ -6,19 +6,14 @@ export const formInput = form.querySelector(".popup__input");
 export const formError = form.querySelector(`.${formInput.id}-error`);
 
 export const showInputError = (formElement, inputElement, errorMessage) => {
-  console.log("Executando showInputError");
-
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-
   inputElement.classList.add("popup__input_type_error");
-  errorElement.textContent = errorMessage;
   errorElement.classList.add("popup__input-error_active");
+  errorElement.textContent = errorMessage;
 };
 
 export const hideInputError = (formElement, inputElement) => {
-  console.log("Executando hideInputError");
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-
   errorElement &&
     (inputElement.classList.remove("popup__input_type_error"),
     errorElement.classList.remove("popup__input-error_active"),
