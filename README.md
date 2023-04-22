@@ -4,8 +4,9 @@
 
 ---
 
-Descrição do Projeto
-Este é o sexto projeto do curso de desenvolvimento web da Practicum, que consiste em desenvolver um site responsivo utilizando HTML, CSS e JavaScript. O projeto se trata de um site de viagens pelos Estados Unidos, onde o usuário pode visualizar imagens de diferentes lugares e adicionar novas imagens por meio de um formulário.
+### Descrição do Projeto:
+
+Este é o sexto projeto do curso de desenvolvimento web da Practicum, que consiste em desenvolver um site responsivo utilizando HTML, CSS e JavaScript. O projeto se trata de um site de viagens pelos Estados Unidos, onde o usuário pode visualizar imagens de diferentes lugares, adicionar novas imagens e editar o perfil por meio de um formulário.
 
 ### Funcionalidades:
 
@@ -19,13 +20,14 @@ Este é o sexto projeto do curso de desenvolvimento web da Practicum, que consis
 - Utilização de linguagem html com semântica adequada aos seus devidos propósitos;
 - Recurso source para arquivos de imagem, carregamento da imagem específica conforme a resolução solicitada;
 - JavaScript para controle de Formulário Popup para interação do usuário;
-- Utilização dos princípios DRY "Don't Repeat Yourself" para JavaScript;
-- Abertura e fechamento das janelas Popups com suavização;
+- Utilização dos princípios DRY "Don't Repeat Yourself" em JavaScript;
+- Interações, abertura e fechamento das janelas Popups com suavização;
 - Propagação e delegação de eventos "Esc", "Mousedown" e "Click" otimizados para melhor desempenho;
 - Campos de entrada dos Popups com validação para fins de UX.
 
-Links
-Acesse o github aqui: https://github.com/Evandro-developer/web_project_4_ptbr.index.html
-Acesse o site aqui: https://evandro-developer.github.io/web_project_4_ptbr.index.html/
+#### Links:
+
+- Acesse o github aqui: https://github.com/Evandro-developer/web_project_4_ptbr.index.html
+- Acesse o site aqui: https://evandro-developer.github.io/web_project_4_ptbr.index.html/
 
 ---

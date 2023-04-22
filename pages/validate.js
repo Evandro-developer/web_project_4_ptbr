@@ -5,11 +5,26 @@ export const form = document.querySelector(".popup__form");
 export const formInput = form.querySelector(".popup__input");
 export const formError = form.querySelector(`.${formInput.id}-error`);
 
+export const PT_BR_ERROR_MESSAGES = {
+  valueMissing: "Este campo é obrigatório.",
+  typeMismatch: {
+    email: "Por favor, informe um endereço de e-mail válido.",
+    url: "Por favor, informe uma URL válida.",
+  },
+  tooShort: "Por favor, informe pelo menos {minLength} caracteres.",
+  tooLong: "Por favor, informe no máximo {maxLength} caracteres.",
+  patternMismatch: "Por favor, preencha este campo corretamente.",
+};
+
 export const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add("popup__input_type_error");
   errorElement.classList.add("popup__input-error_active");
-  errorElement.textContent = errorMessage;
+
+  const errorType = inputElement.validationMessage;
+  const ptBrErrorMessage = PT_BR_ERROR_MESSAGES[errorType] || errorMessage;
+
+  errorElement.textContent = ptBrErrorMessage;
 };
 
 export const hideInputError = (formElement, inputElement) => {
@@ -34,6 +49,11 @@ export const toggleButtonState = (inputList, buttonElement) => {
   hasInvalidInput(inputList)
     ? buttonElement.classList.add("popup__button_disabled")
     : buttonElement.classList.remove("popup__button_disabled");
+};
+
+export const resetForm = (form) => {
+  const popupInputs = Array.from(form.querySelectorAll(".popup__input"));
+  popupInputs.forEach((input) => (input.value = ""));
 };
 
 export const setEventListeners = (formElement) => {

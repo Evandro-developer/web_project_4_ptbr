@@ -3,6 +3,10 @@
 
 import { enableValidation } from "./validate.js";
 
+import { resetForm } from "./validate.js";
+
+import { toggleButtonState } from "./validate.js";
+
 const validationOptions = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
@@ -18,6 +22,7 @@ const validationOptions = {
 const openPopup = "popup__opened";
 const popup = document.querySelector("#popup");
 const popupForm = document.querySelector(".popup__form");
+const popupButtonSubmit = document.querySelector("#popup__button");
 const nameInput = document.querySelector(".popup__input_type_name");
 const jobInput = document.querySelector(".popup__input_type_job");
 const nameOutput = document.querySelector(".header__title");
@@ -47,8 +52,8 @@ let allProfiles = getAllProfiles();
 
 //------------------------------------------------------------------------------------------------------------
 
-const toggle = (popupClassOpenned, popupClass) =>
-  popupClass.classList.toggle(popupClassOpenned);
+const toggle = (popupClassOpened, popupClass) =>
+  popupClass.classList.toggle(popupClassOpened);
 
 const callIfFunction = (func) => typeof func === "function" && func();
 
@@ -60,8 +65,8 @@ const toggleDisplay = (displayValue, openedFunc, popupClass) => {
 
 const contains = (className, element) => element.classList.contains(className);
 
-const togglePopupDisplay = (popupClassOpenned, popupClass, openedFunc) => {
-  const isOpen = contains(popupClassOpenned, popupClass);
+const togglePopupDisplay = (popupClassOpened, popupClass, openedFunc) => {
+  const isOpen = contains(popupClassOpened, popupClass);
   toggleDisplay(isOpen ? "hidden" : "block", openedFunc, popupClass);
 };
 
@@ -98,7 +103,8 @@ const handleProfileFormEdit = (evt) => {
   nameInput.placeholder = outputName;
   jobInput.placeholder = outputJob;
   handlePopupToggle();
-  popupForm.reset();
+  resetForm(popupForm);
+  toggleButtonState([nameInput, jobInput], popupButtonSubmit);
 };
 
 const handleProfileFormSubmit = (evt) => {
@@ -111,7 +117,8 @@ const handleProfileFormSubmit = (evt) => {
     handlePopupToggle();
     nameOutput.textContent = name;
     jobOutput.textContent = job;
-    popupForm.reset();
+    resetForm(popupForm);
+    toggleButtonState([nameInput, jobInput], popupButtonSubmit);
   }
 };
 
@@ -120,6 +127,10 @@ const handleProfileFormSubmit = (evt) => {
 
 const openPopupCardAdd = "popup__opened_card_add";
 const popupCardAdd = document.querySelector("#popup_card_add");
+const popupFormCardAdd = document.querySelector("#popup__form_card_add");
+const popupButtonSubmitCardAdd = document.querySelector(
+  "#popup__button_card_add"
+);
 const placeInputCardAdd = document.querySelector(".popup__input_type_place");
 const imgLinkInputCardAdd = document.querySelector(
   ".popup__input_type_img-link"
@@ -221,11 +232,14 @@ const addNewCardToDOM = () => {
 
 const handleCardFormAdd = (evt) => {
   evt.preventDefault();
-  placeInputCardAdd.placeholder = "Title";
-  imgLinkInputCardAdd.placeholder = "Image url";
+  placeInputCardAdd.placeholder = "Título";
+  imgLinkInputCardAdd.placeholder = "URL da Imagem ";
   handlePopupCardAddToggle();
-  placeInputCardAdd.value = "";
-  imgLinkInputCardAdd.value = "";
+  resetForm(popupFormCardAdd);
+  toggleButtonState(
+    [placeInputCardAdd, imgLinkInputCardAdd],
+    popupButtonSubmitCardAdd
+  );
 };
 
 const handleCardFormSubmit = (evt) => {
@@ -234,11 +248,15 @@ const handleCardFormSubmit = (evt) => {
   const { value: link } = imgLinkInputCardAdd;
 
   if (name && link) {
+    evt.preventDefault();
     addNewCard(name, link);
     addNewCardToDOM();
     handlePopupCardAddToggle();
-    placeInputCardAdd.value = "";
-    imgLinkInputCardAdd.value = "";
+    resetForm(popupFormCardAdd);
+    toggleButtonState(
+      [placeInputCardAdd, imgLinkInputCardAdd],
+      popupButtonSubmitCardAdd
+    );
   }
 };
 
@@ -259,6 +277,12 @@ const handlePopupCardImgToggle = () =>
 
 //------------------------------------------------------------------------------------------------------------
 
+const setAttributes = (element, attributes) => {
+  for (let attribute in attributes) {
+    element.setAttribute(attribute, attributes[attribute]);
+  }
+};
+
 const renderCard = (card) => {
   const cardTemplate = document.querySelector("#cards-template").content;
 
@@ -267,12 +291,14 @@ const renderCard = (card) => {
   const cardElement = cards.querySelector(".card").cloneNode(true);
 
   const imgLinkOutputCardAdd = cardElement.querySelector(".card__image");
-  imgLinkOutputCardAdd.src = card.link;
-  imgLinkOutputCardAdd.setAttribute("alt", `imagem de ${card.name}`);
   imgLinkOutputCardAdd.addEventListener("mousedown", () => {
     handlePopupCardImgToggle();
     popupCardImg.src = card.link;
     popupCardName.textContent = card.name;
+  });
+  setAttributes(imgLinkOutputCardAdd, {
+    src: card.link,
+    alt: `Imagem de ${card.name}`,
   });
 
   const cardBriefing = cardElement.querySelector(".card__briefing");
@@ -292,29 +318,47 @@ const renderCards = (cards) => {
 //------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
-const handleCardLike = (evt) => {
-  if (contains("button-heart-icon", evt.target)) {
-    const heartIcon = evt.target.closest(".button-heart-icon");
-    const isActive = heartIcon.getAttribute("data-active") === "true";
-    heartIcon.setAttribute("data-active", !isActive);
-    heartIcon.src = isActive
-      ? "./images/heart_icon_disabled.png"
-      : "./images/heart_icon_enabled.png";
-    animateOpacity(heartIcon, 0, 1, 400);
-  }
+const evtTargetClosestElement = (element, selector) => {
+  return element.closest(selector);
 };
+
+const handleCardLike = (evt) =>
+  contains("button-heart-icon", evt.target) &&
+  evtTargetClosestElement(evt.target, ".button-heart-icon")
+    ? (() => {
+        const heartIcon = evtTargetClosestElement(
+          evt.target,
+          ".button-heart-icon"
+        );
+        const isActive = heartIcon.getAttribute("data-active") === "true";
+        heartIcon.setAttribute("data-active", !isActive);
+        setAttributes(
+          heartIcon,
+          isActive
+            ? {
+                src: "./images/heart_icon_disabled.png",
+                alt: "Icon de coração desativado apenas com bordas",
+              }
+            : {
+                src: "./images/heart_icon_enabled.png",
+                alt: "Icon de coração ativado com preenchimento",
+              }
+        );
+        animateOpacity(heartIcon, 0, 1, 400);
+      })()
+    : null;
 
 const handleCardDelete = (evt) => {
   if (contains("button-trash-icon", evt.target)) {
-    const cardDelete = evt.target.closest(".card");
+    const cardDelete = evtTargetClosestElement(evt.target, ".card");
     animateOpacity(cardDelete, 1, 0, 400, true);
   }
 };
 
 //------------------------------------------------------------------------------------------------------------
 
-const removePopupHandler = (popupClass, popupClassOpenned) => () => {
-  popupClass.classList.remove(popupClassOpenned);
+const removePopupHandler = (popupClass, popupClassOpened) => () => {
+  popupClass.classList.remove(popupClassOpened);
 };
 
 const handleKeyPressFunction = (removePopupFunc) => (evt) => {
@@ -322,8 +366,9 @@ const handleKeyPressFunction = (removePopupFunc) => (evt) => {
 };
 
 const handleOutsideClickFunction = (popupClass, removePopupFunc) => (evt) =>
-  contains(popupClass, evt.target)
-    ? removePopupFunc(evt.target.closest(`.${popupClass}`))
+  contains(popupClass, evt.target) &&
+  evtTargetClosestElement(evt.target, `.${popupClass}`)
+    ? removePopupFunc(evtTargetClosestElement(evt.target, `.${popupClass}`))
     : null;
 
 //------------------------------------------------------------------------------------------------------------
