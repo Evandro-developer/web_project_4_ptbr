@@ -1,39 +1,32 @@
 //------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
-import { enableValidation } from "./validate.js";
-
 import { resetForm } from "./validate.js";
 
 import { toggleButtonState } from "./validate.js";
 
-const validationOptions = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visible",
-};
+import { validationOptions } from "./validate.js";
+
+import { enableValidation } from "./validate.js";
 
 //------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
-const openPopup = "popup__opened";
-const popup = document.querySelector("#popup");
-const popupForm = document.querySelector(".popup__form");
-const popupButtonSubmit = document.querySelector("#popup__button");
-const nameInput = document.querySelector(".popup__input_type_name");
-const jobInput = document.querySelector(".popup__input_type_job");
-const nameOutput = document.querySelector(".header__title");
-const jobOutput = document.querySelector(".header__subtitle");
+const openPopupProfile = "popup__opened";
+const popupProfile = document.querySelector("#popup");
+const popupProfileForm = document.querySelector(".popup__form");
+const popupProfileButtonSubmit = document.querySelector("#popup__button");
+const nameInputProfile = document.querySelector(".popup__input_type_name");
+const jobInputProfile = document.querySelector(".popup__input_type_job");
+const nameOutputProfile = document.querySelector(".header__title");
+const jobOutputProfile = document.querySelector(".header__subtitle");
 
 //------------------------------------------------------------------------------------------------------------
 
 const initialProfile = [
   {
-    name: nameOutput.textContent,
-    job: jobOutput.textContent,
+    name: nameOutputProfile.textContent,
+    job: jobOutputProfile.textContent,
   },
 ];
 
@@ -52,41 +45,47 @@ let allProfiles = getAllProfiles();
 
 //------------------------------------------------------------------------------------------------------------
 
-const toggle = (popupClassOpened, popupClass) =>
-  popupClass.classList.toggle(popupClassOpened);
+const callIfFunction = (callback) =>
+  typeof callback === "function" && callback();
 
-const callIfFunction = (func) => typeof func === "function" && func();
-
-const toggleDisplay = (displayValue, openedFunc, popupClass) => {
-  callIfFunction(openedFunc);
-  const style = popupClass.style;
+const styleDisplayValue = (displayValue, targetElement, callback) => {
+  callIfFunction(callback);
+  const style = targetElement.style;
   return (style.display = displayValue);
 };
 
-const contains = (className, element) => element.classList.contains(className);
+const contains = (targetClassName, targetElement) =>
+  targetElement.classList.contains(targetClassName);
 
-const togglePopupDisplay = (popupClassOpened, popupClass, openedFunc) => {
-  const isOpen = contains(popupClassOpened, popupClass);
-  toggleDisplay(isOpen ? "hidden" : "block", openedFunc, popupClass);
+const togglePopupDisplay = (targetClassName, targetElement, callback) => {
+  const isOpen = contains(targetClassName, targetElement);
+  styleDisplayValue(isOpen ? "hidden" : "block", targetElement, callback);
 };
 
-//------------------------------------------------------------------------------------------------------------
-
-const popupOpened = () => toggle(openPopup, popup);
-
-const handlePopupToggle = () =>
-  togglePopupDisplay(openPopup, popup, popupOpened);
+const toggle = (targetClassName, targetElement) =>
+  targetElement.classList.toggle(targetClassName);
 
 //------------------------------------------------------------------------------------------------------------
 
-const createNewProfile = (name, job) => {
-  return name && job && !allProfiles.some((profile) => profile.name === name)
-    ? { name, job }
+const popupProfileOpened = () => toggle(openPopupProfile, popupProfile);
+
+const handlePopupProfileToggle = () =>
+  togglePopupDisplay(openPopupProfile, popupProfile, popupProfileOpened);
+
+//------------------------------------------------------------------------------------------------------------
+
+const createNewProfile = (nameInputProfile, jobInputProfile) => {
+  return nameInputProfile &&
+    jobInputProfile &&
+    !allProfiles.some(
+      (profile) => profile.nameInputProfile === nameInputProfile
+    )
+    ? { nameInputProfile, jobInputProfile }
     : null;
 };
 
-const addNewProfile = (name, job) => {
-  const newProfile = createNewProfile(name, job);
+const addNewProfile = (nameInputProfile, jobInputProfile) => {
+  const newProfile = createNewProfile(nameInputProfile, jobInputProfile);
   if (newProfile) {
     newProfiles = [newProfile, ...newProfiles];
     allProfiles = getAllProfiles();
@@ -98,27 +97,33 @@ const addNewProfile = (name, job) => {
 
 const handleProfileFormEdit = (evt) => {
   evt.preventDefault();
-  const { textContent: outputName } = nameOutput;
-  const { textContent: outputJob } = jobOutput;
-  nameInput.placeholder = outputName;
-  jobInput.placeholder = outputJob;
-  handlePopupToggle();
-  resetForm(popupForm);
-  toggleButtonState([nameInput, jobInput], popupButtonSubmit);
+  const { textContent: nameOutput } = nameOutputProfile;
+  const { textContent: jobOutput } = jobOutputProfile;
+  nameInputProfile.placeholder = nameOutput;
+  jobInputProfile.placeholder = jobOutput;
+  handlePopupProfileToggle();
+  resetForm(popupProfileForm);
+  toggleButtonState(
+    [nameInputProfile, jobInputProfile],
+    popupProfileButtonSubmit
+  );
 };
 
 const handleProfileFormSubmit = (evt) => {
   evt.preventDefault();
-  const { value: name } = nameInput;
-  const { value: job } = jobInput;
+  const { value: nameInput } = nameInputProfile;
+  const { value: jobInput } = jobInputProfile;
 
-  if (name && job) {
-    addNewProfile(name, job);
-    handlePopupToggle();
-    nameOutput.textContent = name;
-    jobOutput.textContent = job;
-    resetForm(popupForm);
-    toggleButtonState([nameInput, jobInput], popupButtonSubmit);
+  if (nameInput && jobInput) {
+    addNewProfile(nameInput, jobInput);
+    handlePopupProfileToggle();
+    nameOutputProfile.textContent = nameInput;
+    jobOutputProfile.textContent = jobInput;
+    resetForm(popupProfileForm);
+    toggleButtonState(
+      [nameInputProfile, jobInputProfile],
+      popupProfileButtonSubmit
+    );
   }
 };
 
@@ -127,8 +132,8 @@ const handleProfileFormSubmit = (evt) => {
 
 const openPopupCardAdd = "popup__opened_card_add";
 const popupCardAdd = document.querySelector("#popup_card_add");
-const popupFormCardAdd = document.querySelector("#popup__form_card_add");
-const popupButtonSubmitCardAdd = document.querySelector(
+const popupCardAddForm = document.querySelector("#popup__form_card_add");
+const popupCardAddButtonSubmit = document.querySelector(
   "#popup__button_card_add"
 );
 const placeInputCardAdd = document.querySelector(".popup__input_type_place");
@@ -192,7 +197,13 @@ const handlePopupCardAddToggle = () =>
 //------------------------------------------------------------------------------------------------------------
 
 const createNewCard = (name, link) => {
-  return name && link ? { name, link, alt: `Imagem de ${name}` } : null;
+  return name && link
+    ? {
+        name,
+        link,
+        alt: `Imagem de ${name}`,
+      }
+    : null;
 };
 
 const addNewCard = (name, link) => {
@@ -205,57 +216,56 @@ const addNewCard = (name, link) => {
 };
 
 const animateOpacity = (
-  element,
+  targetElement,
   startOpacity,
   endOpacity,
   duration,
   removeOnFinish = false
 ) => {
-  element.animate([{ opacity: startOpacity }, { opacity: endOpacity }], {
+  targetElement.animate([{ opacity: startOpacity }, { opacity: endOpacity }], {
     duration: duration,
     easing: "ease-in-out",
   }).onfinish = () => {
     if (removeOnFinish) {
-      element.remove();
+      targetElement.remove();
     }
   };
 };
 
 const addNewCardToDOM = () => {
-  const cards = document.querySelector(".cards");
+  const cardsSection = document.querySelector(".cards");
   const newCardToDOM = renderCards(allCards)[0];
-  cards.insertBefore(newCardToDOM, cards.firstChild);
+  cardsSection.insertBefore(newCardToDOM, cardsSection.firstChild);
   animateOpacity(newCardToDOM, 0, 1, 400);
 };
 
 //------------------------------------------------------------------------------------------------------------
 
-const handleCardFormAdd = (evt) => {
+const handleCardAddFormEdit = (evt) => {
   evt.preventDefault();
   placeInputCardAdd.placeholder = "Título";
   imgLinkInputCardAdd.placeholder = "URL da Imagem ";
   handlePopupCardAddToggle();
-  resetForm(popupFormCardAdd);
+  resetForm(popupCardAddForm);
   toggleButtonState(
     [placeInputCardAdd, imgLinkInputCardAdd],
-    popupButtonSubmitCardAdd
+    popupCardAddButtonSubmit
   );
 };
 
-const handleCardFormSubmit = (evt) => {
+const handleCardAddFormSubmit = (evt) => {
   evt.preventDefault();
   const { value: name } = placeInputCardAdd;
   const { value: link } = imgLinkInputCardAdd;
 
   if (name && link) {
-    evt.preventDefault();
     addNewCard(name, link);
     addNewCardToDOM();
     handlePopupCardAddToggle();
-    resetForm(popupFormCardAdd);
+    resetForm(popupCardAddForm);
     toggleButtonState(
       [placeInputCardAdd, imgLinkInputCardAdd],
-      popupButtonSubmitCardAdd
+      popupCardAddButtonSubmit
     );
   }
 };
@@ -277,18 +287,18 @@ const handlePopupCardImgToggle = () =>
 
 //------------------------------------------------------------------------------------------------------------
 
-const setAttributes = (element, attributes) => {
+const setAttributes = (targetElement, attributes) => {
   for (let attribute in attributes) {
-    element.setAttribute(attribute, attributes[attribute]);
+    targetElement.setAttribute(attribute, attributes[attribute]);
   }
 };
 
 const renderCard = (card) => {
   const cardTemplate = document.querySelector("#cards-template").content;
 
-  const cards = cardTemplate.querySelector(".cards");
+  const cardsSection = cardTemplate.querySelector(".cards");
 
-  const cardElement = cards.querySelector(".card").cloneNode(true);
+  const cardElement = cardsSection.querySelector(".card").cloneNode(true);
 
   const imgLinkOutputCardAdd = cardElement.querySelector(".card__image");
   imgLinkOutputCardAdd.addEventListener("mousedown", () => {
@@ -306,7 +316,7 @@ const renderCard = (card) => {
   const placeOutputCardAdd = cardBriefing.querySelector(".card__title");
   placeOutputCardAdd.textContent = card.name;
 
-  cards.prepend(cardElement);
+  cardsSection.prepend(cardElement);
 
   return cardElement;
 };
@@ -318,76 +328,74 @@ const renderCards = (cards) => {
 //------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
-const evtTargetClosestElement = (element, selector) => {
-  return element.closest(selector);
+const evtTargetClosestElement = (targetClassName, targetElement) => {
+  return targetElement.closest("." + targetClassName);
 };
 
-const handleCardLike = (evt) =>
-  contains("button-heart-icon", evt.target) &&
-  evtTargetClosestElement(evt.target, ".button-heart-icon")
-    ? (() => {
-        const heartIcon = evtTargetClosestElement(
-          evt.target,
-          ".button-heart-icon"
-        );
-        const isActive = heartIcon.getAttribute("data-active") === "true";
-        heartIcon.setAttribute("data-active", !isActive);
-        setAttributes(
-          heartIcon,
-          isActive
-            ? {
-                src: "./images/heart_icon_disabled.png",
-                alt: "Icon de coração desativado apenas com bordas",
-              }
-            : {
-                src: "./images/heart_icon_enabled.png",
-                alt: "Icon de coração ativado com preenchimento",
-              }
-        );
-        animateOpacity(heartIcon, 0, 1, 400);
-      })()
-    : null;
+const isTargetElementClicked = (targetClassName, targetElement) =>
+  contains(targetClassName, targetElement) &&
+  evtTargetClosestElement(`${targetClassName}`, targetElement);
+
+const handleCardLike = (evt) => {
+  if (isTargetElementClicked("button-heart-icon", evt.target)) {
+    const heartIcon = evtTargetClosestElement("button-heart-icon", evt.target);
+    const isActive = heartIcon.getAttribute("data-active") === "true";
+    heartIcon.setAttribute("data-active", !isActive);
+    setAttributes(
+      heartIcon,
+      isActive
+        ? {
+            src: "./images/heart_icon_disabled.png",
+            alt: "Icon de coração desativado apenas com bordas",
+          }
+        : {
+            src: "./images/heart_icon_enabled.png",
+            alt: "Icon de coração ativado com preenchimento",
+          }
+    );
+    animateOpacity(heartIcon, 0, 1, 400);
+  }
+};
 
 const handleCardDelete = (evt) => {
-  if (contains("button-trash-icon", evt.target)) {
-    const cardDelete = evtTargetClosestElement(evt.target, ".card");
+  if (isTargetElementClicked("button-trash-icon", evt.target)) {
+    const cardDelete = evtTargetClosestElement("card", evt.target);
     animateOpacity(cardDelete, 1, 0, 400, true);
   }
 };
 
 //------------------------------------------------------------------------------------------------------------
 
-const removePopupHandler = (popupClass, popupClassOpened) => () => {
-  popupClass.classList.remove(popupClassOpened);
-};
+const remove = (targetClassName, targetElement) =>
+  targetElement.classList.remove(targetClassName);
 
 const handleKeyPressFunction = (removePopupFunc) => (evt) => {
-  evt.key === "Escape" ? removePopupFunc() : null;
+  evt.key === "Escape" ? callIfFunction(removePopupFunc) : null;
 };
 
-const handleOutsideClickFunction = (popupClass, removePopupFunc) => (evt) =>
-  contains(popupClass, evt.target) &&
-  evtTargetClosestElement(evt.target, `.${popupClass}`)
-    ? removePopupFunc(evtTargetClosestElement(evt.target, `.${popupClass}`))
-    : null;
+const handleOutsideClickFunction =
+  (targetClassName, removePopupFunc) => (evt) =>
+    isTargetElementClicked(targetClassName, evt.target)
+      ? callIfFunction(removePopupFunc)
+      : null;
 
 //------------------------------------------------------------------------------------------------------------
 
-const closePopup = removePopupHandler(popup, openPopup);
-const handleKeyPress = handleKeyPressFunction(closePopup);
-const handleOutsideClick = handleOutsideClickFunction("popup", closePopup);
+const closePopupProfile = () => remove(openPopupProfile, popupProfile);
+const handleKeyPressProfile = handleKeyPressFunction(closePopupProfile);
+const handleOutsideClickProfile = handleOutsideClickFunction(
+  "popup",
+  closePopupProfile
+);
 
-const closePopupCardAdd = removePopupHandler(popupCardAdd, openPopupCardAdd);
+const closePopupCardAdd = () => remove(openPopupCardAdd, popupCardAdd);
 const handleKeyPressCardAdd = handleKeyPressFunction(closePopupCardAdd);
 const handleOutsideClickCardAdd = handleOutsideClickFunction(
   "popup_card_add",
   closePopupCardAdd
 );
 
-const closePopupCardImg = removePopupHandler(
-  popupCardImgOpen,
-  openPopupCardImg
-);
+const closePopupCardImg = () => remove(openPopupCardImg, popupCardImgOpen);
 const handleKeyPressCardImg = handleKeyPressFunction(closePopupCardImg);
 const handleOutsideClickCardImg = handleOutsideClickFunction(
   "popup-card-img",
@@ -398,13 +406,13 @@ const handleOutsideClickCardImg = handleOutsideClickFunction(
 //------------------------------------------------------------------------------------------------------------
 
 const buttonFunctions = {
-  "popup__closed-btn": handlePopupToggle,
+  "popup__closed-btn": handlePopupProfileToggle,
   "popup__closed-btn_card_add": handlePopupCardAddToggle,
   "popup-card-img__closed-btn": handlePopupCardImgToggle,
   "button-edit": handleProfileFormEdit,
-  "button-add": handleCardFormAdd,
+  "button-add": handleCardAddFormEdit,
   popup__button: handleProfileFormSubmit,
-  popup__button_card_add: handleCardFormSubmit,
+  popup__button_card_add: handleCardAddFormSubmit,
 };
 
 const handleButtonClick = (evt) => {
@@ -414,26 +422,35 @@ const handleButtonClick = (evt) => {
 
 //------------------------------------------------------------------------------------------------------------
 
-const addEventToDOM = (evt, handler, element) => {
-  element.addEventListener(evt, handler);
-};
-
 //------------------------------------------------------------------------------------------------------------
 
-const addCardsAndEventsToDOM = () => {
-  const cards = document.querySelector(".cards");
+const addCardsToDOM = () => {
+  const cardsSection = document.querySelector(".cards");
   const cardsToDOM = renderCards(allCards);
-  cards.prepend(...cardsToDOM);
-  addEventToDOM("mousedown", handleCardLike, cards);
-  addEventToDOM("mousedown", handleCardDelete, cards);
-  addEventToDOM("mousedown", handleOutsideClick, popup);
+  cardsSection.prepend(...cardsToDOM);
+};
+
+const addEventToDOM = (evt, handler, targetElement) => {
+  targetElement.addEventListener(evt, handler);
+};
+
+const addEventsToDOM = () => {
+  const cardsSection = document.querySelector(".cards");
+  addEventToDOM("mousedown", handleCardLike, cardsSection);
+  addEventToDOM("mousedown", handleCardDelete, cardsSection);
+  addEventToDOM("mousedown", handleOutsideClickProfile, popupProfile);
   addEventToDOM("mousedown", handleOutsideClickCardAdd, popupCardAdd);
   addEventToDOM("mousedown", handleOutsideClickCardImg, popupCardImgOpen);
-  addEventToDOM("keydown", handleKeyPress, document);
+  addEventToDOM("keydown", handleKeyPressProfile, document);
   addEventToDOM("keydown", handleKeyPressCardAdd, document);
   addEventToDOM("keydown", handleKeyPressCardImg, document);
   addEventToDOM("click", handleButtonClick, document);
   enableValidation(validationOptions);
+};
+
+const addCardsAndEventsToDOM = () => {
+  addCardsToDOM();
+  addEventsToDOM();
 };
 
 //------------------------------------------------------------------------------------------------------------

@@ -5,6 +5,11 @@ export const form = document.querySelector(".popup__form");
 export const formInput = form.querySelector(".popup__input");
 export const formError = form.querySelector(`.${formInput.id}-error`);
 
+export const resetForm = (form) => {
+  const popupInputs = Array.from(form.querySelectorAll(".popup__input"));
+  popupInputs.forEach((input) => (input.value = ""));
+};
+
 export const PT_BR_ERROR_MESSAGES = {
   valueMissing: "Este campo é obrigatório.",
   typeMismatch: {
@@ -51,11 +56,6 @@ export const toggleButtonState = (inputList, buttonElement) => {
     : buttonElement.classList.remove("popup__button_disabled");
 };
 
-export const resetForm = (form) => {
-  const popupInputs = Array.from(form.querySelectorAll(".popup__input"));
-  popupInputs.forEach((input) => (input.value = ""));
-};
-
 export const setEventListeners = (formElement) => {
   const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
   const buttonElement = formElement.querySelector(".popup__button");
@@ -63,7 +63,7 @@ export const setEventListeners = (formElement) => {
   toggleButtonState(inputList, buttonElement);
 
   inputList.forEach((inputElement) => {
-    inputElement.addEventListener("input", function () {
+    inputElement.addEventListener("input", () => {
       checkInputValidity(formElement, inputElement);
       toggleButtonState(inputList, buttonElement);
     });
@@ -73,7 +73,7 @@ export const setEventListeners = (formElement) => {
 const enableValidation = () => {
   const formList = Array.from(document.querySelectorAll(".popup__form"));
   formList.forEach((formElement) => {
-    formElement.addEventListener("submit", function (evt) {
+    formElement.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });
 
