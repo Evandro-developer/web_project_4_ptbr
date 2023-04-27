@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Web Site responsivo web_project_6">
+  <meta name="description" content="Web Site responsivo web_project_7">
   <meta name="keywords" content="HTML, CSS & JavaScript">
   <meta name="author" content="Evandro de Melo Aluno da Practicum">
   <title>Ao redor dos EUA</title>
@@ -50,7 +50,7 @@
             </picture>
             <h2 class="popup__heading">Editar Perfil</h2>
             <label class="popup__field">
-              <input type="text" class="popup__input popup__input_type_name " id="popup-input-type-name" required
+              <input type="text" class="popup__input popup__input_type_name" id="popup-input-type-name" required
                 minlength="2" maxlength="40">
               <span class="popup__input-error popup-input-type-name-error"></span>
             </label>
@@ -87,16 +87,16 @@
             </button>
           </form>
         </section>
-        <section class="popup-card-img" id="popup-card-img">
-          <div class="popup-card-img__container" id="popup-card-img__container">
+        <section class="img-popup-card" id="img-popup-card">
+          <div class="img-popup-card__container" id="img-popup-card__container">
             <picture>
-              <img type="url" src="#" alt="#" class="popup-card-img__image">
+              <img type="url" src="#" alt="#" class="img-popup-card__image">
             </picture>
-            <h2 class="popup-card-img__title"></h2>
+            <h2 class="img-popup-card__title"></h2>
             <picture>
               <source media="(max-width: 580px)" srcset="./images/close_icon_small.png">
               <img src="./images/close_icon.png" alt="Imagem do ícone de fechamento da janela do popup"
-                class="popup-card-img__closed-btn" id="popup-card-img__closed-btn">
+                class="img-popup-card__closed-btn" id="img-popup-card__closed-btn">
             </picture>
           </div>
         </section>
@@ -127,7 +127,9 @@
       </ul>
     </section>
   </template>
-  <script type="module" src="./pages/validate.js"></script>
+  <script type="module" src="./pages/card.js"></script>
+  <script type="module" src="./pages/formValidator.js"></script>
+  <script type="module" src="./pages/utils.js"></script>  
   <script type="module" src="./pages/index.js"></script>
 </body>
 

@@ -1,4 +1,4 @@
-.popup-card-img__closed-btn {
+.img-popup-card__closed-btn {
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -10,7 +10,7 @@
   transition: 0.4s ease-in-out;
 }
 
-.popup-card-img__closed-btn:hover {
+.img-popup-card__closed-btn:hover {
   transition: 0.4s ease-in-out;
   opacity: 0.6;
 }
@@ -19,7 +19,7 @@
   * {
     transition: 0.4s ease-in-out;
   }
-  .popup-card-img__closed-btn {
+  .img-popup-card__closed-btn {
     width: 26px;
     height: 26px;
     top: -35px;

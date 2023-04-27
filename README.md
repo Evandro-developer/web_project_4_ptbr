@@ -1,6 +1,6 @@
-# Projeto 6: Around The U.S.
+# Projeto 7: Around The U.S.
 
-## Finalização do projeto 4.
+## Refatoração e Modularização do projeto 4.
 
 ---
 
@@ -20,14 +20,15 @@ Este é o sexto projeto do curso de desenvolvimento web da Practicum, que consis
 - Utilização de linguagem html com semântica adequada aos seus devidos propósitos;
 - Recurso source para arquivos de imagem, carregamento da imagem específica conforme a resolução solicitada;
 - JavaScript para controle de Formulário Popup para interação do usuário;
-- Utilização dos princípios DRY "Don't Repeat Yourself" em JavaScript;
+- Utilização dos princípios DRY "Don't Repeat Yourself";
+- Cada arquivo tenha uma responsabilidade bem definida e facilita a reutilização de código em outros projetos;
+- Implementação orientada a objetos utilizando classes;
 - Interações, abertura e fechamento das janelas Popups com suavização;
 - Propagação e delegação de eventos "Esc", "Mousedown" e "Click" otimizados para melhor desempenho;
 - Campos de entrada dos Popups com validação para fins de UX.
 
-#### Links:
+#### Link:
 
-- Acesse o github aqui: https://github.com/Evandro-developer/web_project_4_ptbr.index.html
 - Acesse o site aqui: https://evandro-developer.github.io/web_project_4_ptbr.index.html/
 
 ---
