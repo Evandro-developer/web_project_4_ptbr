@@ -21,6 +21,7 @@ import {
   handleKeyPressCardImg,
   popupProfile,
   popupCardImgOpen,
+  getElement,
 } from "./utils.js";
 
 //------------------------------------------------------------------------------------------------------------
@@ -44,9 +45,9 @@ const handleButtonClick = (evt) => {
 //------------------------------------------------------------------------------------------------------------
 
 const addCardsToDOM = () => {
-  const cardsSection = document.querySelector(".cards");
+  const cardsSection = getElement(".cards");
   const cardsToDOM = renderCards(allCards);
-  cardsSection.prepend(...cardsToDOM);
+  cardsSection.replaceChildren(...cardsToDOM);
 };
 
 const addEventToDOM = (evt, handler, targetElement) => {
@@ -54,7 +55,7 @@ const addEventToDOM = (evt, handler, targetElement) => {
 };
 
 const addEventsToDOM = () => {
-  const cardsSection = document.querySelector(".cards");
+  const cardsSection = getElement(".cards");
   addEventToDOM("mousedown", handleCardLike, cardsSection);
   addEventToDOM("mousedown", handleCardDelete, cardsSection);
   addEventToDOM("mousedown", handleOutsideClickProfile, popupProfile);

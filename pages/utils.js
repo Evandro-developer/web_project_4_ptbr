@@ -21,6 +21,10 @@ import {
 //------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
+export const getElement = (selector, method = "querySelector") => {
+  return document[method](selector);
+};
+
 export const callIfFunction = (callback) =>
   typeof callback === "function" && callback();
 
@@ -121,15 +125,15 @@ export const handleCardDelete = (evt) => {
 
 const profilePopupElements = {
   openPopupProfile: "popup__opened",
-  popupProfile: document.querySelector("#popup"),
-  popupProfileForm: document.querySelector(".popup__form"),
-  nameInputProfile: document.querySelector(".popup__input_type_name"),
-  jobInputProfile: document.querySelector(".popup__input_type_job"),
-  nameOutputProfile: document.querySelector(".header__title"),
-  jobOutputProfile: document.querySelector(".header__subtitle"),
+  popupProfile: getElement("#popup"),
+  popupProfileForm: getElement(".popup__form"),
+  nameInputProfile: getElement(".popup__input_type_name"),
+  jobInputProfile: getElement(".popup__input_type_job"),
+  nameOutputProfile: getElement(".header__title"),
+  jobOutputProfile: getElement(".header__subtitle"),
 };
 
-const {
+export const {
   openPopupProfile,
   popupProfile,
   popupProfileForm,
@@ -138,8 +142,6 @@ const {
   nameOutputProfile,
   jobOutputProfile,
 } = profilePopupElements;
-
-export { popupProfile };
 
 const initialProfile = [
   {
@@ -152,9 +154,7 @@ let newProfiles = [];
 
 const getAllProfiles = () => {
   return [
-    ...(newProfiles.length > 0
-      ? newProfiles.map((profile) => ({ ...profile }))
-      : []),
+    ...newProfiles.map((profile) => ({ ...profile })),
     ...initialProfile.map((profile) => ({ ...profile })),
   ];
 };
@@ -163,15 +163,12 @@ let allProfiles = getAllProfiles();
 
 //------------------------------------------------------------------------------------------------------------
 
-const createNewProfile = (nameInputProfile, jobInputProfile) => {
-  return nameInputProfile &&
-    jobInputProfile &&
-    !allProfiles.some(
-      (profile) => profile.nameInputProfile === nameInputProfile
-    )
+const createNewProfile = (nameInputProfile, jobInputProfile) =>
+  nameInputProfile &&
+  jobInputProfile &&
+  !allProfiles.some((profile) => profile.nameInputProfile === nameInputProfile)
     ? { nameInputProfile, jobInputProfile }
     : null;
-};
 
 const addNewProfile = (nameInputProfile, jobInputProfile) => {
   const newProfile = createNewProfile(nameInputProfile, jobInputProfile);
@@ -255,15 +252,17 @@ export const handleCardAddFormSubmit = (evt) => {
 
 const openCardImgPopupElements = {
   openPopupCardImg: "img-popup-card__opened",
-  popupCardImgOpen: document.querySelector("#img-popup-card"),
-  popupCardImg: document.querySelector(".img-popup-card__image"),
-  popupCardName: document.querySelector(".img-popup-card__title"),
+  popupCardImgOpen: getElement("#img-popup-card"),
+  popupCardImg: getElement(".img-popup-card__image"),
+  popupCardName: getElement(".img-popup-card__title"),
 };
 
-const { openPopupCardImg, popupCardImgOpen, popupCardImg, popupCardName } =
-  openCardImgPopupElements;
-
-export { popupCardImgOpen, popupCardImg, popupCardName };
+export const {
+  openPopupCardImg,
+  popupCardImgOpen,
+  popupCardImg,
+  popupCardName,
+} = openCardImgPopupElements;
 
 //------------------------------------------------------------------------------------------------------------
 

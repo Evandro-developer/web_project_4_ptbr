@@ -2,6 +2,7 @@
 //------------------------------------------------------------------------------------------------------------
 
 import {
+  getElement,
   setAttributes,
   animateOpacity,
   handlePopupCardImgToggle,
@@ -14,14 +15,14 @@ import {
 
 const cardAddPopupElements = {
   openPopupCardAdd: "popup__opened_card_add",
-  popupCardAdd: document.querySelector("#popup_card_add"),
-  popupCardAddForm: document.querySelector("#popup__form_card_add"),
-  popupCardAddButtonSubmit: document.querySelector("#popup__button_card_add"),
-  placeInputCardAdd: document.querySelector(".popup__input_type_place"),
-  imgLinkInputCardAdd: document.querySelector(".popup__input_type_img-link"),
+  popupCardAdd: getElement("#popup_card_add"),
+  popupCardAddForm: getElement("#popup__form_card_add"),
+  popupCardAddButtonSubmit: getElement("#popup__button_card_add"),
+  placeInputCardAdd: getElement(".popup__input_type_place"),
+  imgLinkInputCardAdd: getElement(".popup__input_type_img-link"),
 };
 
-const {
+export const {
   openPopupCardAdd,
   popupCardAdd,
   popupCardAddForm,
@@ -29,15 +30,6 @@ const {
   placeInputCardAdd,
   imgLinkInputCardAdd,
 } = cardAddPopupElements;
-
-export {
-  openPopupCardAdd,
-  popupCardAdd,
-  popupCardAddForm,
-  popupCardAddButtonSubmit,
-  placeInputCardAdd,
-  imgLinkInputCardAdd,
-};
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -74,11 +66,11 @@ const initialCards = [
   },
 ];
 
-let newCards = [];
+export let newCards = [];
 
 const getAllCards = () => {
   return [
-    ...(newCards.length > 0 ? newCards.map((card) => ({ ...card })) : []),
+    ...newCards.map((card) => ({ ...card })),
     ...initialCards.map((card) => ({ ...card })),
   ];
 };
@@ -87,15 +79,14 @@ export let allCards = getAllCards();
 
 //------------------------------------------------------------------------------------------------------------
 
-const createNewCard = (name, link) => {
-  return name && link
+const createNewCard = (name, link) =>
+  name && link
     ? {
         name,
         link,
         alt: `Imagem de ${name}`,
       }
     : null;
-};
 
 export const addNewCard = (name, link) => {
   const newCard = createNewCard(name, link);
@@ -107,7 +98,7 @@ export const addNewCard = (name, link) => {
 };
 
 export const addNewCardToDOM = () => {
-  const cardsSection = document.querySelector(".cards");
+  const cardsSection = getElement(".cards");
   const newCardToDOM = renderCards(allCards)[0];
   cardsSection.insertBefore(newCardToDOM, cardsSection.firstChild);
   animateOpacity(newCardToDOM, 0, 1, 400);
@@ -126,7 +117,7 @@ class Card {
   }
 
   #_getTemplate() {
-    const template = document.querySelector(this._templateSelector);
+    const template = getElement(this._templateSelector);
     const cardElement = template.content.querySelector(".card").cloneNode(true);
     return cardElement;
   }
@@ -140,11 +131,11 @@ class Card {
   }
 
   generateInstanceCard() {
-    this._cardTitle.textContent = this._data.name;
     setAttributes(this._cardImage, {
       src: this._data.link,
       alt: `Imagem de ${this._data.name}`,
     });
+    this._cardTitle.textContent = this._data.name;
     return this._cardElement;
   }
 }

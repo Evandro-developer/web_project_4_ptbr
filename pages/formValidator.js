@@ -3,9 +3,9 @@
 
 const getValidation = (formSelector, inputSelector, submitButtonSelector) => {
   return {
-    formSelector: formSelector,
-    inputSelector: inputSelector,
-    submitButtonSelector: submitButtonSelector,
+    formSelector,
+    inputSelector,
+    submitButtonSelector,
     inactiveButtonClass: "popup__button_disabled",
     inputErrorClass: "popup__input_type_error",
     errorClass: "popup__error_visible",
@@ -79,6 +79,7 @@ class BaseFormValidator {
     const inputList = Array.from(
       this._formElement.querySelectorAll(this._validationConfig.inputSelector)
     );
+
     const buttonElement = this._formElement.querySelector(
       this._validationConfig.submitButtonSelector
     );
@@ -93,24 +94,11 @@ class BaseFormValidator {
     });
   }
 
-  _createFormValidator = (
-    formSelector,
-    inputSelector,
-    submitButtonSelector
-  ) => {
-    const formElement = document.querySelector(formSelector);
-    const validationConfig = getValidation(
-      formSelector,
-      inputSelector,
-      submitButtonSelector
-    );
-    return new BaseFormValidator(validationConfig, formElement);
-  };
-
   enableValidation() {
     const inputList = Array.from(
       this._formElement.querySelectorAll(".popup__input")
     );
+
     const buttonElement = this._formElement.querySelector(".popup__button");
 
     this._formElement.addEventListener("submit", (evt) => {
@@ -126,38 +114,30 @@ class BaseFormValidator {
 }
 
 //------------------------------------------------------------------------------------------------------------
-
 //------------------------------------------------------------------------------------------------------------
 
 class ProfileFormValidator extends BaseFormValidator {
-  constructor(formElement) {
-    const validationConfig = getValidation(
-      ".popup__form",
-      ".popup__input",
-      ".popup__button"
-    );
+  constructor(validationConfig, formElement) {
     super(validationConfig, formElement);
   }
 }
 
 class CardAddFormValidator extends BaseFormValidator {
-  constructor(formElement) {
-    const validationConfig = getValidation(
-      ".popup__form_card_add",
-      ".popup__input",
-      ".popup__button"
-    );
+  constructor(validationConfig, formElement) {
     super(validationConfig, formElement);
   }
 }
 
-// //------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 
 const formValidatorProfile = new ProfileFormValidator(
-  document.querySelector("#popup__form")
+  getValidation(".popup__form", ".popup__input", ".popup__button"),
+  document.querySelector(".popup__form")
 );
+
 const formValidatorCardAdd = new CardAddFormValidator(
-  document.querySelector("#popup__form_card_add")
+  getValidation(".popup__form_card_add", ".popup__input", ".popup__button"),
+  document.querySelector(".popup__form_card_add")
 );
 
 //------------------------------------------------------------------------------------------------------------
