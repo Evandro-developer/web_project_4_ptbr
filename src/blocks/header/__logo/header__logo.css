@@ -1,0 +1,38 @@
+.header__logo {
+  width: 173px;
+  height: 33px;
+  padding: 0;
+  margin: 45px 0 41px;
+  transition: 0.4s ease-in-out;
+}
+
+@media (max-width: 900px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header__logo {
+    padding-left: 19px;
+  }
+}
+
+@media (max-width: 768px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header__logo {
+    width: 126px;
+    height: 24px;
+    margin: 27px 0 32px;
+  }
+}
+
+@media (max-width: 580px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header__logo {
+    width: 126px;
+    height: 24px;
+    margin: 27px 0 32px;
+  }
+}

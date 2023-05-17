@@ -1,0 +1,25 @@
+.header__briefing {
+  max-width: 513px;
+  margin: 0;
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 18px;
+  align-items: flex-start;
+  justify-content: space-between;
+  transition: 0.4s ease-in-out;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .header__briefing {
+    margin: 0;
+    padding: 0 0 22px;
+
+    align-items: center;
+    justify-content: center;
+  }
+}

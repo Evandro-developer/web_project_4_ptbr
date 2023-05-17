@@ -1,0 +1,40 @@
+.footer__copyrights {
+  max-width: 318px;
+  max-height: 18px;
+  font-family: "Inter", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #545454;
+  margin: 0;
+  padding: 0;
+  align-self: left;
+  transition: 0.4s ease-in-out;
+}
+
+@media (max-width: 900px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .footer__copyrights {
+    margin: 0 0 0 19px;
+  }
+}
+
+@media (max-width: 768px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .footer__copyrights {
+    margin: 0;
+  }
+}
+
+@media (max-width: 580px) {
+  * {
+    transition: 0.4s ease-in-out;
+  }
+  .footer__copyrights {
+    margin-left: 19px;
+  }
+}
