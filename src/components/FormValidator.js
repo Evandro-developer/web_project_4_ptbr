@@ -7,6 +7,9 @@ export default class BaseFormValidator {
     this._validationConfig = validationConfig;
     this._formElement = formElement;
     this._PT_BR_ERROR_MESSAGES = {
+      // se alterar mais do que isso nao valida os campos,
+      // está acompanhando o idioma do navegador,
+      // o idioma principal é ptBr, se não, idioma do navegador,
       valueMissing: "Este campo é obrigatório.",
       typeMismatch: {
         email: "Por favor, informe um endereço de e-mail válido.",
@@ -22,14 +25,11 @@ export default class BaseFormValidator {
     const errorElement = this._formElement.querySelector(
       `.${inputElement.id}-error`
     );
-
     inputElement.classList.add(this._validationConfig.inputErrorClass);
     errorElement.classList.add(this._validationConfig.errorClass);
-
     const errorType = inputElement.validationMessage;
     const ptBrErrorMessage =
       this._PT_BR_ERROR_MESSAGES[errorType] || errorMessage;
-
     errorElement.textContent = ptBrErrorMessage;
   }
 
@@ -65,13 +65,10 @@ export default class BaseFormValidator {
     const inputList = Array.from(
       this._formElement.querySelectorAll(this._validationConfig.inputSelector)
     );
-
     const buttonElement = this._formElement.querySelector(
       this._validationConfig.submitButtonSelector
     );
-
     this.#_toggleButtonState(inputList, buttonElement);
-
     inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
         this.#_checkInputValidity(inputElement);
@@ -84,15 +81,11 @@ export default class BaseFormValidator {
     const inputList = Array.from(
       this._formElement.querySelectorAll(".popup__input")
     );
-
     const buttonElement = this._formElement.querySelector(".popup__button");
-
     this._formElement.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });
-
     this.#_toggleButtonState(inputList, buttonElement);
-
     inputList.forEach((inputElement) => {
       this.#_setEventListeners(inputElement);
     });

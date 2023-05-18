@@ -1,5 +1,4 @@
-import { getAllArrs, getElement, animateOpacity } from "./helpers.js";
-import { renderCards } from "../components/Card.js";
+import { getAllArrs, getElement } from "./helpers.js";
 
 export const {
   openPopupProfile,
@@ -101,7 +100,11 @@ export const initialCards = [
 
 export let newCards = [];
 
-export let allCards = getAllArrs(newCards, initialCards);
+let getAllCards = getAllArrs(newCards, initialCards);
+
+let reversedCards = getAllCards.slice().reverse();
+
+export let allCards = reversedCards;
 
 export const createNewCard = (name, link) =>
   name && link ? { name, link, alt: `Imagem de ${name}` } : null;
@@ -113,13 +116,6 @@ export const addNewCard = (name, link) => {
     allCards = getAllArrs(newCards, initialCards);
   }
   return { allCards, newCards };
-};
-
-export const addNewCardToDOM = () => {
-  const cardsSection = getElement(".cards");
-  const newCardToDOM = renderCards(allCards)[0];
-  cardsSection.insertBefore(newCardToDOM, cardsSection.firstChild);
-  animateOpacity(newCardToDOM, 0, 1, 400);
 };
 
 export const heartIconEnabled = require("../images/heart_icon_enabled.png");

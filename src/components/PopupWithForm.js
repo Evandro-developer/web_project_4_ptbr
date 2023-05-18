@@ -1,5 +1,6 @@
 import Popup from "../components/Popup.js";
 import BaseFormValidator from "./FormValidator.js";
+import { Card } from "../components/Card.js";
 import {
   addEvtButtonsForFunctions,
   addEventToDOM,
@@ -7,7 +8,6 @@ import {
 } from "../utils/helpers.js";
 import {
   addNewCard,
-  addNewCardToDOM,
   popupCardAddForm,
   placeInputCardAdd,
   imgLinkInputCardAdd,
@@ -51,7 +51,7 @@ export default class PopupWithForm extends Popup {
     const { value: link } = imgLinkInputCardAdd;
     if (name && link) {
       addNewCard(name, link);
-      addNewCardToDOM();
+      Card.addNewCardToDOM();
       this._close();
       popupCardAddForm.reset();
       this._formValidatorPopupWithForm.enableValidation();

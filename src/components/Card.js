@@ -4,14 +4,15 @@ import {
   popupCardName,
   heartIconEnabled,
   heartIconDisabled,
+  allCards,
 } from "../utils/constants.js";
 import {
   getElement,
   addEventToDOM,
-  isTargetElementClicked,
-  evtTargetClosestElement,
   animateOpacity,
   setAttributes,
+  handleLikeFunction,
+  handleDeleteFunction,
 } from "../utils/helpers.js";
 
 class Card {
@@ -21,6 +22,7 @@ class Card {
     this._cardElement = this._getTemplate();
     this._cardImage = this._cardElement.querySelector(".card__image");
     this._cardTitle = this._cardElement.querySelector(".card__title");
+    this._popupWithImage = new PopupWithImage();
     this.setEventListenerFromPopupWithImage();
   }
 
@@ -32,8 +34,7 @@ class Card {
 
   setEventListenerFromPopupWithImage() {
     this._cardImage.addEventListener("mousedown", () => {
-      const popupWithImage = new PopupWithImage();
-      popupWithImage.open();
+      this._popupWithImage.open();
       popupCardImg.src = this._data.link;
       popupCardName.textContent = this._data.name;
     });
@@ -47,48 +48,43 @@ class Card {
     this._cardTitle.textContent = this._data.name;
     return this._cardElement;
   }
+
+  static renderCards(cards) {
+    this._templateSelector = "#cards-template";
+    return cards.map((card) => {
+      this._newCardInstance = new Card(card, this._templateSelector);
+      return this._newCardInstance.generateInstanceCard();
+    });
+  }
+
+  static addNewCardToDOM() {
+    this._cardsSection = getElement(".cards");
+    this._newCardToDOM = this.renderCards(allCards)[0];
+    this._cardsSection.insertBefore(
+      this._newCardToDOM,
+      this._cardsSection.firstChild
+    );
+    animateOpacity(this._newCardToDOM, 0, 1, 400);
+  }
 }
 
-const renderCards = (cards) => {
-  const templateSelector = "#cards-template";
-  return cards.map((card) => {
-    const newCardInstance = new Card(card, templateSelector);
-    return newCardInstance.generateInstanceCard();
-  });
-};
+const handleHeartCardLike = (evt) =>
+  handleLikeFunction(
+    evt,
+    "button-heart-icon",
+    heartIconEnabled,
+    heartIconDisabled,
+    "Icon de coração ativado com preenchimento",
+    "Icon de coração desativado apenas com bordas"
+  );
 
-const handleCardLike = (evt) => {
-  if (isTargetElementClicked("button-heart-icon", evt.target)) {
-    const heartIcon = evtTargetClosestElement("button-heart-icon", evt.target);
-    const isActive = heartIcon.getAttribute("data-active") === "true";
-    heartIcon.setAttribute("data-active", !isActive);
-    setAttributes(
-      heartIcon,
-      isActive
-        ? {
-            src: heartIconDisabled,
-            alt: "Icon de coração desativado apenas com bordas",
-          }
-        : {
-            src: heartIconEnabled,
-            alt: "Icon de coração ativado com preenchimento",
-          }
-    );
-    animateOpacity(heartIcon, 0, 1, 400);
-  }
-};
-
-const handleCardDelete = (evt) => {
-  if (isTargetElementClicked("button-trash-icon", evt.target)) {
-    const cardDelete = evtTargetClosestElement("card", evt.target);
-    animateOpacity(cardDelete, 1, 0, 400, true);
-  }
-};
+const handleCardDelete = (evt) =>
+  handleDeleteFunction(evt, "button-trash-icon", "card");
 
 const addEventsCardsToDOM = () => {
   const cardsSection = getElement(".cards");
-  addEventToDOM("mousedown", handleCardLike, cardsSection);
+  addEventToDOM("mousedown", handleHeartCardLike, cardsSection);
   addEventToDOM("mousedown", handleCardDelete, cardsSection);
 };
 
-export { Card, renderCards, addEventsCardsToDOM };
+export { Card, addEventsCardsToDOM };

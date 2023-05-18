@@ -17,18 +17,16 @@ const userInfo = new UserInfo({
   jobSelector: jobInputProfile,
 });
 
-const popuWithForm = new PopupWithForm({
+const popupWithForm = new PopupWithForm({
   nameSelector: placeInputCardAdd,
   jobSelector: imgLinkInputCardAdd,
 });
 
 const popupWithImage = new PopupWithImage();
 
-const reversedCards = allCards.slice().reverse();
-
 const cardsSection = new Section(
   {
-    items: reversedCards,
+    items: allCards,
     renderer: (card) => {
       const newCardInstance = new Card(card, "#cards-template");
       const cardElement = newCardInstance.generateInstanceCard();
@@ -44,8 +42,8 @@ const addCardsToDOM = () => {
 
 const addContentToDOM = () => {
   userInfo.setEventListenersUserInfoToDOM();
-  popuWithForm.setEventListenersPopupWithFormToDOM();
-  popupWithImage.setEventListenerspopupWithImageToDOM();
+  popupWithForm.setEventListenersPopupWithFormToDOM();
+  popupWithImage.setEventListenersPopupWithImageToDOM();
   addCardsToDOM();
   addEventsCardsToDOM();
 };

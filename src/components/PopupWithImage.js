@@ -10,7 +10,7 @@ export default class PopupWithImage extends Popup {
     this.open = this.open();
   }
 
-  setEventListenerspopupWithImageToDOM = () => {
+  setEventListenersPopupWithImageToDOM = () => {
     this._setEventListeners;
   };
 }

@@ -121,3 +121,42 @@ export const getValidation = (
     errorClass: "popup__error_visible",
   };
 };
+
+export const handleLikeFunction = (
+  evt,
+  targetSelector,
+  iconEnabledSrc,
+  iconDisabledSrc,
+  iconEnabledAlt,
+  iconDisabledAlt
+) => {
+  if (isTargetElementClicked(targetSelector, evt.target)) {
+    const targetElement = evtTargetClosestElement(targetSelector, evt.target);
+    const isActive = targetElement.getAttribute("data-active") === "true";
+    targetElement.setAttribute("data-active", !isActive);
+    setAttributes(
+      targetElement,
+      isActive
+        ? {
+            src: iconDisabledSrc,
+            alt: iconDisabledAlt,
+          }
+        : {
+            src: iconEnabledSrc,
+            alt: iconEnabledAlt,
+          }
+    );
+    animateOpacity(targetElement, 0, 1, 400);
+  }
+};
+
+export const handleDeleteFunction = (
+  evt,
+  deleteButtonSelector,
+  targetSelector
+) => {
+  if (isTargetElementClicked(deleteButtonSelector, evt.target)) {
+    const cardDelete = evtTargetClosestElement(targetSelector, evt.target);
+    animateOpacity(cardDelete, 1, 0, 400, true);
+  }
+};
