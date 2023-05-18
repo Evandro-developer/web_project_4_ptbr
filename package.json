@@ -2,7 +2,7 @@
   "name": "web_project_4_ptbr",
   "version": "1.0.0",
   "repository": {
-    "url": "git+https://github.com/Evandro-developer/web_project_4_ptbr.index.html"
+    "url": "git+https://github.com/Evandro-developer/web_project_4_ptbr.git"
   },
   "description": "---",
   "main": "index.js",
