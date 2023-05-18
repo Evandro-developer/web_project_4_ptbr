@@ -30,6 +30,7 @@ Este é o oitavo projeto do curso de desenvolvimento web da Practicum, que consi
 
 #### Link
 
-- Acesse o site aqui: <https://github.com/Evandro-developer/web_project_4_ptbr>
+- Acesse o código-fonte do projeto aqui: [GitHub Repository](https://github.com/Evandro-developer/web_project_4_ptbr)
+- Acesse o site publicado aqui: [GitHub Pages](https://evandro-developer.github.io/web_project_4_ptbr/)
 
 ---
