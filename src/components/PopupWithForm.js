@@ -1,19 +1,17 @@
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
-
 import Popup from "../components/Popup.js";
-import { BaseFormValidator, getValidation } from "../pages/formValidator.js";
-import { addEvtButtonsForFunctions, addEventToDOM } from "../utils/helpers.js";
+import BaseFormValidator from "./FormValidator.js";
 import {
+  addEvtButtonsForFunctions,
+  addEventToDOM,
+  getValidation,
+} from "../utils/helpers.js";
+import {
+  addNewCard,
+  addNewCardToDOM,
   popupCardAddForm,
   placeInputCardAdd,
   imgLinkInputCardAdd,
-  addNewCard,
-  addNewCardToDOM,
 } from "../utils/constants.js";
-
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
 
 export default class PopupWithForm extends Popup {
   constructor({ nameSelector, linkSelector }) {
@@ -40,8 +38,8 @@ export default class PopupWithForm extends Popup {
 
   _getInputValues = (evt) => {
     evt.preventDefault();
-    placeInputCardAdd.placeholder = "Título";
-    imgLinkInputCardAdd.placeholder = "URL da Imagem";
+    placeInputCardAdd.placeholder = "Insira o Nome do Local";
+    imgLinkInputCardAdd.placeholder = "Insira o URL da Imagem";
     this._open();
     popupCardAddForm.reset();
     this._formValidatorPopupWithForm.enableValidation();
@@ -79,6 +77,3 @@ export default class PopupWithForm extends Popup {
     );
   };
 }
-
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------

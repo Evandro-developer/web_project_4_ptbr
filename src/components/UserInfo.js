@@ -1,18 +1,16 @@
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
-
 import Popup from "../components/Popup.js";
-import { BaseFormValidator, getValidation } from "../pages/formValidator.js";
-import { addEvtButtonsForFunctions, addEventToDOM } from "../utils/helpers.js";
+import BaseFormValidator from "./FormValidator.js";
+import {
+  addEvtButtonsForFunctions,
+  addEventToDOM,
+  getValidation,
+} from "../utils/helpers.js";
 import {
   popupProfileForm,
   nameOutputProfile,
   jobOutputProfile,
   addNewProfile,
 } from "../utils/constants.js";
-
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
 
 export default class UserInfo extends Popup {
   constructor({ nameSelector, jobSelector }) {
@@ -39,10 +37,8 @@ export default class UserInfo extends Popup {
 
   _getUserInfo = (evt) => {
     evt.preventDefault();
-    const { textContent: nameOutput } = nameOutputProfile;
-    const { textContent: jobOutput } = jobOutputProfile;
-    this._name.placeholder = nameOutput;
-    this._job.placeholder = jobOutput;
+    this._name.placeholder = "Insira o Nome do Usuário";
+    this._job.placeholder = "Insira a sua Profissão";
     this._open();
     popupProfileForm.reset();
     this._formValidatorUserInfo.enableValidation();
@@ -77,6 +73,3 @@ export default class UserInfo extends Popup {
     addEventToDOM("click", this._handleButtonsForFunctionsUserInfo, document);
   };
 }
-
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------

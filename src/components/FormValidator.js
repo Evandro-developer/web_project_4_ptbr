@@ -1,27 +1,8 @@
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
-
-export const getValidation = (
-  formSelector,
-  inputSelector,
-  submitButtonSelector
-) => {
-  return {
-    formSelector,
-    inputSelector,
-    submitButtonSelector,
-    inactiveButtonClass: "popup__button_disabled",
-    inputErrorClass: "popup__input_type_error",
-    errorClass: "popup__error_visible",
-  };
-};
+import { getValidation } from "../utils/helpers";
 
 getValidation();
 
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
-
-export class BaseFormValidator {
+export default class BaseFormValidator {
   constructor(validationConfig, formElement) {
     this._validationConfig = validationConfig;
     this._formElement = formElement;
@@ -117,6 +98,3 @@ export class BaseFormValidator {
     });
   }
 }
-
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------

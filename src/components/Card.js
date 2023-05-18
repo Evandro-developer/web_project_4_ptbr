@@ -1,7 +1,4 @@
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
-
-import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithImage from "./PopupWithImage.js";
 import {
   popupCardImg,
   popupCardName,
@@ -16,9 +13,6 @@ import {
   animateOpacity,
   setAttributes,
 } from "../utils/helpers.js";
-
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
 
 class Card {
   constructor(data, templateSelector) {
@@ -63,15 +57,11 @@ const renderCards = (cards) => {
   });
 };
 
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
-
 const handleCardLike = (evt) => {
   if (isTargetElementClicked("button-heart-icon", evt.target)) {
     const heartIcon = evtTargetClosestElement("button-heart-icon", evt.target);
     const isActive = heartIcon.getAttribute("data-active") === "true";
     heartIcon.setAttribute("data-active", !isActive);
-
     setAttributes(
       heartIcon,
       isActive
@@ -88,8 +78,6 @@ const handleCardLike = (evt) => {
   }
 };
 
-//------------------------------------------------------------------------------------------------------------
-
 const handleCardDelete = (evt) => {
   if (isTargetElementClicked("button-trash-icon", evt.target)) {
     const cardDelete = evtTargetClosestElement("card", evt.target);
@@ -97,18 +85,10 @@ const handleCardDelete = (evt) => {
   }
 };
 
-//------------------------------------------------------------------------------------------------------------
-
 const addEventsCardsToDOM = () => {
   const cardsSection = getElement(".cards");
   addEventToDOM("mousedown", handleCardLike, cardsSection);
   addEventToDOM("mousedown", handleCardDelete, cardsSection);
 };
 
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
-
 export { Card, renderCards, addEventsCardsToDOM };
-
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------

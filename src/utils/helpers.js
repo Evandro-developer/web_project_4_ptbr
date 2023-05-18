@@ -1,6 +1,3 @@
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
-
 export const getAllArrs = (newArr, initialArr) => {
   return [
     ...newArr.map((item) => ({ ...item })),
@@ -110,5 +107,17 @@ export const addEvtButtonsForFunctions = (buttonFunctions, evt) => {
   buttonFunctionId ? buttonFunctionId(evt) : null;
 };
 
-//------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------
+export const getValidation = (
+  formSelector,
+  inputSelector,
+  submitButtonSelector
+) => {
+  return {
+    formSelector,
+    inputSelector,
+    submitButtonSelector,
+    inactiveButtonClass: "popup__button_disabled",
+    inputErrorClass: "popup__input_type_error",
+    errorClass: "popup__error_visible",
+  };
+};

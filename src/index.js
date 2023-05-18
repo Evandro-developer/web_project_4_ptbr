@@ -1,11 +1,4 @@
-//--------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------
-
 import "./styles/index.css";
-
-//--------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------
-
 import {
   nameInputProfile,
   jobInputProfile,
@@ -13,18 +6,11 @@ import {
   imgLinkInputCardAdd,
   allCards,
 } from "./utils/constants.js";
-
+import { Card, addEventsCardsToDOM } from "./components/Card.js";
 import UserInfo from "./components/UserInfo.js";
-
 import PopupWithForm from "./components/PopupWithForm.js";
-
 import PopupWithImage from "./components/PopupWithImage.js";
-
 import Section from "./components/Section.js";
-
-import { Card, addEventsCardsToDOM } from "./pages/card.js";
-
-//--------------------------------------------------------------------------------------------------------------
 
 const userInfo = new UserInfo({
   nameSelector: nameInputProfile,
@@ -56,8 +42,6 @@ const addCardsToDOM = () => {
   cardsSection.renderItems();
 };
 
-//--------------------------------------------------------------------------------------------------------------
-
 const addContentToDOM = () => {
   userInfo.setEventListenersUserInfoToDOM();
   popuWithForm.setEventListenersPopupWithFormToDOM();
@@ -67,6 +51,3 @@ const addContentToDOM = () => {
 };
 
 document.addEventListener("DOMContentLoaded", addContentToDOM);
-
-//--------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------
