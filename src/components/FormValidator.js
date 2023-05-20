@@ -3,9 +3,6 @@ export default class FormValidator {
     this._validationConfig = validationConfig;
     this._formElement = formElement;
     this._PT_BR_ERROR_MESSAGES = {
-      // se alterar mais do que isso nao valida os campos,
-      // está acompanhando o idioma do navegador,
-      // o idioma principal é ptBr, se não, idioma do navegador,
       valueMissing: "Este campo é obrigatório.",
       typeMismatch: {
         email: "Por favor, informe um endereço de e-mail válido.",
@@ -23,9 +20,31 @@ export default class FormValidator {
     );
     inputElement.classList.add(this._validationConfig.inputErrorClass);
     errorElement.classList.add(this._validationConfig.errorClass);
-    const errorType = inputElement.validationMessage;
-    const ptBrErrorMessage =
-      this._PT_BR_ERROR_MESSAGES[errorType] || errorMessage;
+
+    let ptBrErrorMessage = errorMessage;
+
+    if (inputElement.validity.valueMissing) {
+      ptBrErrorMessage = this._PT_BR_ERROR_MESSAGES.valueMissing;
+    } else if (inputElement.validity.typeMismatch) {
+      if (inputElement.type === "email") {
+        ptBrErrorMessage = this._PT_BR_ERROR_MESSAGES.typeMismatch.email;
+      } else if (inputElement.type === "url") {
+        ptBrErrorMessage = this._PT_BR_ERROR_MESSAGES.typeMismatch.url;
+      }
+    } else if (inputElement.validity.tooShort) {
+      ptBrErrorMessage = this._PT_BR_ERROR_MESSAGES.tooShort.replace(
+        "{minLength}",
+        inputElement.minLength
+      );
+    } else if (inputElement.validity.tooLong) {
+      ptBrErrorMessage = this._PT_BR_ERROR_MESSAGES.tooLong.replace(
+        "{maxLength}",
+        inputElement.maxLength
+      );
+    } else if (inputElement.validity.patternMismatch) {
+      ptBrErrorMessage = this._PT_BR_ERROR_MESSAGES.patternMismatch;
+    }
+
     errorElement.textContent = ptBrErrorMessage;
   }
 
