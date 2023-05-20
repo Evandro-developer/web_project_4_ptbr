@@ -1,16 +1,22 @@
-import "./styles/index.css";
+import "../styles/index.css";
+
 import {
   nameInputProfile,
   jobInputProfile,
   placeInputCardAdd,
   imgLinkInputCardAdd,
   allCards,
-} from "./utils/constants.js";
-import { Card, addEventsCardsToDOM } from "./components/Card.js";
-import UserInfo from "./components/UserInfo.js";
-import PopupWithForm from "./components/PopupWithForm.js";
-import PopupWithImage from "./components/PopupWithImage.js";
-import Section from "./components/Section.js";
+} from "../utils/constants.js";
+
+import UserInfo from "../components/UserInfo.js";
+
+import PopupWithForm from "../components/PopupWithForm.js";
+
+import PopupWithImage from "../components/PopupWithImage.js";
+
+import Section from "../components/Section.js";
+
+import Card from "../components/Card.js";
 
 const userInfo = new UserInfo({
   nameSelector: nameInputProfile,
@@ -31,6 +37,7 @@ const cardsSection = new Section(
       const newCardInstance = new Card(card, "#cards-template");
       const cardElement = newCardInstance.generateInstanceCard();
       cardsSection.addItem(cardElement);
+      newCardInstance.addEventsCardsToDOM();
     },
   },
   ".cards"
@@ -45,7 +52,6 @@ const addContentToDOM = () => {
   popupWithForm.setEventListenersPopupWithFormToDOM();
   popupWithImage.setEventListenersPopupWithImageToDOM();
   addCardsToDOM();
-  addEventsCardsToDOM();
 };
 
 document.addEventListener("DOMContentLoaded", addContentToDOM);

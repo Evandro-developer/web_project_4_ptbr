@@ -1,8 +1,4 @@
-import { getValidation } from "../utils/helpers";
-
-getValidation();
-
-export default class BaseFormValidator {
+export default class FormValidator {
   constructor(validationConfig, formElement) {
     this._validationConfig = validationConfig;
     this._formElement = formElement;

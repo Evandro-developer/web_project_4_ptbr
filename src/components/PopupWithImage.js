@@ -1,5 +1,6 @@
 import Popup from "../components/Popup.js";
-import { Card } from "./Card.js";
+
+import Card from "./Card.js";
 
 export default class PopupWithImage extends Popup {
   constructor() {

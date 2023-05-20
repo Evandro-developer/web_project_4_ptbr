@@ -1,11 +1,15 @@
 import Popup from "../components/Popup.js";
-import BaseFormValidator from "./FormValidator.js";
-import { Card } from "../components/Card.js";
+
+import FormValidator from "./FormValidator.js";
+
+import Card from "../components/Card.js";
+
 import {
   addEvtButtonsForFunctions,
   addEventToDOM,
   getValidation,
 } from "../utils/helpers.js";
+
 import {
   addNewCard,
   popupCardAddForm,
@@ -28,7 +32,7 @@ export default class PopupWithForm extends Popup {
       ".popup__button"
     );
 
-    this._formValidatorPopupWithForm = new BaseFormValidator(
+    this._formValidatorPopupWithForm = new FormValidator(
       validationConfig,
       popupCardAddForm
     );

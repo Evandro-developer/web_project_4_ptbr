@@ -15,14 +15,14 @@
         <div class="root">
             <header class="header">
                 <picture>
-                    <source media="(max-width: 768px)" srcset="<%= require(`./images/logo_small.png`)%>">
-                    <img src="<%= require(`./images/logo.png`)%>" alt="Logo Around The U.S." class="header__logo">
+                    <source media="(max-width: 768px)" srcset="<%= require(`../images/logo_small.png`)%>">
+                    <img src="<%= require(`../images/logo.png`)%>" alt="Logo Around The U.S." class="header__logo">
                 </picture>
                 <div class="header__line"></div>
                 <div class="header__profile">
                     <div class="header__item">
                         <picture>
-                            <img src="<%= require(`./images/avatar.svg`)%>" alt="Imagem do Avatar"
+                            <img src="<%= require(`../images/avatar.svg`)%>" alt="Imagem do Avatar"
                                 class="header__avatar">
                         </picture>
                         <div class="header__briefing">
@@ -30,15 +30,15 @@
                             <h2 class="header__subtitle">Explorer</h2>
                             <picture>
                                 <source media="(max-width: 768px)"
-                                    srcset="<%= require(`./images/button_edit_small.png`)%>">
-                                <img class="button-edit" src="<%= require(`./images/button_edit.png`)%>"
+                                    srcset="<%= require(`../images/button_edit_small.png`)%>">
+                                <img class="button-edit" src="<%= require(`../images/button_edit.png`)%>"
                                     alt="Imagem de button editar" id="button-edit">
                             </picture>
                         </div>
                     </div>
                     <picture>
-                        <source media="(max-width: 768px)" srcset="<%= require(`./images/button_add_large.png`)%>">
-                        <img src="<%= require(`./images/button_add.png`)%>" alt="Imagem de button adicionar"
+                        <source media="(max-width: 768px)" srcset="<%= require(`../images/button_add_large.png`)%>">
+                        <img src="<%= require(`../images/button_add.png`)%>" alt="Imagem de button adicionar"
                             class="button-add" id="button-add">
                     </picture>
                 </div>
@@ -47,8 +47,8 @@
                 <section class="popup" id="popup">
                     <form class="popup__form" id="popup__form" novalidate>
                         <picture>
-                            <source media="(max-width: 580px)" srcset="<%= require(`./images/close_icon_small.png`)%>">
-                            <img src="<%= require(`./images/close_icon.png`)%>"
+                            <source media="(max-width: 580px)" srcset="<%= require(`../images/close_icon_small.png`)%>">
+                            <img src="<%= require(`../images/close_icon.png`)%>"
                                 alt="Imagem do ícone de fechamento da janela do popup" class="popup__closed-btn"
                                 id="popup__closed-btn">
                         </picture>
@@ -71,8 +71,8 @@
                 <section class="popup popup_card-add" id="popup_card-add">
                     <form class="popup__form popup__form_card-add" id="popup__form_card-add" novalidate>
                         <picture>
-                            <source media="(max-width: 580px)" srcset="<%= require(`./images/close_icon_small.png`)%>">
-                            <img src="<%= require(`./images/close_icon.png`)%>"
+                            <source media="(max-width: 580px)" srcset="<%= require(`../images/close_icon_small.png`)%>">
+                            <img src="<%= require(`../images/close_icon.png`)%>"
                                 alt="Imagem do ícone de fechamento da janela do popup"
                                 class="popup__closed-btn popup__closed-btn_card-add" id="popup_card-add__closed-btn">
                         </picture>
@@ -99,8 +99,8 @@
                         </picture>
                         <h2 class="img-popup-card__title"></h2>
                         <picture>
-                            <source media="(max-width: 580px)" srcset="<%= require(`./images/close_icon_small.png`)%>">
-                            <img src="<%= require(`./images/close_icon.png`)%>"
+                            <source media="(max-width: 580px)" srcset="<%= require(`../images/close_icon_small.png`)%>">
+                            <img src="<%= require(`../images/close_icon.png`)%>"
                                 alt="Imagem do ícone de fechamento da janela do popup"
                                 class="img-popup-card__closed-btn" id="img-popup-card__closed-btn">
                         </picture>
@@ -117,7 +117,7 @@
         <section class="cards">
             <ul class="card">
                 <picture>
-                    <img src="<%= require(`./images/trash_icon.svg`)%>" alt="Icon de remocão para lixeira"
+                    <img src="<%= require(`../images/trash_icon.svg`)%>" alt="Icon de remocão para lixeira"
                         class="button-trash-icon" id="button-trash-icon">
                 </picture>
                 <picture>
@@ -126,9 +126,8 @@
                 <li class="card__briefing">
                     <h2 class="card__title"></h2>
                     <picture>
-                        <img src="<%= require(`./images/heart_icon_disabled.png`)%>"
-                            alt="Icon de coração apenas com bordas" class="button-heart-icon" data-active="false"
-                            id="button-heart-icon">
+                        <img src="<%= require(`../images/heart_icon_disabled.png`)%>" alt="#" class="button-heart-icon"
+                            data-active="false" id="button-heart-icon">
                     </picture>
                 </li>
             </ul>

@@ -1,10 +1,13 @@
 import Popup from "../components/Popup.js";
-import BaseFormValidator from "./FormValidator.js";
+
+import FormValidator from "./FormValidator.js";
+
 import {
   addEvtButtonsForFunctions,
   addEventToDOM,
   getValidation,
 } from "../utils/helpers.js";
+
 import {
   popupProfileForm,
   nameOutputProfile,
@@ -27,7 +30,7 @@ export default class UserInfo extends Popup {
       ".popup__button"
     );
 
-    this._formValidatorUserInfo = new BaseFormValidator(
+    this._formValidatorUserInfo = new FormValidator(
       validationConfig,
       popupProfileForm
     );
