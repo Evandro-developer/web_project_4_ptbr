@@ -83,12 +83,10 @@ export default class Card {
   };
 
   setEventListenerFromPopupWithImage() {
-    addEventToDOM(
-      "mousedown",
-      () => this._popupWithImage.open(),
-      this._cardImage
-    );
-    popupCardImg.src = this._data.link;
-    popupCardName.textContent = this._data.name;
+    this._cardImage.addEventListener("mousedown", () => {
+      this._popupWithImage.open();
+      popupCardImg.src = this._data.link;
+      popupCardName.textContent = this._data.name;
+    });
   }
 }
