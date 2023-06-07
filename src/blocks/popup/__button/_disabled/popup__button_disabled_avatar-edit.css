@@ -1,10 +1,10 @@
-.popup__button_disabled_card-add {
+.popup__button_disabled_avatar-edit {
   background-color: rgba(0, 0, 0, 0.2);
   cursor: default;
   color: rgba(0, 0, 0, 0.2);
   border-bottom: none rgba(0, 0, 0, 0.2);
 }
 
-.popup__button_disabled_card-add:hover {
+.popup__button_disabled_avatar-edit:hover {
   opacity: 1;
 }

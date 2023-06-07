@@ -52,23 +52,6 @@ export const remove = (targetClassName, targetElement) =>
 export const add = (targetClassName, targetElement) =>
   targetElement.classList.add(targetClassName);
 
-export const animateOpacity = (
-  targetElement,
-  startOpacity,
-  endOpacity,
-  duration,
-  removeOnFinish = false
-) => {
-  targetElement.animate([{ opacity: startOpacity }, { opacity: endOpacity }], {
-    duration: duration,
-    easing: "ease-in-out",
-  }).onfinish = () => {
-    if (removeOnFinish) {
-      targetElement.remove();
-    }
-  };
-};
-
 export const setAttributes = (targetElement, attributes) => {
   for (let attribute in attributes) {
     targetElement.setAttribute(attribute, attributes[attribute]);
@@ -84,11 +67,14 @@ export const addStartingDot = (string) => () =>
   getStartsWithDot(string) ? string : "." + string;
 
 export const evtTargetClosestElement = (targetClassName, targetElement) =>
-  targetElement.closest(addStartingDot(targetClassName)());
+  targetElement.closest(addStartingDot(`${targetClassName}`)());
 
 export const isTargetElementClicked = (targetClassName, targetElement) =>
   contains(targetClassName, targetElement) &&
-  evtTargetClosestElement(removeStartingDot(targetClassName)(), targetElement);
+  evtTargetClosestElement(
+    removeStartingDot(`${targetClassName}`)(),
+    targetElement
+  );
 
 export const handleKeyPressFunction = (removePopupFunc) => (evt) =>
   evt.key === "Escape" ? callIfFunction(removePopupFunc) : null;
@@ -122,6 +108,23 @@ export const getValidation = (
   };
 };
 
+export const animateOpacity = (
+  targetElement,
+  startOpacity,
+  endOpacity,
+  duration,
+  removeOnFinish = false
+) => {
+  targetElement.animate([{ opacity: startOpacity }, { opacity: endOpacity }], {
+    duration: duration,
+    easing: "ease-in-out",
+  }).onfinish = () => {
+    if (removeOnFinish) {
+      targetElement.remove();
+    }
+  };
+};
+
 export const handleLikeFunction = (
   evt,
   targetSelector,
@@ -152,11 +155,77 @@ export const handleLikeFunction = (
 
 export const handleDeleteFunction = (
   evt,
-  deleteButtonSelector,
+  deleteBtnSelector,
   targetSelector
 ) => {
-  if (isTargetElementClicked(deleteButtonSelector, evt.target)) {
-    const cardDelete = evtTargetClosestElement(targetSelector, evt.target);
-    animateOpacity(cardDelete, 1, 0, 400, true);
+  if (isTargetElementClicked(deleteBtnSelector, evt.target)) {
+    const btnDelete = evtTargetClosestElement(targetSelector, evt.target);
+    animateOpacity(btnDelete, 1, 0, 400, true);
   }
+};
+
+export const handleDeleteAsyncFunction = (
+  targetElement,
+  apiReturnFetch,
+  elementId,
+  handlerPopupOpen,
+  getPopupFormElement,
+  apiDeleteCardAsyncFunction,
+  submitBtnSelector,
+  deleteBtnSelector,
+  targetSelector
+) => {
+  let deletePromise = null; // Utilizando uma let para armazenar a referência à promessa
+  return new Promise((resolve, reject) => {
+    addEventToDOM(
+      "mousedown",
+      async (evt) => {
+        try {
+          evt.preventDefault();
+          const deleteBtn = evt.target.closest(
+            addStartingDot(deleteBtnSelector)()
+          );
+          if (deleteBtn) {
+            submitBtnSelector.textContent = "Sim";
+            addEventToDOM("mousedown", handlerPopupOpen(evt), deleteBtn);
+          }
+          if (deleteBtn && !deletePromise) {
+            deletePromise = new Promise(async (resolve, reject) => {
+              try {
+                addEventToDOM(
+                  "submit",
+                  () => {
+                    submitBtnSelector.textContent = "Excluindo...";
+                    resolve(); // Resolve a promessa interna do evento submit do Formulário
+                  },
+                  getPopupFormElement()
+                );
+              } catch (error) {
+                reject(error);
+              }
+            })
+              .then(() => {
+                const deleteCardBoundFromApi =
+                  apiDeleteCardAsyncFunction.bind(apiReturnFetch);
+                return deleteCardBoundFromApi(elementId);
+              })
+              .then(() => {
+                handleDeleteFunction(evt, deleteBtnSelector, targetSelector);
+                submitBtnSelector.textContent = "Excluido";
+              })
+              .catch((error) => {
+                console.error(`Erro ao excluir cartão: ${error}`);
+              })
+              .finally(() => {
+                deletePromise = null; // redefine a promessa para permitir exclusões subsequentes
+              });
+            resolve(); // Resolve a promessa externa após a execução do código interno
+          }
+        } catch (error) {
+          reject(error);
+        }
+      },
+      targetElement
+    );
+  });
 };

@@ -1,4 +1,5 @@
 .button-trash-icon {
+  display: none;
   width: 18px;
   height: 20px;
   cursor: pointer;

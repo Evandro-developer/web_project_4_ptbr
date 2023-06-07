@@ -20,58 +20,59 @@ export default class Popup {
     );
   }
 
-  _createCallbackAddDisplay = () => () =>
-    add(this._openedClassName, this._popupElement);
+  _addDisplayCallback = () => add(this._openedClassName, this._popupElement);
 
-  _createCallbackRemoveDisplay = () => () => {
+  _removeDisplayCallback = () =>
     remove(this._openedClassName, this._popupElement);
-  };
 
-  _handleEscClose = () => {
+  _handleEscClose = () =>
     addEventToDOM(
       "keydown",
-      handleKeyPressFunction(this._createCallbackRemoveDisplay()),
+      handleKeyPressFunction(this._removeDisplayCallback),
       document
     );
-  };
 
-  _handleOutsideClickClose = () => {
+  _handleOutsideClickClose = () =>
     addEventToDOM(
       "mousedown",
       handleOutsideClickFunction(
         this._popupElementWithoutDot,
-        this._createCallbackRemoveDisplay()
+        this._removeDisplayCallback
       ),
       this._popupElement
     );
-  };
 
   _getCloseButtonsAndAddEventListener() {
     this._closeButtons.forEach((button) => {
+      const closeFunction = this.close();
       addEventToDOM(
         "mousedown",
         () => {
-          this.close()();
+          closeFunction();
         },
         button
       );
     });
   }
 
-  open = () => () => {
-    addPopupDisplay(
-      this._openedClassName,
-      this._popupElement,
-      this._createCallbackAddDisplay()
-    );
+  open = () => {
+    return () => {
+      addPopupDisplay(
+        this._openedClassName,
+        this._popupElement,
+        this._addDisplayCallback
+      );
+    };
   };
 
-  close = () => () => {
-    removePopupDisplay(
-      this._openedClassName,
-      this._popupElement,
-      this._createCallbackRemoveDisplay()
-    );
+  close = () => {
+    return () => {
+      removePopupDisplay(
+        this._openedClassName,
+        this._popupElement,
+        this._removeDisplayCallback
+      );
+    };
   };
 
   setEventListeners = () => {

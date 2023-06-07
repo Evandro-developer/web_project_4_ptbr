@@ -1,21 +1,23 @@
-import Popup from "../components/Popup.js";
+import Popup from "./Popup.js";
 
 import FormValidator from "./FormValidator.js";
 
-import Card from "../components/Card.js";
+import Card from "./Card.js";
+
+import ApiConfig from "./ApiConfig.js";
+
+import Api from "./Api.js";
+
+import { cardsSection } from "../pages/index.js";
+
+import { popupCardAddForm, btnSubmitCardAdd } from "../utils/constants.js";
 
 import {
   addEvtButtonsForFunctions,
   addEventToDOM,
   getValidation,
+  animateOpacity,
 } from "../utils/helpers.js";
-
-import {
-  addNewCard,
-  popupCardAddForm,
-  placeInputCardAdd,
-  imgLinkInputCardAdd,
-} from "../utils/constants.js";
 
 export default class PopupWithForm extends Popup {
   constructor({ nameSelector, linkSelector }) {
@@ -25,6 +27,14 @@ export default class PopupWithForm extends Popup {
     this._open = this.open();
     this._close = this.close();
     this._setEventListeners = this.setEventListeners();
+    this._cardsSection = cardsSection;
+    this._btnSubmit = btnSubmitCardAdd;
+
+    this._apiConfig = new ApiConfig();
+    this._setApi = new Api({
+      baseUrl: this._apiConfig.baseUrl,
+      headers: this._apiConfig.headers,
+    });
 
     const validationConfig = getValidation(
       popupCardAddForm,
@@ -40,25 +50,40 @@ export default class PopupWithForm extends Popup {
     this._formValidatorPopupWithForm.enableValidation();
   }
 
-  _getInputValues = (evt) => {
+  _getInputValues = async (evt) => {
     evt.preventDefault();
-    placeInputCardAdd.placeholder = "Insira o Nome do Local";
-    imgLinkInputCardAdd.placeholder = "Insira o URL da Imagem";
-    this._open();
-    popupCardAddForm.reset();
-    this._formValidatorPopupWithForm.enableValidation();
-  };
-
-  _setInputValues = (evt) => {
-    evt.preventDefault();
-    const { value: name } = placeInputCardAdd;
-    const { value: link } = imgLinkInputCardAdd;
-    if (name && link) {
-      addNewCard(name, link);
-      Card.addNewCardToDOM();
-      this._close();
+    this._btnSubmit.textContent = "Salvar";
+    try {
+      await this._setApi.getInitialCards();
+      this._name.placeholder = "Insira o Nome do Local";
+      this._link.placeholder = "Insira o URL da Imagem";
+      this._open();
       popupCardAddForm.reset();
       this._formValidatorPopupWithForm.enableValidation();
+    } catch (error) {
+      console.error("Erro ao carregar cards:", error);
+    }
+  };
+
+  _setInputValues = async (evt) => {
+    evt.preventDefault();
+    this._btnSubmit.textContent = "Salvando...";
+    const { value: name } = this._name;
+    const { value: link } = this._link;
+    if (name && link) {
+      try {
+        const newCard = await this._setApi.addNewCard(name, link);
+        this._btnSubmit.textContent = "Salvo";
+        const newCardInstance = new Card(newCard, "#cards-template");
+        const cardItem = await newCardInstance.generateInstanceCard();
+        this._cardsSection.prependItem(cardItem);
+        this._close();
+        popupCardAddForm.reset();
+        this._formValidatorPopupWithForm.enableValidation();
+        animateOpacity(cardItem, 0, 1, 400);
+      } catch (error) {
+        console.error("Erro ao adicionar novo card:", error);
+      }
     }
   };
 
@@ -70,12 +95,9 @@ export default class PopupWithForm extends Popup {
   _handleButtonsForFunctionsPopupWithForm = (evt) =>
     addEvtButtonsForFunctions(this._getButtonsForFunctionsPopupWithForm(), evt);
 
-  setEventListenersPopupWithFormToDOM = () => {
-    this._open();
-    this._close();
-    this._setEventListeners;
+  setEventListenersPopupWithForm = () => {
     addEventToDOM(
-      "click",
+      "mousedown",
       this._handleButtonsForFunctionsPopupWithForm,
       document
     );

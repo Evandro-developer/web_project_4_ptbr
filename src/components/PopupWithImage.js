@@ -1,4 +1,4 @@
-import Popup from "../components/Popup.js";
+import Popup from "./Popup.js";
 
 import Card from "./Card.js";
 
@@ -11,7 +11,7 @@ export default class PopupWithImage extends Popup {
     this.open = this.open();
   }
 
-  setEventListenersPopupWithImageToDOM = () => {
+  setEventListenersPopupWithImage = () => {
     this._setEventListeners;
   };
 }

@@ -1,4 +1,4 @@
-import { getAllArrs, getElement } from "./helpers.js";
+import { getElement } from "./helpers.js";
 
 export const {
   openPopupProfile,
@@ -11,6 +11,7 @@ export const {
   btnSubmitProfile,
   btnCloseProfile,
   btnEditProfile,
+  headerAvatar,
 } = {
   openPopupProfile: "popup__opened",
   popupProfile: getElement("#popup"),
@@ -22,31 +23,27 @@ export const {
   btnSubmitProfile: getElement(".popup__button"),
   btnCloseProfile: getElement(".popup__closed-btn"),
   btnEditProfile: getElement(".button-edit"),
+  headerAvatar: getElement(".header__avatar"),
 };
 
-export const initialProfile = [
-  {
-    name: nameOutputProfile.textContent,
-    job: jobOutputProfile.textContent,
-  },
-];
-
-export let newProfiles = [];
-
-export let allProfiles = getAllArrs(newProfiles, initialProfile);
-
-export const createNewProfile = (name, job) =>
-  name && job && !allProfiles.some((profile) => profile.name === name)
-    ? { name, job }
-    : null;
-
-export const addNewProfile = (name, job) => {
-  const newProfile = createNewProfile(name, job);
-  if (newProfile) {
-    newProfiles = [newProfile, ...newProfiles];
-    allProfiles = getAllArrs(newProfiles, initialProfile);
-  }
-  return { allProfiles, newProfiles };
+export const {
+  openPopupAvatar,
+  popupAvatar,
+  popupFormAvatar,
+  popupAvatarButtonEdit,
+  popupAvatarButtonSubmit,
+  imgLinkInputAvatar,
+  imgLinkOutputAvatar,
+} = {
+  openPopupAvatar: "popup_avatar-edit__opened",
+  popupAvatar: document.querySelector(".popup_avatar-edit"),
+  popupFormAvatar: document.querySelector(".popup__form_avatar-edit"),
+  popupAvatarButtonEdit: document.querySelector("#button-avatar-edit"),
+  popupAvatarButtonSubmit: document.querySelector("#popup__button_avatar-edit"),
+  imgLinkInputAvatar: document.querySelector(
+    ".popup__input_type_avatar-img-link"
+  ),
+  imgLinkOutputAvatar: document.querySelector(".header__avatar"),
 };
 
 export const {
@@ -56,6 +53,12 @@ export const {
   popupCardAddButtonSubmit,
   placeInputCardAdd,
   imgLinkInputCardAdd,
+  placeOutputCardAdd,
+  imgLinkOutputCardAdd,
+  btnTrashIcon,
+  btnSubmitCardAdd,
+  sectionCards,
+  elementCard,
 } = {
   openPopupCardAdd: "popup_card-add__opened",
   popupCardAdd: getElement("#popup_card-add"),
@@ -63,59 +66,12 @@ export const {
   popupCardAddButtonSubmit: getElement("#popup__button_card-add"),
   placeInputCardAdd: getElement(".popup__input_type_place"),
   imgLinkInputCardAdd: getElement(".popup__input_type_img-link"),
-};
-
-export const initialCards = [
-  {
-    name: "Yosemite Valley",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-    alt: "Imagem do vale de Yosemite com um rio, árvores, montanhas ao fundo e muita natureza",
-  },
-  {
-    name: "Lake Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-    alt: "Imagem do Lago Louise com montanhas ao fundo e natureza exuberante",
-  },
-  {
-    name: "Bald Mountains",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
-    alt: "Imagem das Montanhas Carecas, vegetação com árvores e ao fundo o pör do sol",
-  },
-  {
-    name: "Latemar",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
-    alt: "Imagem do vale de Latemar, montanhas ao fundo e céu estrelado",
-  },
-  {
-    name: "Vanoise National Park",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
-    alt: "Imagem do Parque Nacional Vanoise com Lago, montanhas ao fundo e natureza belissima",
-  },
-  {
-    name: "Lago di Braies",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
-    alt: "Imagem do Lago di Braies com um deck, barcos ancorados, montanhas ao fundo e natureza preservada",
-  },
-];
-
-export let newCards = [];
-
-let getAllCards = getAllArrs(newCards, initialCards);
-
-let reversedCards = getAllCards.slice().reverse();
-
-export let allCards = reversedCards;
-
-export const createNewCard = (name, link) =>
-  name && link ? { name, link, alt: `Imagem de ${name}` } : null;
-
-export const addNewCard = (name, link) => {
-  const newCard = createNewCard(name, link);
-  if (newCard) {
-    newCards = [newCard, ...newCards];
-    allCards = getAllArrs(newCards, initialCards);
-  }
-  return { allCards, newCards };
+  placeOutputCardAdd: getElement(".card__title"),
+  imgLinkOutputCardAdd: getElement(".card__image"),
+  btnTrashIcon: getElement(".button-trash-icon"),
+  btnSubmitCardAdd: getElement(".popup__button_card-add"),
+  sectionCards: getElement(".cards"),
+  elementCard: getElement(".card"),
 };
 
 export const heartIconEnabled = require("../images/heart_icon_enabled.png");
@@ -129,7 +85,19 @@ export const {
   popupCardName,
 } = {
   openPopupCardImg: "img-popup-card__opened",
-  popupCardImgOpen: getElement("#img-popup-card"),
+  popupCardImgOpen: getElement(".img-popup-card"),
   popupCardImg: getElement(".img-popup-card__image"),
   popupCardName: getElement(".img-popup-card__title"),
+};
+
+export const {
+  openPopupWithConfirmation,
+  popupWithConfirmation,
+  popupFormWithConfirmation,
+  popupBtnWithConfirmation,
+} = {
+  openPopupWithConfirmation: "popup_with-confirmation__opened",
+  popupWithConfirmation: getElement(".popup_with-confirmation"),
+  popupFormWithConfirmation: getElement(".popup__form_with-confirmation"),
+  popupBtnWithConfirmation: getElement(".popup__button_with-confirmation"),
 };
