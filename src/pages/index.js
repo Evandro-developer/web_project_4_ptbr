@@ -8,7 +8,7 @@ import {
   imgLinkInputCardAdd,
 } from "../utils/constants.js";
 
-import { addEventToDOM } from "../utils/helpers";
+import { addEventToDOM, createApiInstance } from "../utils/helpers";
 
 import UserInfo from "../components/UserInfo.js";
 
@@ -24,16 +24,7 @@ import Section from "../components/Section.js";
 
 import Card from "../components/Card.js";
 
-import ApiConfig from "../components/ApiConfig.js";
-
-import Api from "../components/Api.js";
-
-const apiConfig = new ApiConfig();
-
-const api = new Api({
-  baseUrl: apiConfig.baseUrl,
-  headers: apiConfig.headers,
-});
+const api = createApiInstance();
 
 const allCards = api.getInitialCards();
 
@@ -68,16 +59,12 @@ const popupWithImage = new PopupWithImage();
 const popupWithConfirmation = new PopupWithConfirmation();
 
 const getInstancesForDOMContentToLoad = () => {
-  apiConfig;
-  api;
-  allCards;
-  api.setEventListenersApi();
   cardsSection.renderItems();
+  userInfo.setEventListenersUserInfo();
+  userInfoAvatar.setEventListenersUserInfoAvatar();
   popupWithForm.setEventListenersPopupWithForm();
   popupWithImage.setEventListenersPopupWithImage();
   popupWithConfirmation.setEventListenersPopupWithConfirmation();
-  userInfo.setEventListenersUserInfo();
-  userInfoAvatar.setEventListenersUserInfoAvatar();
 };
 
 addEventToDOM("DOMContentLoaded", getInstancesForDOMContentToLoad, document);

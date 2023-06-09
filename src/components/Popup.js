@@ -44,36 +44,29 @@ export default class Popup {
 
   _getCloseButtonsAndAddEventListener() {
     this._closeButtons.forEach((button) => {
-      const closeFunction = this.close();
       addEventToDOM(
         "mousedown",
         () => {
-          closeFunction();
+          this.close();
         },
         button
       );
     });
   }
 
-  open = () => {
-    return () => {
-      addPopupDisplay(
-        this._openedClassName,
-        this._popupElement,
-        this._addDisplayCallback
-      );
-    };
-  };
+  open = () =>
+    addPopupDisplay(
+      this._openedClassName,
+      this._popupElement,
+      this._addDisplayCallback
+    );
 
-  close = () => {
-    return () => {
-      removePopupDisplay(
-        this._openedClassName,
-        this._popupElement,
-        this._removeDisplayCallback
-      );
-    };
-  };
+  close = () =>
+    removePopupDisplay(
+      this._openedClassName,
+      this._popupElement,
+      this._removeDisplayCallback
+    );
 
   setEventListeners = () => {
     this._handleEscClose();

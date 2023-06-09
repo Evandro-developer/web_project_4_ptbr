@@ -2,10 +2,6 @@ import Popup from "./Popup.js";
 
 import FormValidator from "./FormValidator.js";
 
-import ApiConfig from "./ApiConfig.js";
-
-import Api from "./Api.js";
-
 import {
   popupFormAvatar,
   popupAvatarButtonSubmit,
@@ -17,6 +13,7 @@ import {
   addEvtButtonsForFunctions,
   getValidation,
   addEventToDOM,
+  createApiInstance,
 } from "../utils/helpers.js";
 
 export default class UserInfoAvatar extends Popup {
@@ -24,37 +21,39 @@ export default class UserInfoAvatar extends Popup {
     super(".popup_avatar-edit");
     this._link = linkSelector;
     this._linkInput = imgLinkInputAvatar;
+    this._linkOutput = imgLinkOutputAvatar;
     this._btnSubmit = popupAvatarButtonSubmit;
-    this._open = this.open();
-    this._close = this.close();
-    this._setEventListeners = this.setEventListeners();
+    this._popupFormAvatar = popupFormAvatar;
 
-    this._apiConfig = new ApiConfig();
-    this._setApi = new Api({
-      baseUrl: this._apiConfig.baseUrl,
-      headers: this._apiConfig.headers,
-    });
+    this.setEventListeners();
 
-    const validationConfig = getValidation(
-      popupFormAvatar,
+    this._setApi = createApiInstance();
+
+    this._validationConfig = getValidation(
+      this._popupFormAvatar,
       ".popup__input",
       ".popup__button"
     );
 
     this._formValidatorUserInfoAvatar = new FormValidator(
-      validationConfig,
-      popupFormAvatar
+      this._validationConfig,
+      this._popupFormAvatar
     );
 
     this._formValidatorUserInfoAvatar.enableValidation();
   }
 
-  _getUserInfoAvatar = async (evt) => {
+  _setUpUserInfoAvatar = async () => {
+    const response = await this._setApi.getUserInfo();
+    this._linkOutput.src = response.avatar;
+  };
+
+  _getUserInfoAvatar = (evt) => {
     evt.preventDefault();
     this._btnSubmit.textContent = "Salvar";
     this._linkInput.placeholder = "Insira o URL do Avatar";
-    this._open();
-    popupFormAvatar.reset();
+    this.open();
+    this._popupFormAvatar.reset();
     this._formValidatorUserInfoAvatar.enableValidation();
   };
 
@@ -63,16 +62,12 @@ export default class UserInfoAvatar extends Popup {
     this._btnSubmit.textContent = "Salvando...";
     const { value: link } = this._linkInput;
     if (link) {
-      try {
-        const data = await this._setApi.addNewUserInfoAvatar(link);
-        this._btnSubmit.textContent = "Salvo";
-        imgLinkOutputAvatar.src = data.avatar;
-        this._close();
-        popupFormAvatar.reset();
-        this._formValidatorUserInfoAvatar.enableValidation();
-      } catch (error) {
-        console.error("Erro ao editar Avatar:", error);
-      }
+      const data = await this._setApi.addNewUserInfoAvatar(link);
+      this._btnSubmit.textContent = "Salvo";
+      this._linkOutput.src = data.avatar;
+      this.close();
+      this._popupFormAvatar.reset();
+      this._formValidatorUserInfoAvatar.enableValidation();
     }
   };
   _getButtonsForFunctionsUserInfoAvatar = () => ({
@@ -87,6 +82,7 @@ export default class UserInfoAvatar extends Popup {
     );
 
   setEventListenersUserInfoAvatar = () => {
+    this._setUpUserInfoAvatar();
     addEventToDOM(
       "mousedown",
       this._handleButtonsForFunctionsUserInfoAvatar,

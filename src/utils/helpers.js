@@ -1,3 +1,7 @@
+import ApiConfig from "../components/ApiConfig";
+
+import Api from "../components/Api";
+
 export const getAllArrs = (newArr, initialArr) => {
   return [
     ...newArr.map((item) => ({ ...item })),
@@ -170,62 +174,60 @@ export const handleDeleteAsyncFunction = (
   elementId,
   handlerPopupOpen,
   getPopupFormElement,
-  apiDeleteCardAsyncFunction,
+  apiDeleteAsyncFunction,
   submitBtnSelector,
   deleteBtnSelector,
   targetSelector
 ) => {
   let deletePromise = null; // Utilizando uma let para armazenar a referência à promessa
-  return new Promise((resolve, reject) => {
-    addEventToDOM(
-      "mousedown",
-      async (evt) => {
-        try {
-          evt.preventDefault();
-          const deleteBtn = evt.target.closest(
-            addStartingDot(deleteBtnSelector)()
+  addEventToDOM(
+    "mousedown",
+    async (evt) => {
+      evt.preventDefault();
+      const deleteBtn = evt.target.closest(addStartingDot(deleteBtnSelector)());
+      if (deleteBtn) {
+        submitBtnSelector.textContent = "Sim";
+        addEventToDOM("mousedown", handlerPopupOpen(evt), deleteBtn);
+      }
+      if (deleteBtn && !deletePromise) {
+        deletePromise = new Promise((resolve) => {
+          addEventToDOM(
+            "submit",
+            () => {
+              submitBtnSelector.textContent = "Excluindo...";
+              resolve(); // Resolve a promessa do evento submit do Formulário
+            },
+            getPopupFormElement()
           );
-          if (deleteBtn) {
-            submitBtnSelector.textContent = "Sim";
-            addEventToDOM("mousedown", handlerPopupOpen(evt), deleteBtn);
-          }
-          if (deleteBtn && !deletePromise) {
-            deletePromise = new Promise(async (resolve, reject) => {
-              try {
-                addEventToDOM(
-                  "submit",
-                  () => {
-                    submitBtnSelector.textContent = "Excluindo...";
-                    resolve(); // Resolve a promessa interna do evento submit do Formulário
-                  },
-                  getPopupFormElement()
-                );
-              } catch (error) {
-                reject(error);
-              }
-            })
-              .then(() => {
-                const deleteCardBoundFromApi =
-                  apiDeleteCardAsyncFunction.bind(apiReturnFetch);
-                return deleteCardBoundFromApi(elementId);
-              })
-              .then(() => {
-                handleDeleteFunction(evt, deleteBtnSelector, targetSelector);
-                submitBtnSelector.textContent = "Excluido";
-              })
-              .catch((error) => {
-                console.error(`Erro ao excluir cartão: ${error}`);
-              })
-              .finally(() => {
-                deletePromise = null; // redefine a promessa para permitir exclusões subsequentes
-              });
-            resolve(); // Resolve a promessa externa após a execução do código interno
-          }
-        } catch (error) {
-          reject(error);
-        }
-      },
-      targetElement
-    );
+        })
+          .then(() => {
+            const deletedBoundFromApi =
+              apiDeleteAsyncFunction.bind(apiReturnFetch);
+            return deletedBoundFromApi(elementId);
+          })
+          .then(() => {
+            handleDeleteFunction(evt, deleteBtnSelector, targetSelector);
+            submitBtnSelector.textContent = "Excluido";
+          })
+          .finally(() => {
+            deletePromise = null; // redefine a promessa para permitir exclusões subsequentes
+          });
+      }
+    },
+    targetElement
+  );
+};
+
+export const createApiInstance = () => {
+  const apiConfig = new ApiConfig();
+  return new Api({
+    baseUrl: apiConfig.baseUrl,
+    headers: apiConfig.headers,
   });
+};
+
+export const setElementAttributes = (element, attributes) => {
+  for (const [key, value] of Object.entries(attributes)) {
+    element.setAttribute(key, value);
+  }
 };

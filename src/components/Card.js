@@ -1,9 +1,5 @@
 import PopupWithImage from "./PopupWithImage.js";
 
-import ApiConfig from "./ApiConfig.js";
-
-import Api from "./Api.js";
-
 import PopupWithConfirmation from "./PopupWithConfirmation.js";
 
 import {
@@ -22,6 +18,8 @@ import {
   evtTargetClosestElement,
   isTargetElementClicked,
   animateOpacity,
+  createApiInstance,
+  setElementAttributes,
 } from "../utils/helpers.js";
 
 export default class Card {
@@ -38,11 +36,7 @@ export default class Card {
     this._popupWithImage = new PopupWithImage();
     this.setEventListenerFromPopupWithImage();
 
-    this._apiConfig = new ApiConfig();
-    this._setApi = new Api({
-      baseUrl: this._apiConfig.baseUrl,
-      headers: this._apiConfig.headers,
-    });
+    this._setApi = createApiInstance();
 
     this._popupWithConfirmation = new PopupWithConfirmation();
     this._btnSubmit = popupBtnWithConfirmation;
@@ -71,59 +65,39 @@ export default class Card {
   }
 
   async _handleCardLike(evt) {
-    const targetElement = evtTargetClosestElement(
+    const targetHeartIcon = evtTargetClosestElement(
       "button-heart-icon",
       evt.target
     );
     if (isTargetElementClicked("button-heart-icon", evt.target)) {
-      const isActive = targetElement.getAttribute("data-active") === "true";
-      return new Promise((resolve, reject) => {
-        if (isActive) {
-          this._setApi
-            .removeLike(this._data._id)
-            .then((updatedCard) => {
-              this._data.likes = updatedCard.likes;
-              this._updateLikes();
-              targetElement.setAttribute("data-active", !isActive);
-              setAttributes(targetElement, {
-                src: heartIconDisabled,
-                alt: "Icon de coração desativado apenas com bordas",
-              });
-              animateOpacity(targetElement, 0, 1, 400);
-              resolve();
-            })
-            .catch((error) => {
-              console.error("Erro ao remover curtida:", error);
-              reject(error);
-            });
-        } else {
-          this._setApi
-            .addLike(this._data._id)
-            .then((updatedCard) => {
-              this._data.likes = updatedCard.likes;
-              this._updateLikes();
-              targetElement.setAttribute("data-active", !isActive);
-              setAttributes(targetElement, {
-                src: heartIconEnabled,
-                alt: "Icon de coração ativado com preenchimento",
-              });
-              animateOpacity(targetElement, 0, 1, 400);
-              resolve();
-            })
-            .catch((error) => {
-              console.error("Erro ao adicionar curtida:", error);
-              reject(error);
-            });
-        }
+      const isLiked = targetHeartIcon.getAttribute("data-liked") === "true";
+      const updatedCard = await (isLiked
+        ? this._setApi.removeLike(this._data._id)
+        : this._setApi.addLike(this._data._id));
+
+      this._data.likes = updatedCard.likes;
+      this._updateLikes();
+
+      targetHeartIcon.setAttribute("data-liked", !isLiked);
+      const heartIcon = isLiked ? heartIconDisabled : heartIconEnabled;
+      const altText = isLiked
+        ? "Icon de coração desativado apenas com bordas"
+        : "Icon de coração ativado com preenchimento";
+
+      setAttributes(targetHeartIcon, {
+        src: heartIcon,
+        alt: altText,
       });
+
+      animateOpacity(targetHeartIcon, 0, 1, 400);
     }
   }
 
-  async _getOwnersId() {
+  _getOwnersId() {
     return this._data.owner._id;
   }
 
-  async _updateLikes() {
+  _updateLikes() {
     this._likesCounter.textContent = this._data.likes.length;
     this._userHasLiked = this._data.likes.some(
       (user) => user._id === this._currentUserId
@@ -148,21 +122,15 @@ export default class Card {
 
     this._updateLikes();
 
-    setAttributes(
-      this._btnLikeIcon,
-      this._userHasLiked
-        ? {
-            src: heartIconEnabled,
-            alt: "Icon de coração ativado com preenchimento",
-          }
-        : {
-            src: heartIconDisabled,
-            alt: "Icon de coração desativado apenas com bordas",
-          }
-    );
+    setElementAttributes(this._btnLikeIcon, {
+      src: this._userHasLiked ? heartIconEnabled : heartIconDisabled,
+      alt: this._userHasLiked
+        ? "Icon de coração ativado com preenchimento"
+        : "Icon de coração desativado apenas com bordas",
+    });
 
     this._btnLikeIcon.setAttribute(
-      "data-active",
+      "data-liked",
       this._userHasLiked ? "true" : "false"
     );
 

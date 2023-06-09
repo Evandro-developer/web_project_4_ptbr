@@ -5,19 +5,17 @@ import { addEventToDOM, getElement } from "../utils/helpers.js";
 export default class PopupWithConfirmation extends Popup {
   constructor() {
     super(".popup_with-confirmation");
-    this._setEventListeners = this.setEventListeners();
-    this._close = this.close();
-    this._open = this.open();
-
     this._btnElement = getElement(".popup__button_with-confirmation");
     this.getBtnElement = this.getBtnElement.bind(this);
 
     this._formElement = getElement(".popup__form_with-confirmation");
     this.getFormElement = this.getFormElement.bind(this);
+
+    this.setEventListeners();
   }
 
   getBtnElement() {
-    this._open();
+    this.open();
     return this._btnElement;
   }
 
@@ -28,13 +26,13 @@ export default class PopupWithConfirmation extends Popup {
   handleFormOpen = async (evt) => {
     evt.preventDefault();
     this.getBtnElement();
-    this._open();
+    this.open();
   };
 
   handleFormSubmit = async (evt) => {
     evt.preventDefault();
     this.getFormElement();
-    this._close();
+    this.close();
   };
 
   setEventListenersPopupWithConfirmation = () => {
