@@ -36,14 +36,12 @@ export const {
   imgLinkOutputAvatar,
 } = {
   openPopupAvatar: "popup_avatar-edit__opened",
-  popupAvatar: document.querySelector(".popup_avatar-edit"),
-  popupFormAvatar: document.querySelector(".popup__form_avatar-edit"),
-  popupAvatarButtonEdit: document.querySelector("#button-avatar-edit"),
-  popupAvatarButtonSubmit: document.querySelector("#popup__button_avatar-edit"),
-  imgLinkInputAvatar: document.querySelector(
-    ".popup__input_type_avatar-img-link"
-  ),
-  imgLinkOutputAvatar: document.querySelector(".header__avatar"),
+  popupAvatar: getElement(".popup_avatar-edit"),
+  popupFormAvatar: getElement(".popup__form_avatar-edit"),
+  popupAvatarButtonEdit: getElement("#button-avatar-edit"),
+  popupAvatarButtonSubmit: getElement("#popup__button_avatar-edit"),
+  imgLinkInputAvatar: getElement(".popup__input_type_avatar-img-link"),
+  imgLinkOutputAvatar: getElement(".header__avatar"),
 };
 
 export const {

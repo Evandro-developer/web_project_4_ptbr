@@ -70,16 +70,6 @@ export const removeStartingDot = (string) => () =>
 export const addStartingDot = (string) => () =>
   getStartsWithDot(string) ? string : "." + string;
 
-export const evtTargetClosestElement = (targetClassName, targetElement) =>
-  targetElement.closest(addStartingDot(`${targetClassName}`)());
-
-export const isTargetElementClicked = (targetClassName, targetElement) =>
-  contains(targetClassName, targetElement) &&
-  evtTargetClosestElement(
-    removeStartingDot(`${targetClassName}`)(),
-    targetElement
-  );
-
 export const handleKeyPressFunction = (removePopupFunc) => (evt) =>
   evt.key === "Escape" ? callIfFunction(removePopupFunc) : null;
 
@@ -91,6 +81,9 @@ export const handleOutsideClickFunction =
 
 export const addEventToDOM = (evt, handler, targetElement) =>
   targetElement.addEventListener(evt, handler);
+
+export const removeEventToDOM = (evt, handler, targetElement) =>
+  targetElement.removeEventListener(evt, handler);
 
 export const addEvtButtonsForFunctions = (buttonFunctions, evt) => {
   const buttonFunctionId = buttonFunctions[evt.target.id];
@@ -157,6 +150,16 @@ export const handleLikeFunction = (
   }
 };
 
+export const evtTargetClosestElement = (targetClassName, targetElement) =>
+  targetElement.closest(addStartingDot(`${targetClassName}`)());
+
+export const isTargetElementClicked = (targetClassName, targetElement) =>
+  contains(targetClassName, targetElement) &&
+  evtTargetClosestElement(
+    removeStartingDot(`${targetClassName}`)(),
+    targetElement
+  );
+
 export const handleDeleteFunction = (
   evt,
   deleteBtnSelector,
@@ -166,56 +169,6 @@ export const handleDeleteFunction = (
     const btnDelete = evtTargetClosestElement(targetSelector, evt.target);
     animateOpacity(btnDelete, 1, 0, 400, true);
   }
-};
-
-export const handleDeleteAsyncFunction = (
-  targetElement,
-  apiReturnFetch,
-  elementId,
-  handlerPopupOpen,
-  getPopupFormElement,
-  apiDeleteAsyncFunction,
-  submitBtnSelector,
-  deleteBtnSelector,
-  targetSelector
-) => {
-  let deletePromise = null; // Utilizando uma let para armazenar a referência à promessa
-  addEventToDOM(
-    "mousedown",
-    async (evt) => {
-      evt.preventDefault();
-      const deleteBtn = evt.target.closest(addStartingDot(deleteBtnSelector)());
-      if (deleteBtn) {
-        submitBtnSelector.textContent = "Sim";
-        addEventToDOM("mousedown", handlerPopupOpen(evt), deleteBtn);
-      }
-      if (deleteBtn && !deletePromise) {
-        deletePromise = new Promise((resolve) => {
-          addEventToDOM(
-            "submit",
-            () => {
-              submitBtnSelector.textContent = "Excluindo...";
-              resolve(); // Resolve a promessa do evento submit do Formulário
-            },
-            getPopupFormElement()
-          );
-        })
-          .then(() => {
-            const deletedBoundFromApi =
-              apiDeleteAsyncFunction.bind(apiReturnFetch);
-            return deletedBoundFromApi(elementId);
-          })
-          .then(() => {
-            handleDeleteFunction(evt, deleteBtnSelector, targetSelector);
-            submitBtnSelector.textContent = "Excluido";
-          })
-          .finally(() => {
-            deletePromise = null; // redefine a promessa para permitir exclusões subsequentes
-          });
-      }
-    },
-    targetElement
-  );
 };
 
 export const createApiInstance = () => {
@@ -231,3 +184,5 @@ export const setElementAttributes = (element, attributes) => {
     element.setAttribute(key, value);
   }
 };
+
+export const closestElement = (evt, selector) => evt.target.closest(selector);

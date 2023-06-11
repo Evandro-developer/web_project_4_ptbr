@@ -7,14 +7,12 @@ import {
   popupCardName,
   heartIconEnabled,
   heartIconDisabled,
-  popupBtnWithConfirmation,
 } from "../utils/constants.js";
 
 import {
   getElement,
   addEventToDOM,
   setAttributes,
-  handleDeleteAsyncFunction,
   evtTargetClosestElement,
   isTargetElementClicked,
   animateOpacity,
@@ -39,7 +37,6 @@ export default class Card {
     this._setApi = createApiInstance();
 
     this._popupWithConfirmation = new PopupWithConfirmation();
-    this._btnSubmit = popupBtnWithConfirmation;
 
     this._handleCardLike = this._handleCardLike.bind(this);
   }
@@ -48,20 +45,6 @@ export default class Card {
     const template = getElement(this._templateSelector);
     const cardElement = template.content.querySelector(".card").cloneNode(true);
     return cardElement;
-  }
-
-  _handleCardDelete() {
-    handleDeleteAsyncFunction(
-      this._cardElement,
-      this._setApi,
-      this._data._id,
-      this._popupWithConfirmation.handleFormOpen,
-      this._popupWithConfirmation.getFormElement,
-      this._setApi.deleteCard,
-      this._btnSubmit,
-      "button-trash-icon",
-      "card"
-    );
   }
 
   async _handleCardLike(evt) {
@@ -104,6 +87,11 @@ export default class Card {
     );
   }
 
+  _handleCardDelete(evt) {
+    this._popupWithConfirmation.handleFormOpen(evt);
+    this._popupWithConfirmation.handleFormSubmit(evt, this._data._id);
+  }
+
   async generateInstanceCard() {
     setAttributes(this._cardImage, {
       src: this._data.link,
@@ -118,9 +106,13 @@ export default class Card {
 
     this._btnTrashIcon.style.display = isOwnerId ? "block" : "none";
 
-    this._handleCardDelete();
-
     this._updateLikes();
+
+    addEventToDOM(
+      "mousedown",
+      (evt) => this._handleCardDelete(evt),
+      this._btnTrashIcon
+    );
 
     setElementAttributes(this._btnLikeIcon, {
       src: this._userHasLiked ? heartIconEnabled : heartIconDisabled,
