@@ -82,7 +82,7 @@ export const handleOutsideClickFunction =
 export const addEventToDOM = (evt, handler, targetElement) =>
   targetElement.addEventListener(evt, handler);
 
-export const removeEventToDOM = (evt, handler, targetElement) =>
+export const removeEventFromDOM = (evt, handler, targetElement) =>
   targetElement.removeEventListener(evt, handler);
 
 export const addEvtButtonsForFunctions = (buttonFunctions, evt) => {
@@ -186,3 +186,37 @@ export const setElementAttributes = (element, attributes) => {
 };
 
 export const closestElement = (evt, selector) => evt.target.closest(selector);
+
+export const handleLikeFunctionAsync = async (
+  instance,
+  evt,
+  heartIcon,
+  altTextDisabled,
+  altTextEnabled,
+  heartIconDisabled,
+  heartIconEnabled,
+  updateLikesFn,
+  apiInstance,
+  addLikeFn,
+  removeLikeFn,
+  dataId
+) => {
+  const targetHeartIcon = evtTargetClosestElement(heartIcon, evt.target);
+  if (isTargetElementClicked(heartIcon, evt.target)) {
+    const isLiked = targetHeartIcon.getAttribute("data-liked") === "true";
+    const updatedCard = await (isLiked
+      ? removeLikeFn.call(apiInstance, dataId)
+      : addLikeFn.call(apiInstance, dataId));
+
+    instance._data.likes = updatedCard.likes;
+    callIfFunction(updateLikesFn);
+
+    targetHeartIcon.setAttribute("data-liked", String(!isLiked));
+    const heartIconToUse = isLiked ? heartIconDisabled : heartIconEnabled;
+    const altText = isLiked ? altTextDisabled : altTextEnabled;
+
+    setAttributes(targetHeartIcon, { src: heartIconToUse, alt: altText });
+
+    animateOpacity(targetHeartIcon, 0, 1, 400);
+  }
+};

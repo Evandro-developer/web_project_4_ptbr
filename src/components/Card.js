@@ -13,11 +13,8 @@ import {
   getElement,
   addEventToDOM,
   setAttributes,
-  evtTargetClosestElement,
-  isTargetElementClicked,
-  animateOpacity,
   createApiInstance,
-  setElementAttributes,
+  handleLikeFunctionAsync,
 } from "../utils/helpers.js";
 
 export default class Card {
@@ -37,8 +34,6 @@ export default class Card {
     this._setApi = createApiInstance();
 
     this._popupWithConfirmation = new PopupWithConfirmation();
-
-    this._handleCardLike = this._handleCardLike.bind(this);
   }
 
   _getTemplate() {
@@ -47,37 +42,26 @@ export default class Card {
     return cardElement;
   }
 
-  async _handleCardLike(evt) {
-    const targetHeartIcon = evtTargetClosestElement(
+  handleCardLike = (evt) => {
+    handleLikeFunctionAsync(
+      this,
+      evt,
       "button-heart-icon",
-      evt.target
+      "Icon de coração desativado apenas com bordas",
+      "Icon de coração ativado com preenchimento",
+      heartIconDisabled,
+      heartIconEnabled,
+      () => this._updateLikes(),
+      this._setApi,
+      this._setApi.addLike,
+      this._setApi.removeLike,
+      this._data._id
     );
-    if (isTargetElementClicked("button-heart-icon", evt.target)) {
-      const isLiked = targetHeartIcon.getAttribute("data-liked") === "true";
-      const updatedCard = await (isLiked
-        ? this._setApi.removeLike(this._data._id)
-        : this._setApi.addLike(this._data._id));
+  };
 
-      this._data.likes = updatedCard.likes;
-      this._updateLikes();
-
-      targetHeartIcon.setAttribute("data-liked", !isLiked);
-      const heartIcon = isLiked ? heartIconDisabled : heartIconEnabled;
-      const altText = isLiked
-        ? "Icon de coração desativado apenas com bordas"
-        : "Icon de coração ativado com preenchimento";
-
-      setAttributes(targetHeartIcon, {
-        src: heartIcon,
-        alt: altText,
-      });
-
-      animateOpacity(targetHeartIcon, 0, 1, 400);
-    }
-  }
-
-  _getOwnersId() {
-    return this._data.owner._id;
+  _handleCardDelete(evt) {
+    this._popupWithConfirmation.handleFormOpen(evt);
+    this._popupWithConfirmation.handleFormSubmit(evt, this._data._id);
   }
 
   _updateLikes() {
@@ -87,9 +71,10 @@ export default class Card {
     );
   }
 
-  _handleCardDelete(evt) {
-    this._popupWithConfirmation.handleFormOpen(evt);
-    this._popupWithConfirmation.handleFormSubmit(evt, this._data._id);
+  async _setOwnerInfo() {
+    this._currentUser = await this._setApi.getUserInfo();
+    this._currentUserId = this._currentUser._id;
+    this._isOwner = this._data.owner._id === this._currentUserId;
   }
 
   async generateInstanceCard() {
@@ -99,12 +84,8 @@ export default class Card {
     });
     this._cardTitle.textContent = this._data.name;
 
-    const getCurrentUser = await this._setApi.getUserInfo();
-    this._currentUserId = getCurrentUser._id;
-
-    const isOwnerId = (await this._getOwnersId()) === this._currentUserId;
-
-    this._btnTrashIcon.style.display = isOwnerId ? "block" : "none";
+    await this._setOwnerInfo();
+    this._btnTrashIcon.style.display = this._isOwner ? "block" : "none";
 
     this._updateLikes();
 
@@ -114,7 +95,7 @@ export default class Card {
       this._btnTrashIcon
     );
 
-    setElementAttributes(this._btnLikeIcon, {
+    setAttributes(this._btnLikeIcon, {
       src: this._userHasLiked ? heartIconEnabled : heartIconDisabled,
       alt: this._userHasLiked
         ? "Icon de coração ativado com preenchimento"
@@ -126,11 +107,7 @@ export default class Card {
       this._userHasLiked ? "true" : "false"
     );
 
-    addEventToDOM(
-      "mousedown",
-      this._handleCardLike.bind(this),
-      this._btnLikeIcon
-    );
+    addEventToDOM("mousedown", this.handleCardLike, this._btnLikeIcon);
 
     return this._cardElement;
   }
