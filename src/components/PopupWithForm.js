@@ -12,8 +12,8 @@ import {
   addEvtButtonsForFunctions,
   addEventToDOM,
   getValidation,
-  animateOpacity,
   createApiInstance,
+  newCardAddAsync,
 } from "../utils/helpers.js";
 
 export default class PopupWithForm extends Popup {
@@ -60,15 +60,18 @@ export default class PopupWithForm extends Popup {
     const { value: name } = this._name;
     const { value: link } = this._link;
     if (name && link) {
-      const newCard = await this._setApi.addNewCard(name, link);
       this._btnSubmit.textContent = "Salvo";
-      const newCardInstance = new Card(newCard, "#cards-template");
-      const cardItem = await newCardInstance.generateInstanceCard();
-      this._cardsSection.prependItem(cardItem);
+      newCardAddAsync(
+        Card,
+        this._cardsSection,
+        this._setApi,
+        name,
+        link,
+        "#cards-template"
+      );
       this.close();
       this._popupCardAddForm.reset();
       this._formValidatorPopupWithForm.enableValidation();
-      animateOpacity(cardItem, 0, 1, 400);
     }
   };
 

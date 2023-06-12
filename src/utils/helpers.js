@@ -220,3 +220,18 @@ export const handleLikeFunctionAsync = async (
     animateOpacity(targetHeartIcon, 0, 1, 400);
   }
 };
+
+export const newCardAddAsync = async (
+  CardClass,
+  section,
+  apiInstance,
+  name,
+  link,
+  template
+) => {
+  const newCard = await apiInstance.addNewCard(name, link);
+  const newCardInstance = new CardClass(newCard, template);
+  const cardItem = await newCardInstance.generateInstanceCard();
+  section.prependItem(cardItem);
+  animateOpacity(cardItem, 0, 1, 200);
+};
