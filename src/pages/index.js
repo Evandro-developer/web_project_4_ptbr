@@ -8,7 +8,7 @@ import {
   imgLinkInputCardAdd,
 } from "../utils/constants.js";
 
-import { addEventToDOM, createApiInstance } from "../utils/helpers";
+import { addEventToDOM, apiInstance } from "../utils/helpers";
 
 import UserInfo from "../components/UserInfo.js";
 
@@ -20,7 +20,7 @@ import Section from "../components/Section.js";
 
 import Card from "../components/Card.js";
 
-const apiGetCards = createApiInstance();
+const apiGetCards = apiInstance();
 
 const allCards = apiGetCards.getInitialCards();
 

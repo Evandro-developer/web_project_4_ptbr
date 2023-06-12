@@ -92,6 +92,13 @@ export default class FormValidator {
     });
   }
 
+  isFormValid() {
+    const inputList = Array.from(
+      this._formElement.querySelectorAll(this._validationConfig.inputSelector)
+    );
+    return !this._hasInvalidInput(inputList);
+  }
+
   enableValidation() {
     const inputList = Array.from(
       this._formElement.querySelectorAll(".popup__input")

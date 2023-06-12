@@ -13,7 +13,7 @@ import {
   addEvtButtonsForFunctions,
   getValidation,
   addEventToDOM,
-  createApiInstance,
+  apiInstance,
 } from "../utils/helpers.js";
 
 export default class UserInfoAvatar extends Popup {
@@ -27,7 +27,7 @@ export default class UserInfoAvatar extends Popup {
 
     this.setEventListeners();
 
-    this._setApi = createApiInstance();
+    this._setApi = apiInstance();
 
     this._validationConfig = getValidation(
       this._popupFormAvatar,
@@ -59,12 +59,15 @@ export default class UserInfoAvatar extends Popup {
 
   _setUserInfoAvatar = async (evt) => {
     evt.preventDefault();
+    if (!this._formValidatorUserInfoAvatar.isFormValid()) {
+      return;
+    }
     this._btnSubmit.textContent = "Salvando...";
     const { value: link } = this._linkInput;
     if (link) {
       const data = await this._setApi.addNewUserInfoAvatar(link);
-      this._btnSubmit.textContent = "Salvo";
       this._linkOutput.src = data.avatar;
+      this._btnSubmit.textContent = "Salvo";
       this.close();
       this._popupFormAvatar.reset();
       this._formValidatorUserInfoAvatar.enableValidation();

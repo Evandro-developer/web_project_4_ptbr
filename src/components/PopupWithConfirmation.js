@@ -3,7 +3,7 @@ import Popup from "./Popup.js";
 import {
   addEventToDOM,
   closestElement,
-  createApiInstance,
+  apiInstance,
   handleDeleteFunction,
 } from "../utils/helpers.js";
 
@@ -15,19 +15,19 @@ import {
 export default class PopupWithConfirmation extends Popup {
   constructor() {
     super(".popup_with-confirmation");
-    this._popupWithConfirmationForm = popupFormWithConfirmation;
+    this._popupForm = popupFormWithConfirmation;
     this._btnSubmit = popupBtnWithConfirmation;
     this.setEventListeners();
-    this._setApi = createApiInstance();
+    this._setApi = apiInstance();
     this.deletePromise = null;
   }
 
   handleFormOpen = async (evt) => {
     evt.preventDefault();
-    this._deleteBtn = closestElement(evt, ".card");
-    this._selectedElement = closestElement(evt, ".button-trash-icon");
-    if (this._deleteBtn) {
-      this._popupWithConfirmationForm;
+    this._selectedElement = closestElement(evt, ".card");
+    this._deleteBtn = closestElement(evt, ".button-trash-icon");
+    if (this._selectedElement) {
+      this._popupForm;
       this.open();
     }
   };
@@ -35,28 +35,28 @@ export default class PopupWithConfirmation extends Popup {
   handleFormSubmit = async (evt, cardId) => {
     evt.preventDefault();
     this._btnSubmit.textContent = "Sim";
-    if (this._deleteBtn && !this.deletePromise) {
+    if (this._btnSubmit && !this.deletePromise) {
       this.deletePromise = new Promise((resolve) => {
         addEventToDOM(
           "submit",
           (evt) => {
             evt.preventDefault();
             this._btnSubmit.textContent = "Excluindo...";
-            resolve(); // Resolve a promessa do evento submit do Formulário
+            resolve();
           },
-          this._popupWithConfirmationForm
+          this._popupForm
         );
       })
         .then(async () => {
-          await this._setApi.deleteCard(cardId); // Usando a função deleteCard da API
+          await this._setApi.deleteCard(cardId);
         })
         .then(() => {
-          handleDeleteFunction(evt, "button-trash-icon", "card"); // Usando a função handleDeleteFunction para remoção no DOM
+          handleDeleteFunction(evt, "button-trash-icon", "card");
           this._btnSubmit.textContent = "Excluido";
         })
         .finally(() => {
-          this.close(); // Usando a função this.close() após tudo concluido para fechamento do popup
-          this.deletePromise = null; // redefine a promessa para permitir exclusões subsequentes
+          this.close();
+          this.deletePromise = null;
         });
     }
   };

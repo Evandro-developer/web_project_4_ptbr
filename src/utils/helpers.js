@@ -2,6 +2,14 @@ import ApiConfig from "../components/ApiConfig";
 
 import Api from "../components/Api";
 
+export const apiInstance = () => {
+  const apiConfig = new ApiConfig();
+  return new Api({
+    baseUrl: apiConfig.baseUrl,
+    headers: apiConfig.headers,
+  });
+};
+
 export const getAllArrs = (newArr, initialArr) => {
   return [
     ...newArr.map((item) => ({ ...item })),
@@ -11,6 +19,8 @@ export const getAllArrs = (newArr, initialArr) => {
 
 export const getElement = (selector, method = "querySelector") =>
   document[method](selector);
+
+export const closestElement = (evt, selector) => evt.target.closest(selector);
 
 export const callIfFunction = (callback) =>
   typeof callback === "function" && callback();
@@ -62,6 +72,12 @@ export const setAttributes = (targetElement, attributes) => {
   }
 };
 
+export const setElementAttributes = (element, attributes) => {
+  for (const [key, value] of Object.entries(attributes)) {
+    element.setAttribute(key, value);
+  }
+};
+
 export const getStartsWithDot = (string) => string.startsWith(".");
 
 export const removeStartingDot = (string) => () =>
@@ -69,6 +85,16 @@ export const removeStartingDot = (string) => () =>
 
 export const addStartingDot = (string) => () =>
   getStartsWithDot(string) ? string : "." + string;
+
+export const evtTargetClosestElement = (targetClassName, targetElement) =>
+  targetElement.closest(addStartingDot(`${targetClassName}`)());
+
+export const isTargetElementClicked = (targetClassName, targetElement) =>
+  contains(targetClassName, targetElement) &&
+  evtTargetClosestElement(
+    removeStartingDot(`${targetClassName}`)(),
+    targetElement
+  );
 
 export const handleKeyPressFunction = (removePopupFunc) => (evt) =>
   evt.key === "Escape" ? callIfFunction(removePopupFunc) : null;
@@ -150,16 +176,6 @@ export const handleLikeFunction = (
   }
 };
 
-export const evtTargetClosestElement = (targetClassName, targetElement) =>
-  targetElement.closest(addStartingDot(`${targetClassName}`)());
-
-export const isTargetElementClicked = (targetClassName, targetElement) =>
-  contains(targetClassName, targetElement) &&
-  evtTargetClosestElement(
-    removeStartingDot(`${targetClassName}`)(),
-    targetElement
-  );
-
 export const handleDeleteFunction = (
   evt,
   deleteBtnSelector,
@@ -170,22 +186,6 @@ export const handleDeleteFunction = (
     animateOpacity(btnDelete, 1, 0, 400, true);
   }
 };
-
-export const createApiInstance = () => {
-  const apiConfig = new ApiConfig();
-  return new Api({
-    baseUrl: apiConfig.baseUrl,
-    headers: apiConfig.headers,
-  });
-};
-
-export const setElementAttributes = (element, attributes) => {
-  for (const [key, value] of Object.entries(attributes)) {
-    element.setAttribute(key, value);
-  }
-};
-
-export const closestElement = (evt, selector) => evt.target.closest(selector);
 
 export const handleLikeFunctionAsync = async (
   instance,

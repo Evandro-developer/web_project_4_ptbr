@@ -12,7 +12,7 @@ import {
   addEvtButtonsForFunctions,
   addEventToDOM,
   getValidation,
-  createApiInstance,
+  apiInstance,
   addNewCardAsync,
 } from "../utils/helpers.js";
 
@@ -27,7 +27,7 @@ export default class PopupWithForm extends Popup {
 
     this.setEventListeners();
 
-    this._setApi = createApiInstance();
+    this._setApi = apiInstance();
 
     this._validationConfig = getValidation(
       this._popupCardAddForm,
@@ -56,11 +56,13 @@ export default class PopupWithForm extends Popup {
 
   _setInputValues = async (evt) => {
     evt.preventDefault();
+    if (!this._formValidatorPopupWithForm.isFormValid()) {
+      return;
+    }
     this._btnSubmit.textContent = "Salvando...";
     const { value: name } = this._name;
     const { value: link } = this._link;
     if (name && link) {
-      this._btnSubmit.textContent = "Salvo";
       addNewCardAsync(
         Card,
         this._cardsSection,
@@ -69,6 +71,7 @@ export default class PopupWithForm extends Popup {
         link,
         "#cards-template"
       );
+      this._btnSubmit.textContent = "Salvo";
       this.close();
       this._popupCardAddForm.reset();
       this._formValidatorPopupWithForm.enableValidation();

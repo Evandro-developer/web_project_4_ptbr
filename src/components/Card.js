@@ -13,7 +13,7 @@ import {
   getElement,
   addEventToDOM,
   setAttributes,
-  createApiInstance,
+  apiInstance,
   handleLikeFunctionAsync,
 } from "../utils/helpers.js";
 
@@ -28,9 +28,9 @@ export default class Card {
     this._btnLikeIcon = this._cardElement.querySelector(".button-heart-icon");
     this._likesCounter = this._cardElement.querySelector(".card__likes");
 
-    this._popupWithImage = new PopupWithImage();
-    this._popupWithConfirmation = new PopupWithConfirmation();
-    this._setApi = createApiInstance();
+    this._setApi = apiInstance();
+    this.popupWithImage = null;
+    this._popupWithConfirmation = null;
   }
 
   _getTemplate() {
@@ -56,10 +56,13 @@ export default class Card {
     );
   };
 
-  _handleCardDelete(evt) {
+  _handleCardDelete = (evt) => {
+    if (!this._popupWithConfirmation) {
+      this._popupWithConfirmation = new PopupWithConfirmation();
+    }
     this._popupWithConfirmation.handleFormOpen(evt);
     this._popupWithConfirmation.handleFormSubmit(evt, this._data._id);
-  }
+  };
 
   _updateLikes() {
     this._likesCounter.textContent = this._data.likes.length;
@@ -83,8 +86,14 @@ export default class Card {
   async _setOwnerInfo() {
     this._currentUser = await this._setApi.getUserInfo();
     this._currentUserId = this._currentUser._id;
-    this._isOwner = this._data.owner._id === this._currentUserId;
-    this._btnTrashIcon.style.display = this._isOwner ? "block" : "none";
+    if (this._data.owner._id === this._currentUserId) {
+      this._isOwner = true;
+      this._btnTrashIcon.style.display = "block";
+      this._updateLikes();
+    } else {
+      this._isOwner = false;
+      this._updateLikes();
+    }
   }
 
   async generateInstanceCard() {
@@ -94,9 +103,7 @@ export default class Card {
     });
     this._cardTitle.textContent = this._data.name;
 
-    await this._setOwnerInfo();
-
-    this._updateLikes();
+    this._setOwnerInfo();
 
     addEventToDOM("mousedown", this._handleCardLike, this._btnLikeIcon);
 
@@ -106,11 +113,19 @@ export default class Card {
       this._btnTrashIcon
     );
 
-    this._popupWithImage.handlePopupImageOpen(
-      this._cardImage,
-      popupCardImg,
-      popupCardName,
-      this._data
+    addEventToDOM(
+      "mousedown",
+      () => {
+        if (!this.popupWithImage) {
+          this.popupWithImage = new PopupWithImage();
+        }
+        this.popupWithImage.handlePopupImageOpen(
+          popupCardImg,
+          popupCardName,
+          this._data
+        );
+      },
+      this._cardImage
     );
 
     return this._cardElement;

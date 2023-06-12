@@ -13,7 +13,7 @@ import {
   addEvtButtonsForFunctions,
   addEventToDOM,
   getValidation,
-  createApiInstance,
+  apiInstance,
 } from "../utils/helpers.js";
 
 export default class UserInfo extends Popup {
@@ -28,7 +28,7 @@ export default class UserInfo extends Popup {
 
     this.setEventListeners();
 
-    this._setApi = createApiInstance();
+    this._setApi = apiInstance();
 
     this._validationConfig = getValidation(
       this._popupProfileForm,
@@ -63,6 +63,9 @@ export default class UserInfo extends Popup {
 
   _setUserInfo = (evt) => {
     evt.preventDefault();
+    if (!this._formValidatorUserInfo.isFormValid()) {
+      return;
+    }
     this._btnSubmit.textContent = "Salvando...";
     const { value: nameInput } = this._nameInput;
     const { value: jobInput } = this._jobInput;
