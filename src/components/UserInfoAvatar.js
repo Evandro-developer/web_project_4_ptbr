@@ -43,7 +43,7 @@ export default class UserInfoAvatar extends Popup {
     this._formValidatorUserInfoAvatar.enableValidation();
   }
 
-  _setUpUserInfoAvatar = async () => {
+  _setUpdateUserInfoAvatar = async () => {
     const response = await this._setApi.getUserInfo();
     this._linkOutput.src = response.avatar;
   };
@@ -82,7 +82,7 @@ export default class UserInfoAvatar extends Popup {
     );
 
   setEventListenersUserInfoAvatar = () => {
-    this._setUpUserInfoAvatar();
+    this._setUpdateUserInfoAvatar();
     addEventToDOM(
       "mousedown",
       this._handleButtonsForFunctionsUserInfoAvatar,

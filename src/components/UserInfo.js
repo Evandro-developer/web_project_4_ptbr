@@ -44,7 +44,7 @@ export default class UserInfo extends Popup {
     this._formValidatorUserInfo.enableValidation();
   }
 
-  _setUpUserInfo = async () => {
+  _setUpdateUserInfo = async () => {
     const response = await this._setApi.getUserInfo();
     this._nameOutput.textContent = response.name;
     this._jobOutput.textContent = response.about;
@@ -86,7 +86,7 @@ export default class UserInfo extends Popup {
     addEvtButtonsForFunctions(this._getButtonsForFunctionsUserInfo(), evt);
 
   setEventListenersUserInfo = () => {
-    this._setUpUserInfo();
+    this._setUpdateUserInfo();
     addEventToDOM(
       "mousedown",
       this._handleButtonsForFunctionsUserInfo,

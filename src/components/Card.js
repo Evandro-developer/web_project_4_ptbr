@@ -29,11 +29,8 @@ export default class Card {
     this._likesCounter = this._cardElement.querySelector(".card__likes");
 
     this._popupWithImage = new PopupWithImage();
-    this.setEventListenerFromPopupWithImage();
-
-    this._setApi = createApiInstance();
-
     this._popupWithConfirmation = new PopupWithConfirmation();
+    this._setApi = createApiInstance();
   }
 
   _getTemplate() {
@@ -42,7 +39,7 @@ export default class Card {
     return cardElement;
   }
 
-  handleCardLike = (evt) => {
+  _handleCardLike = (evt) => {
     handleLikeFunctionAsync(
       this,
       evt,
@@ -69,31 +66,6 @@ export default class Card {
     this._userHasLiked = this._data.likes.some(
       (user) => user._id === this._currentUserId
     );
-  }
-
-  async _setOwnerInfo() {
-    this._currentUser = await this._setApi.getUserInfo();
-    this._currentUserId = this._currentUser._id;
-    this._isOwner = this._data.owner._id === this._currentUserId;
-  }
-
-  async generateInstanceCard() {
-    setAttributes(this._cardImage, {
-      src: this._data.link,
-      alt: `Imagem de ${this._data.name}`,
-    });
-    this._cardTitle.textContent = this._data.name;
-
-    await this._setOwnerInfo();
-    this._btnTrashIcon.style.display = this._isOwner ? "block" : "none";
-
-    this._updateLikes();
-
-    addEventToDOM(
-      "mousedown",
-      (evt) => this._handleCardDelete(evt),
-      this._btnTrashIcon
-    );
 
     setAttributes(this._btnLikeIcon, {
       src: this._userHasLiked ? heartIconEnabled : heartIconDisabled,
@@ -106,17 +78,41 @@ export default class Card {
       "data-liked",
       this._userHasLiked ? "true" : "false"
     );
-
-    addEventToDOM("mousedown", this.handleCardLike, this._btnLikeIcon);
-
-    return this._cardElement;
   }
 
-  setEventListenerFromPopupWithImage() {
-    this._cardImage.addEventListener("mousedown", () => {
-      this._popupWithImage.open();
-      popupCardImg.src = this._data.link;
-      popupCardName.textContent = this._data.name;
+  async _setOwnerInfo() {
+    this._currentUser = await this._setApi.getUserInfo();
+    this._currentUserId = this._currentUser._id;
+    this._isOwner = this._data.owner._id === this._currentUserId;
+    this._btnTrashIcon.style.display = this._isOwner ? "block" : "none";
+  }
+
+  async generateInstanceCard() {
+    setAttributes(this._cardImage, {
+      src: this._data.link,
+      alt: `Imagem de ${this._data.name}`,
     });
+    this._cardTitle.textContent = this._data.name;
+
+    await this._setOwnerInfo();
+
+    this._updateLikes();
+
+    addEventToDOM("mousedown", this._handleCardLike, this._btnLikeIcon);
+
+    addEventToDOM(
+      "mousedown",
+      (evt) => this._handleCardDelete(evt),
+      this._btnTrashIcon
+    );
+
+    this._popupWithImage.handlePopupImageOpen(
+      this._cardImage,
+      popupCardImg,
+      popupCardName,
+      this._data
+    );
+
+    return this._cardElement;
   }
 }

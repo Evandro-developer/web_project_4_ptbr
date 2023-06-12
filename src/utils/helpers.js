@@ -221,7 +221,7 @@ export const handleLikeFunctionAsync = async (
   }
 };
 
-export const newCardAddAsync = async (
+export const addNewCardAsync = async (
   CardClass,
   section,
   apiInstance,
@@ -233,5 +233,5 @@ export const newCardAddAsync = async (
   const newCardInstance = new CardClass(newCard, template);
   const cardItem = await newCardInstance.generateInstanceCard();
   section.prependItem(cardItem);
-  animateOpacity(cardItem, 0, 1, 200);
+  animateOpacity(cardItem, 0, 1, 400);
 };

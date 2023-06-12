@@ -13,7 +13,7 @@ import {
   addEventToDOM,
   getValidation,
   createApiInstance,
-  newCardAddAsync,
+  addNewCardAsync,
 } from "../utils/helpers.js";
 
 export default class PopupWithForm extends Popup {
@@ -61,7 +61,7 @@ export default class PopupWithForm extends Popup {
     const { value: link } = this._link;
     if (name && link) {
       this._btnSubmit.textContent = "Salvo";
-      newCardAddAsync(
+      addNewCardAsync(
         Card,
         this._cardsSection,
         this._setApi,

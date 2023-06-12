@@ -1,16 +1,20 @@
 import Popup from "./Popup.js";
 
-import Card from "./Card.js";
+import { addEventToDOM } from "../utils/helpers.js";
 
 export default class PopupWithImage extends Popup {
   constructor() {
     super(".img-popup-card");
     this.setEventListeners();
-    this._setEventListenerCard =
-      Card.prototype.setEventListenerFromPopupWithImage;
   }
 
-  setEventListenersPopupWithImage = () => {
-    this._setEventListeners;
-  };
+  handlePopupImageOpen(cardImage, popupCardImg, popupCardName, data) {
+    const handleMousedown = () => {
+      this.open();
+      popupCardImg.src = data.link;
+      popupCardName.textContent = data.name;
+    };
+
+    addEventToDOM("mousedown", handleMousedown, cardImage);
+  }
 }
