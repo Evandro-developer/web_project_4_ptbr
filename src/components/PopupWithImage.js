@@ -3,11 +3,11 @@ import Popup from "./Popup.js";
 export default class PopupWithImage extends Popup {
   constructor() {
     super(".img-popup-card");
-    this.setEventListeners();
+    this.setEventListenersPopup();
   }
 
   handlePopupImageOpen(popupCardImg, popupCardName, data) {
-    this.open();
+    this.toggle();
     popupCardImg.src = data.link;
     popupCardName.textContent = data.name;
   }

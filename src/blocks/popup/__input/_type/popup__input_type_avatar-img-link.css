@@ -3,22 +3,22 @@
   text-decoration: none;
 }
 
-.popup__input_type_img-link {
+.popup__input_type_avatar-img-link {
   margin: 0;
   opacity: 0.6;
 }
 
-.popup__input_type_img-link:focus {
+.popup__input_type_avatar-img-link:focus {
   border-bottom-color: rgba(255, 0, 0);
   opacity: 1;
 }
 
-.popup__input_type_img-link:hover {
+.popup__input_type_avatar-img-link:hover {
   border-bottom-color: rgba(255, 0, 0);
   opacity: 1;
 }
 
-.popup__input_type_img-link:valid {
+.popup__input_type_avatar-img-link:valid {
   border-bottom-color: #545454;
   opacity: 1;
 }

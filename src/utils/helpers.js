@@ -2,12 +2,36 @@ import ApiConfig from "../components/ApiConfig";
 
 import Api from "../components/Api";
 
+import FormValidator from "../components/FormValidator";
+
 export const apiInstance = () => {
   const apiConfig = new ApiConfig();
   return new Api({
     baseUrl: apiConfig.baseUrl,
     headers: apiConfig.headers,
   });
+};
+
+const getValidation = (formSelector, inputSelector, buttonSelector) => {
+  return {
+    formSelector,
+    inputSelector,
+    buttonSelector,
+    inactiveButtonClass: "popup__button_disabled",
+    inputErrorClass: "popup__input_type_error",
+    errorClass: "popup__error_visible",
+  };
+};
+
+export const initializeFormValidator = (formSelector) => {
+  const inputSelector = ".popup__input";
+  const buttonSelector = ".popup__button";
+  const validationConfig = getValidation(
+    formSelector,
+    inputSelector,
+    buttonSelector
+  );
+  return new FormValidator(validationConfig, formSelector);
 };
 
 export const getAllArrs = (newArr, initialArr) => {
@@ -43,28 +67,11 @@ export const togglePopupDisplay = (
   styleDisplayValue(isOpen ? "hidden" : "block", targetElement, callback);
 };
 
-export const removePopupDisplay = (
-  targetClassName,
-  targetElement,
-  callback
-) => {
-  const isOpen = contains(targetClassName, targetElement);
-  styleDisplayValue(isOpen ? "hidden" : "null", targetElement, callback);
-};
-
-export const addPopupDisplay = (targetClassName, targetElement, callback) => {
-  const isOpen = contains(targetClassName, targetElement);
-  styleDisplayValue(isOpen ? "null" : "block", targetElement, callback);
-};
-
 export const toggle = (targetClassName, targetElement) =>
   targetElement.classList.toggle(targetClassName);
 
 export const remove = (targetClassName, targetElement) =>
   targetElement.classList.remove(targetClassName);
-
-export const add = (targetClassName, targetElement) =>
-  targetElement.classList.add(targetClassName);
 
 export const setAttributes = (targetElement, attributes) => {
   for (let attribute in attributes) {
@@ -116,21 +123,6 @@ export const addEvtButtonsForFunctions = (buttonFunctions, evt) => {
   buttonFunctionId ? buttonFunctionId(evt) : null;
 };
 
-export const getValidation = (
-  formSelector,
-  inputSelector,
-  submitButtonSelector
-) => {
-  return {
-    formSelector,
-    inputSelector,
-    submitButtonSelector,
-    inactiveButtonClass: "popup__button_disabled",
-    inputErrorClass: "popup__input_type_error",
-    errorClass: "popup__error_visible",
-  };
-};
-
 export const animateOpacity = (
   targetElement,
   startOpacity,
@@ -176,25 +168,10 @@ export const handleLikeFunction = (
   }
 };
 
-export const handleDeleteFunction = (
-  evt,
-  deleteBtnSelector,
-  targetSelector
-) => {
-  if (isTargetElementClicked(deleteBtnSelector, evt.target)) {
-    const btnDelete = evtTargetClosestElement(targetSelector, evt.target);
-    animateOpacity(btnDelete, 1, 0, 400, true);
-  }
-};
-
 export const handleLikeFunctionAsync = async (
-  instance,
+  instanceThis,
   evt,
   heartIcon,
-  altTextDisabled,
-  altTextEnabled,
-  heartIconDisabled,
-  heartIconEnabled,
   updateLikesFn,
   apiInstance,
   addLikeFn,
@@ -208,16 +185,21 @@ export const handleLikeFunctionAsync = async (
       ? removeLikeFn.call(apiInstance, dataId)
       : addLikeFn.call(apiInstance, dataId));
 
-    instance._data.likes = updatedCard.likes;
+    instanceThis._data.likes = updatedCard.likes;
     callIfFunction(updateLikesFn);
 
-    targetHeartIcon.setAttribute("data-liked", String(!isLiked));
-    const heartIconToUse = isLiked ? heartIconDisabled : heartIconEnabled;
-    const altText = isLiked ? altTextDisabled : altTextEnabled;
-
-    setAttributes(targetHeartIcon, { src: heartIconToUse, alt: altText });
-
     animateOpacity(targetHeartIcon, 0, 1, 400);
+  }
+};
+
+export const handleDeleteFunction = (
+  evt,
+  deleteBtnSelector,
+  targetSelector
+) => {
+  if (isTargetElementClicked(deleteBtnSelector, evt.target)) {
+    const btnDelete = evtTargetClosestElement(targetSelector, evt.target);
+    animateOpacity(btnDelete, 1, 0, 400, true);
   }
 };
 

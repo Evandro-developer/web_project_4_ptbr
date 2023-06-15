@@ -10,15 +10,15 @@ import {
 
 import { addEventToDOM, apiInstance } from "../utils/helpers";
 
+import Section from "../components/Section.js";
+
+import Card from "../components/Card.js";
+
 import UserInfo from "../components/UserInfo.js";
 
 import UserInfoAvatar from "../components/UserInfoAvatar";
 
 import PopupWithForm from "../components/PopupWithForm.js";
-
-import Section from "../components/Section.js";
-
-import Card from "../components/Card.js";
 
 const apiGetCards = apiInstance();
 
@@ -27,9 +27,9 @@ const allCards = apiGetCards.getInitialCards();
 export const cardsSection = new Section(
   {
     items: allCards,
-    renderer: async (card) => {
+    renderer: (card) => {
       const newCardInstance = new Card(card, "#cards-template");
-      const cardItem = await newCardInstance.generateInstanceCard();
+      const cardItem = newCardInstance.generateInstanceCard();
       cardsSection.addItem(cardItem);
     },
   },
@@ -52,9 +52,9 @@ const popupWithForm = new PopupWithForm({
 
 const getInstancesForDOMContentToLoad = () => {
   cardsSection.renderItems();
-  userInfo.setEventListenersUserInfo();
-  userInfoAvatar.setEventListenersUserInfoAvatar();
-  popupWithForm.setEventListenersPopupWithForm();
+  userInfo.setEventListeners();
+  userInfoAvatar.setEventListeners();
+  popupWithForm.setEventListeners();
 };
 
 addEventToDOM("DOMContentLoaded", getInstancesForDOMContentToLoad, document);

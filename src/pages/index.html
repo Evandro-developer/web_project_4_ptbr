@@ -111,20 +111,6 @@
             </button>
           </form>
         </section>
-        <section class="img-popup-card" id="img-popup-card">
-          <div class="img-popup-card__container" id="img-popup-card__container">
-            <picture>
-              <img type="url" src="#" alt="#" class="img-popup-card__image">
-            </picture>
-            <h2 class="img-popup-card__title"></h2>
-            <picture>
-              <source media="(max-width: 580px)" srcset="<%= require(`../images/close_icon_small.png`)%>">
-              <img src="<%= require(`../images/close_icon.png`)%>"
-                alt="Imagem do ícone de fechamento da janela do popup" class="img-popup-card__closed-btn"
-                id="img-popup-card__closed-btn">
-            </picture>
-          </div>
-        </section>
         <section class="popup  popup_with-confirmation" id="popup_with-confirmation">
           <form class="popup__form popup__form_with-confirmation" id="popup__form_with-confirmation" novalidate>
             <picture>
@@ -138,6 +124,20 @@
               id="popup__button_with-confirmation">
             </button>
           </form>
+        </section>
+        <section class="img-popup-card" id="img-popup-card">
+          <div class="img-popup-card__container" id="img-popup-card__container">
+            <picture>
+              <img type="url" src="#" alt="#" class="img-popup-card__image">
+            </picture>
+            <h2 class="img-popup-card__title"></h2>
+            <picture>
+              <source media="(max-width: 580px)" srcset="<%= require(`../images/close_icon_small.png`)%>">
+              <img src="<%= require(`../images/close_icon.png`)%>"
+                alt="Imagem do ícone de fechamento da janela do popup" class="img-popup-card__closed-btn"
+                id="img-popup-card__closed-btn">
+            </picture>
+          </div>
         </section>
         <section class="cards"></section>
       </main>

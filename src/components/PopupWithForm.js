@@ -1,7 +1,5 @@
 import Popup from "./Popup.js";
 
-import FormValidator from "./FormValidator.js";
-
 import Card from "./Card.js";
 
 import { cardsSection } from "../pages/index.js";
@@ -11,9 +9,9 @@ import { popupCardAddForm, btnSubmitCardAdd } from "../utils/constants.js";
 import {
   addEvtButtonsForFunctions,
   addEventToDOM,
-  getValidation,
-  apiInstance,
   addNewCardAsync,
+  apiInstance,
+  initializeFormValidator,
 } from "../utils/helpers.js";
 
 export default class PopupWithForm extends Popup {
@@ -24,39 +22,24 @@ export default class PopupWithForm extends Popup {
     this._cardsSection = cardsSection;
     this._btnSubmit = btnSubmitCardAdd;
     this._popupCardAddForm = popupCardAddForm;
-
-    this.setEventListeners();
-
+    this.setEventListenersPopup();
     this._setApi = apiInstance();
-
-    this._validationConfig = getValidation(
-      this._popupCardAddForm,
-      ".popup__input",
-      ".popup__button"
-    );
-
-    this._formValidatorPopupWithForm = new FormValidator(
-      this._validationConfig,
-      this._popupCardAddForm
-    );
-
-    this._formValidatorPopupWithForm.enableValidation();
+    this._formValidator = initializeFormValidator(this._popupCardAddForm);
   }
 
   _getInputValues = (evt) => {
     evt.preventDefault();
     this._btnSubmit.textContent = "Salvar";
-    this._setApi.getInitialCards();
     this._name.placeholder = "Insira o Nome do Local";
     this._link.placeholder = "Insira o URL da Imagem";
-    this.open();
+    this.toggle();
     this._popupCardAddForm.reset();
-    this._formValidatorPopupWithForm.enableValidation();
+    this._formValidator.enableValidation();
   };
 
   _setInputValues = async (evt) => {
     evt.preventDefault();
-    if (!this._formValidatorPopupWithForm.isFormValid()) {
+    if (!this._formValidator.isFormValid()) {
       return;
     }
     this._btnSubmit.textContent = "Salvando...";
@@ -72,25 +55,21 @@ export default class PopupWithForm extends Popup {
         "#cards-template"
       );
       this._btnSubmit.textContent = "Salvo";
-      this.close();
+      this.toggle();
       this._popupCardAddForm.reset();
-      this._formValidatorPopupWithForm.enableValidation();
+      this._formValidator.enableValidation();
     }
   };
 
-  _getButtonsForFunctionsPopupWithForm = () => ({
+  _getButtonsForFunctions = () => ({
     "button-add": this._getInputValues,
     "popup__button_card-add": this._setInputValues,
   });
 
-  _handleButtonsForFunctionsPopupWithForm = (evt) =>
-    addEvtButtonsForFunctions(this._getButtonsForFunctionsPopupWithForm(), evt);
+  _handleButtonsForFunctions = (evt) =>
+    addEvtButtonsForFunctions(this._getButtonsForFunctions(), evt);
 
-  setEventListenersPopupWithForm = () => {
-    addEventToDOM(
-      "mousedown",
-      this._handleButtonsForFunctionsPopupWithForm,
-      document
-    );
+  setEventListeners = () => {
+    addEventToDOM("mousedown", this._handleButtonsForFunctions, document);
   };
 }

@@ -2,6 +2,8 @@ export default class FormValidator {
   constructor(validationConfig, formElement) {
     this._validationConfig = validationConfig;
     this._formElement = formElement;
+    this._inputSelector = validationConfig.inputSelector;
+    this._buttonSelector = validationConfig.buttonSelector;
     this._PT_BR_ERROR_MESSAGES = {
       valueMissing: "Este campo é obrigatório.",
       typeMismatch: {
@@ -52,10 +54,11 @@ export default class FormValidator {
     const errorElement = this._formElement.querySelector(
       `.${inputElement.id}-error`
     );
-    errorElement &&
-      (inputElement.classList.remove(this._validationConfig.inputErrorClass),
-      errorElement.classList.remove(this._validationConfig.errorClass),
-      (errorElement.textContent = ""));
+    if (errorElement) {
+      inputElement.classList.remove(this._validationConfig.inputErrorClass);
+      errorElement.classList.remove(this._validationConfig.errorClass);
+      errorElement.textContent = "";
+    }
   }
 
   _checkInputValidity(inputElement) {
@@ -68,7 +71,8 @@ export default class FormValidator {
     return inputList.some((inputElement) => !inputElement.validity.valid);
   }
 
-  _toggleButtonState(inputList, buttonElement) {
+  _toggleButtonState(inputList) {
+    const buttonElement = this._formElement.querySelector(this._buttonSelector);
     this._hasInvalidInput(inputList)
       ? buttonElement.classList.add(this._validationConfig.inactiveButtonClass)
       : buttonElement.classList.remove(
@@ -81,7 +85,7 @@ export default class FormValidator {
       this._formElement.querySelectorAll(this._validationConfig.inputSelector)
     );
     const buttonElement = this._formElement.querySelector(
-      this._validationConfig.submitButtonSelector
+      this._validationConfig.buttonSelector
     );
     this._toggleButtonState(inputList, buttonElement);
     inputList.forEach((inputElement) => {
@@ -101,9 +105,9 @@ export default class FormValidator {
 
   enableValidation() {
     const inputList = Array.from(
-      this._formElement.querySelectorAll(".popup__input")
+      this._formElement.querySelectorAll(this._inputSelector)
     );
-    const buttonElement = this._formElement.querySelector(".popup__button");
+    const buttonElement = this._formElement.querySelector(this._buttonSelector);
     this._formElement.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });

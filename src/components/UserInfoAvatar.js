@@ -1,7 +1,5 @@
 import Popup from "./Popup.js";
 
-import FormValidator from "./FormValidator.js";
-
 import {
   popupFormAvatar,
   popupAvatarButtonSubmit,
@@ -11,9 +9,9 @@ import {
 
 import {
   addEvtButtonsForFunctions,
-  getValidation,
   addEventToDOM,
   apiInstance,
+  initializeFormValidator,
 } from "../utils/helpers.js";
 
 export default class UserInfoAvatar extends Popup {
@@ -24,26 +22,12 @@ export default class UserInfoAvatar extends Popup {
     this._linkOutput = imgLinkOutputAvatar;
     this._btnSubmit = popupAvatarButtonSubmit;
     this._popupFormAvatar = popupFormAvatar;
-
-    this.setEventListeners();
-
+    this.setEventListenersPopup();
     this._setApi = apiInstance();
-
-    this._validationConfig = getValidation(
-      this._popupFormAvatar,
-      ".popup__input",
-      ".popup__button"
-    );
-
-    this._formValidatorUserInfoAvatar = new FormValidator(
-      this._validationConfig,
-      this._popupFormAvatar
-    );
-
-    this._formValidatorUserInfoAvatar.enableValidation();
+    this._formValidator = initializeFormValidator(this._popupFormAvatar);
   }
 
-  _setUpdateUserInfoAvatar = async () => {
+  _setUpdate = async () => {
     const response = await this._setApi.getUserInfo();
     this._linkOutput.src = response.avatar;
   };
@@ -52,14 +36,14 @@ export default class UserInfoAvatar extends Popup {
     evt.preventDefault();
     this._btnSubmit.textContent = "Salvar";
     this._linkInput.placeholder = "Insira o URL do Avatar";
-    this.open();
+    this.toggle();
     this._popupFormAvatar.reset();
-    this._formValidatorUserInfoAvatar.enableValidation();
+    this._formValidator.enableValidation();
   };
 
   _setUserInfoAvatar = async (evt) => {
     evt.preventDefault();
-    if (!this._formValidatorUserInfoAvatar.isFormValid()) {
+    if (!this._formValidator.isFormValid()) {
       return;
     }
     this._btnSubmit.textContent = "Salvando...";
@@ -68,28 +52,22 @@ export default class UserInfoAvatar extends Popup {
       const data = await this._setApi.addNewUserInfoAvatar(link);
       this._linkOutput.src = data.avatar;
       this._btnSubmit.textContent = "Salvo";
-      this.close();
+      this.toggle();
       this._popupFormAvatar.reset();
-      this._formValidatorUserInfoAvatar.enableValidation();
+      this._formValidator.enableValidation();
     }
   };
-  _getButtonsForFunctionsUserInfoAvatar = () => ({
+
+  _getButtonsForFunctions = () => ({
     "button-avatar-edit": this._getUserInfoAvatar,
     "popup__button_avatar-edit": this._setUserInfoAvatar,
   });
 
-  _handleButtonsForFunctionsUserInfoAvatar = (evt) =>
-    addEvtButtonsForFunctions(
-      this._getButtonsForFunctionsUserInfoAvatar(evt),
-      evt
-    );
+  _handleButtonsForFunctions = (evt) =>
+    addEvtButtonsForFunctions(this._getButtonsForFunctions(), evt);
 
-  setEventListenersUserInfoAvatar = () => {
-    this._setUpdateUserInfoAvatar();
-    addEventToDOM(
-      "mousedown",
-      this._handleButtonsForFunctionsUserInfoAvatar,
-      document
-    );
+  setEventListeners = () => {
+    this._setUpdate();
+    addEventToDOM("mousedown", this._handleButtonsForFunctions, document);
   };
 }

@@ -17,9 +17,8 @@ export default class PopupWithConfirmation extends Popup {
     super(".popup_with-confirmation");
     this._popupForm = popupFormWithConfirmation;
     this._btnSubmit = popupBtnWithConfirmation;
-    this.setEventListeners();
+    this.setEventListenersPopup();
     this._setApi = apiInstance();
-    this.deletePromise = null;
   }
 
   handleFormOpen = async (evt) => {
@@ -28,7 +27,7 @@ export default class PopupWithConfirmation extends Popup {
     this._deleteBtn = closestElement(evt, ".button-trash-icon");
     if (this._selectedElement) {
       this._popupForm;
-      this.open();
+      this.toggle();
     }
   };
 
@@ -55,8 +54,7 @@ export default class PopupWithConfirmation extends Popup {
           this._btnSubmit.textContent = "Excluido";
         })
         .finally(() => {
-          this.close();
-          this.deletePromise = null;
+          this.toggle();
         });
     }
   };

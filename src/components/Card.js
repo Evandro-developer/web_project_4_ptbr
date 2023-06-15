@@ -27,10 +27,9 @@ export default class Card {
     this._btnTrashIcon = this._cardElement.querySelector(".button-trash-icon");
     this._btnLikeIcon = this._cardElement.querySelector(".button-heart-icon");
     this._likesCounter = this._cardElement.querySelector(".card__likes");
-
     this._setApi = apiInstance();
-    this.popupWithImage = null;
-    this._popupWithConfirmation = null;
+    this._updateOwnersInfo();
+    this._setEventListeners();
   }
 
   _getTemplate() {
@@ -39,15 +38,30 @@ export default class Card {
     return cardElement;
   }
 
+  _handleCardDelete = (evt) => {
+    !this._popupWithConfirmation
+      ? (this._popupWithConfirmation = new PopupWithConfirmation())
+      : null;
+    this._popupWithConfirmation.handleFormOpen(evt);
+    this._popupWithConfirmation.handleFormSubmit(evt, this._data._id);
+  };
+
+  _handleImageCardOpen = () => {
+    !this._popupWithImage
+      ? (this._popupWithImage = new PopupWithImage())
+      : null;
+    this._popupWithImage.handlePopupImageOpen(
+      popupCardImg,
+      popupCardName,
+      this._data
+    );
+  };
+
   _handleCardLike = (evt) => {
     handleLikeFunctionAsync(
       this,
       evt,
       "button-heart-icon",
-      "Icon de coração desativado apenas com bordas",
-      "Icon de coração ativado com preenchimento",
-      heartIconDisabled,
-      heartIconEnabled,
       () => this._updateLikes(),
       this._setApi,
       this._setApi.addLike,
@@ -56,13 +70,10 @@ export default class Card {
     );
   };
 
-  _handleCardDelete = (evt) => {
-    if (!this._popupWithConfirmation) {
-      this._popupWithConfirmation = new PopupWithConfirmation();
-    }
-    this._popupWithConfirmation.handleFormOpen(evt);
-    this._popupWithConfirmation.handleFormSubmit(evt, this._data._id);
-  };
+  async _fetchOwnersInfo() {
+    this._currentUser = await this._setApi.getUserInfo();
+    this._currentUserId = this._currentUser._id;
+  }
 
   _updateLikes() {
     this._likesCounter.textContent = this._data.likes.length;
@@ -83,51 +94,26 @@ export default class Card {
     );
   }
 
-  async _setOwnerInfo() {
-    this._currentUser = await this._setApi.getUserInfo();
-    this._currentUserId = this._currentUser._id;
-    if (this._data.owner._id === this._currentUserId) {
-      this._isOwner = true;
-      this._btnTrashIcon.style.display = "block";
-      this._updateLikes();
-    } else {
-      this._isOwner = false;
-      this._updateLikes();
-    }
+  async _updateOwnersInfo() {
+    await this._fetchOwnersInfo();
+    this._data.owner._id === this._currentUserId
+      ? (this._btnTrashIcon.style.display = "block")
+      : null;
+    this._updateLikes();
   }
 
-  async generateInstanceCard() {
+  _setEventListeners() {
+    addEventToDOM("mousedown", this._handleCardDelete, this._btnTrashIcon);
+    addEventToDOM("mousedown", this._handleImageCardOpen, this._cardImage);
+    addEventToDOM("mousedown", this._handleCardLike, this._btnLikeIcon);
+  }
+
+  generateInstanceCard() {
     setAttributes(this._cardImage, {
       src: this._data.link,
       alt: `Imagem de ${this._data.name}`,
     });
     this._cardTitle.textContent = this._data.name;
-
-    this._setOwnerInfo();
-
-    addEventToDOM("mousedown", this._handleCardLike, this._btnLikeIcon);
-
-    addEventToDOM(
-      "mousedown",
-      (evt) => this._handleCardDelete(evt),
-      this._btnTrashIcon
-    );
-
-    addEventToDOM(
-      "mousedown",
-      () => {
-        if (!this.popupWithImage) {
-          this.popupWithImage = new PopupWithImage();
-        }
-        this.popupWithImage.handlePopupImageOpen(
-          popupCardImg,
-          popupCardName,
-          this._data
-        );
-      },
-      this._cardImage
-    );
-
     return this._cardElement;
   }
 }

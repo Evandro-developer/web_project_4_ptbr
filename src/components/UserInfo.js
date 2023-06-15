@@ -1,7 +1,5 @@
 import Popup from "./Popup.js";
 
-import FormValidator from "./FormValidator.js";
-
 import {
   popupProfileForm,
   btnSubmitProfile,
@@ -12,8 +10,8 @@ import {
 import {
   addEvtButtonsForFunctions,
   addEventToDOM,
-  getValidation,
   apiInstance,
+  initializeFormValidator,
 } from "../utils/helpers.js";
 
 export default class UserInfo extends Popup {
@@ -25,26 +23,12 @@ export default class UserInfo extends Popup {
     this._jobOutput = jobOutputProfile;
     this._btnSubmit = btnSubmitProfile;
     this._popupProfileForm = popupProfileForm;
-
-    this.setEventListeners();
-
+    this.setEventListenersPopup();
     this._setApi = apiInstance();
-
-    this._validationConfig = getValidation(
-      this._popupProfileForm,
-      ".popup__input",
-      ".popup__button"
-    );
-
-    this._formValidatorUserInfo = new FormValidator(
-      this._validationConfig,
-      this._popupProfileForm
-    );
-
-    this._formValidatorUserInfo.enableValidation();
+    this._formValidator = initializeFormValidator(this._popupProfileForm);
   }
 
-  _setUpdateUserInfo = async () => {
+  _setUpdate = async () => {
     const response = await this._setApi.getUserInfo();
     this._nameOutput.textContent = response.name;
     this._jobOutput.textContent = response.about;
@@ -53,17 +37,16 @@ export default class UserInfo extends Popup {
   _getUserInfo = (evt) => {
     evt.preventDefault();
     this._btnSubmit.textContent = "Salvar";
-    this._setApi.getUserInfo();
     this._nameInput.placeholder = "Insira o Nome do Usuário";
     this._jobInput.placeholder = "Insira a sua Profissão";
-    this.open();
+    this.toggle();
     this._popupProfileForm.reset();
-    this._formValidatorUserInfo.enableValidation();
+    this._formValidator.enableValidation();
   };
 
   _setUserInfo = (evt) => {
     evt.preventDefault();
-    if (!this._formValidatorUserInfo.isFormValid()) {
+    if (!this._formValidator.isFormValid()) {
       return;
     }
     this._btnSubmit.textContent = "Salvando...";
@@ -74,26 +57,22 @@ export default class UserInfo extends Popup {
       this._nameOutput.textContent = nameInput;
       this._jobOutput.textContent = jobInput;
       this._btnSubmit.textContent = "Salvo";
-      this.close();
+      this.toggle();
       this._popupProfileForm.reset();
-      this._formValidatorUserInfo.enableValidation();
+      this._formValidator.enableValidation();
     }
   };
 
-  _getButtonsForFunctionsUserInfo = () => ({
+  _getButtonsForFunctions = () => ({
     "button-edit": this._getUserInfo,
     popup__button: this._setUserInfo,
   });
 
-  _handleButtonsForFunctionsUserInfo = (evt) =>
-    addEvtButtonsForFunctions(this._getButtonsForFunctionsUserInfo(), evt);
+  _handleButtonsForFunctions = (evt) =>
+    addEvtButtonsForFunctions(this._getButtonsForFunctions(), evt);
 
-  setEventListenersUserInfo = () => {
-    this._setUpdateUserInfo();
-    addEventToDOM(
-      "mousedown",
-      this._handleButtonsForFunctionsUserInfo,
-      document
-    );
+  setEventListeners = () => {
+    this._setUpdate();
+    addEventToDOM("mousedown", this._handleButtonsForFunctions, document);
   };
 }

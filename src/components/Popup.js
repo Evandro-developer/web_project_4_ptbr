@@ -1,10 +1,9 @@
 import {
   getElement,
   removeStartingDot,
-  add,
-  addPopupDisplay,
   remove,
-  removePopupDisplay,
+  toggle,
+  togglePopupDisplay,
   handleKeyPressFunction,
   handleOutsideClickFunction,
   addEventToDOM,
@@ -20,7 +19,8 @@ export default class Popup {
     );
   }
 
-  _addDisplayCallback = () => add(this._openedClassName, this._popupElement);
+  _toggleDisplayCallback = () =>
+    toggle(this._openedClassName, this._popupElement);
 
   _removeDisplayCallback = () =>
     remove(this._openedClassName, this._popupElement);
@@ -47,28 +47,21 @@ export default class Popup {
       addEventToDOM(
         "mousedown",
         () => {
-          this.close();
+          this._removeDisplayCallback();
         },
         button
       );
     });
   }
 
-  open = () =>
-    addPopupDisplay(
+  toggle = () =>
+    togglePopupDisplay(
       this._openedClassName,
       this._popupElement,
-      this._addDisplayCallback
+      this._toggleDisplayCallback
     );
 
-  close = () =>
-    removePopupDisplay(
-      this._openedClassName,
-      this._popupElement,
-      this._removeDisplayCallback
-    );
-
-  setEventListeners = () => {
+  setEventListenersPopup = () => {
     this._handleEscClose();
     this._handleOutsideClickClose();
     this._getCloseButtonsAndAddEventListener();

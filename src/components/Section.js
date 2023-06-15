@@ -14,11 +14,11 @@ export default class Section {
     });
   }
 
-  async addItem(item) {
-    await this._container.append(item);
+  addItem(item) {
+    this._container.append(item);
   }
 
-  async prependItem(item) {
-    await this._container.prepend(item);
+  prependItem(item) {
+    this._container.prepend(item);
   }
 }
