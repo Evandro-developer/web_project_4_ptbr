@@ -2,14 +2,13 @@ import { getElement } from "../utils/helpers.js";
 
 export default class Section {
   constructor({ items, renderer }, containerSelector) {
-    this._itemsPromiseResolve = Promise.resolve(items);
     this._renderer = renderer;
     this._container = getElement(containerSelector);
+    this._items = items;
   }
 
-  async renderItems() {
-    const items = await this._itemsPromiseResolve;
-    items.forEach((item) => {
+  renderItems() {
+    this._items.forEach((item) => {
       this._renderer(item);
     });
   }

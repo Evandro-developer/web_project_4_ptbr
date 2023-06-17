@@ -1,7 +1,5 @@
 import ApiConfig from "../components/ApiConfig";
-
 import Api from "../components/Api";
-
 import FormValidator from "../components/FormValidator";
 
 export const apiInstance = () => {
@@ -172,6 +170,10 @@ export const handleLikeFunctionAsync = async (
   instanceThis,
   evt,
   heartIcon,
+  iconDisabledAlt,
+  iconEnabledAlt,
+  heartIconDisabled,
+  heartIconEnabled,
   updateLikesFn,
   apiInstance,
   addLikeFn,
@@ -188,6 +190,13 @@ export const handleLikeFunctionAsync = async (
     instanceThis._data.likes = updatedCard.likes;
     callIfFunction(updateLikesFn);
 
+    setAttributes(targetHeartIcon, {
+      src: isLiked ? heartIconDisabled : heartIconEnabled,
+      alt: isLiked ? iconDisabledAlt : iconEnabledAlt,
+    });
+
+    targetHeartIcon.setAttribute("data-liked", isLiked ? "false" : "true");
+
     animateOpacity(targetHeartIcon, 0, 1, 400);
   }
 };
@@ -201,19 +210,4 @@ export const handleDeleteFunction = (
     const btnDelete = evtTargetClosestElement(targetSelector, evt.target);
     animateOpacity(btnDelete, 1, 0, 400, true);
   }
-};
-
-export const addNewCardAsync = async (
-  CardClass,
-  section,
-  apiInstance,
-  name,
-  link,
-  template
-) => {
-  const newCard = await apiInstance.addNewCard(name, link);
-  const newCardInstance = new CardClass(newCard, template);
-  const cardItem = await newCardInstance.generateInstanceCard();
-  section.prependItem(cardItem);
-  animateOpacity(cardItem, 0, 1, 400);
 };

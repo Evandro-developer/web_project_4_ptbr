@@ -1,5 +1,11 @@
 import { getElement } from "./helpers.js";
 
+export let currentUserId;
+
+export const heartIconEnabled = require("../images/heart_icon_enabled.png");
+
+export const heartIconDisabled = require("../images/heart_icon_disabled.png");
+
 export const {
   openPopupProfile,
   popupProfile,
@@ -71,10 +77,6 @@ export const {
   sectionCards: getElement(".cards"),
   elementCard: getElement(".card"),
 };
-
-export const heartIconEnabled = require("../images/heart_icon_enabled.png");
-
-export const heartIconDisabled = require("../images/heart_icon_disabled.png");
 
 export const {
   openPopupCardImg,

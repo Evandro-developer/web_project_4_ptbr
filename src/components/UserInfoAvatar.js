@@ -1,12 +1,10 @@
 import Popup from "./Popup.js";
-
 import {
   popupFormAvatar,
   popupAvatarButtonSubmit,
   imgLinkInputAvatar,
   imgLinkOutputAvatar,
 } from "../utils/constants.js";
-
 import {
   addEvtButtonsForFunctions,
   addEventToDOM,

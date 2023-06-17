@@ -1,12 +1,10 @@
 import Popup from "./Popup.js";
-
 import {
   addEventToDOM,
   closestElement,
   apiInstance,
   handleDeleteFunction,
 } from "../utils/helpers.js";
-
 import {
   popupFormWithConfirmation,
   popupBtnWithConfirmation,

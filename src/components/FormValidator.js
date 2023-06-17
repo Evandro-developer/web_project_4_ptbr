@@ -2,8 +2,8 @@ export default class FormValidator {
   constructor(validationConfig, formElement) {
     this._validationConfig = validationConfig;
     this._formElement = formElement;
-    this._inputSelector = validationConfig.inputSelector;
-    this._buttonSelector = validationConfig.buttonSelector;
+    this._inputSelector = this._validationConfig.inputSelector;
+    this._buttonSelector = this._validationConfig.buttonSelector;
     this._PT_BR_ERROR_MESSAGES = {
       valueMissing: "Este campo é obrigatório.",
       typeMismatch: {

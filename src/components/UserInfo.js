@@ -1,12 +1,10 @@
 import Popup from "./Popup.js";
-
 import {
   popupProfileForm,
   btnSubmitProfile,
   nameOutputProfile,
   jobOutputProfile,
 } from "../utils/constants.js";
-
 import {
   addEvtButtonsForFunctions,
   addEventToDOM,

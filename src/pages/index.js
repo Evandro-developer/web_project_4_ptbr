@@ -1,5 +1,4 @@
 import "../styles/index.css";
-
 import {
   nameInputProfile,
   jobInputProfile,
@@ -7,34 +6,41 @@ import {
   placeInputCardAdd,
   imgLinkInputCardAdd,
 } from "../utils/constants.js";
-
 import { addEventToDOM, apiInstance } from "../utils/helpers";
-
 import Section from "../components/Section.js";
-
 import Card from "../components/Card.js";
-
 import UserInfo from "../components/UserInfo.js";
-
 import UserInfoAvatar from "../components/UserInfoAvatar";
-
 import PopupWithForm from "../components/PopupWithForm.js";
 
-const apiGetCards = apiInstance();
+let currentUserId;
 
-const allCards = apiGetCards.getInitialCards();
-
-export const cardsSection = new Section(
-  {
-    items: allCards,
-    renderer: (card) => {
-      const newCardInstance = new Card(card, "#cards-template");
-      const cardItem = newCardInstance.generateInstanceCard();
-      cardsSection.addItem(cardItem);
-    },
-  },
-  ".cards"
-);
+apiInstance()
+  .getUserInfo()
+  .then((user) => {
+    currentUserId = user._id;
+    return apiInstance().getInitialCards();
+  })
+  .then((allCards) => {
+    const cardsSection = new Section(
+      {
+        items: allCards,
+        renderer: (card) => {
+          const newCardInstance = new Card(card, "#cards-template");
+          const userHasLiked = card.likes.some(
+            (user) => user._id === currentUserId
+          );
+          const cardItem = newCardInstance.generateCardInstance(
+            userHasLiked,
+            currentUserId
+          );
+          cardsSection.addItem(cardItem);
+        },
+      },
+      ".cards"
+    );
+    cardsSection.renderItems();
+  });
 
 const userInfo = new UserInfo({
   nameSelector: nameInputProfile,
@@ -51,7 +57,6 @@ const popupWithForm = new PopupWithForm({
 });
 
 const getInstancesForDOMContentToLoad = () => {
-  cardsSection.renderItems();
   userInfo.setEventListeners();
   userInfoAvatar.setEventListeners();
   popupWithForm.setEventListeners();

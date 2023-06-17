@@ -1,14 +1,11 @@
 import PopupWithImage from "./PopupWithImage.js";
-
 import PopupWithConfirmation from "./PopupWithConfirmation.js";
-
 import {
   popupCardImg,
   popupCardName,
   heartIconEnabled,
   heartIconDisabled,
 } from "../utils/constants.js";
-
 import {
   getElement,
   addEventToDOM,
@@ -28,8 +25,6 @@ export default class Card {
     this._btnLikeIcon = this._cardElement.querySelector(".button-heart-icon");
     this._likesCounter = this._cardElement.querySelector(".card__likes");
     this._setApi = apiInstance();
-    this._updateOwnersInfo();
-    this._setEventListeners();
   }
 
   _getTemplate() {
@@ -62,6 +57,10 @@ export default class Card {
       this,
       evt,
       "button-heart-icon",
+      "Icon de coração desativado apenas com bordas",
+      "Icon de coração ativado com preenchimento",
+      heartIconDisabled,
+      heartIconEnabled,
       () => this._updateLikes(),
       this._setApi,
       this._setApi.addLike,
@@ -70,9 +69,13 @@ export default class Card {
     );
   };
 
-  async _fetchOwnersInfo() {
+  async _fetchCurrentUserId() {
+    if (this._currentUser) {
+      return this._currentUser;
+    }
     this._currentUser = await this._setApi.getUserInfo();
     this._currentUserId = this._currentUser._id;
+    return this._currentUser;
   }
 
   _updateLikes() {
@@ -80,26 +83,29 @@ export default class Card {
     this._userHasLiked = this._data.likes.some(
       (user) => user._id === this._currentUserId
     );
+    this._updateLikeButton(this._userHasLiked);
+  }
 
-    setAttributes(this._btnLikeIcon, {
-      src: this._userHasLiked ? heartIconEnabled : heartIconDisabled,
-      alt: this._userHasLiked
+  _updateLikeButton(userHasLiked) {
+    const attributes = {
+      src: userHasLiked ? heartIconEnabled : heartIconDisabled,
+      alt: userHasLiked
         ? "Icon de coração ativado com preenchimento"
         : "Icon de coração desativado apenas com bordas",
-    });
+    };
 
+    setAttributes(this._btnLikeIcon, attributes);
     this._btnLikeIcon.setAttribute(
       "data-liked",
-      this._userHasLiked ? "true" : "false"
+      userHasLiked ? "true" : "false"
     );
   }
 
-  async _updateOwnersInfo() {
-    await this._fetchOwnersInfo();
-    this._data.owner._id === this._currentUserId
-      ? (this._btnTrashIcon.style.display = "block")
-      : null;
-    this._updateLikes();
+  async _updateDeleteIcon() {
+    await this._fetchCurrentUserId();
+    if (this._data.owner._id === this._currentUserId) {
+      this._btnTrashIcon.style.display = "block";
+    }
   }
 
   _setEventListeners() {
@@ -108,12 +114,19 @@ export default class Card {
     addEventToDOM("mousedown", this._handleCardLike, this._btnLikeIcon);
   }
 
-  generateInstanceCard() {
+  generateCardInstance(userHasLiked, currentUserId) {
     setAttributes(this._cardImage, {
       src: this._data.link,
       alt: `Imagem de ${this._data.name}`,
     });
     this._cardTitle.textContent = this._data.name;
+    this._likesCounter.textContent = this._data.likes.length;
+    this._updateLikeButton(userHasLiked);
+    if (this._data.owner._id === currentUserId) {
+      this._btnTrashIcon.style.display = "block";
+    }
+    this._updateDeleteIcon();
+    this._setEventListeners();
     return this._cardElement;
   }
 }
