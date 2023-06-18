@@ -1,16 +1,15 @@
 import Popup from "./Popup.js";
-import Section from "./Section.js";
 import Card from "./Card.js";
 import {
-  popupCardAddForm,
   btnSubmitCardAdd,
-  currentUserId,
+  popupCardAddForm,
+  sectionCards,
 } from "../utils/constants.js";
 import {
   apiInstance,
   initializeFormValidator,
   animateOpacity,
-  addEvtButtonsForFunctions,
+  setButtonFunctionId,
   addEventToDOM,
 } from "../utils/helpers.js";
 
@@ -20,14 +19,11 @@ export default class PopupWithForm extends Popup {
     this._name = nameSelector;
     this._link = linkSelector;
     this._btnSubmit = btnSubmitCardAdd;
-    this._popupCardAddForm = popupCardAddForm;
+    this._popupForm = popupCardAddForm;
+    this._sectionCards = sectionCards;
     this.setEventListenersPopup();
     this._setApi = apiInstance();
-    this._formValidator = initializeFormValidator(this._popupCardAddForm);
-    this._cardsSection = new Section(
-      { items: [], renderer: () => {} },
-      ".cards"
-    );
+    this._formValidator = initializeFormValidator(this._popupForm);
   }
 
   _getInputValues = (evt) => {
@@ -36,7 +32,7 @@ export default class PopupWithForm extends Popup {
     this._name.placeholder = "Insira o Nome do Local";
     this._link.placeholder = "Insira o URL da Imagem";
     this.toggle();
-    this._popupCardAddForm.reset();
+    this._popupForm.reset();
     this._formValidator.enableValidation();
   };
 
@@ -49,33 +45,27 @@ export default class PopupWithForm extends Popup {
     const { value: name } = this._name;
     const { value: link } = this._link;
     if (name && link) {
-      const newCard = await this._setApi.addNewCard(name, link);
-      const newCardInstance = new Card(newCard, "#cards-template");
-      const userHasLiked = newCard.likes.some(
-        (user) => user._id === currentUserId
-      );
-      const cardItem = newCardInstance.generateCardInstance(
-        userHasLiked,
-        currentUserId
-      );
-      this._cardsSection.prependItem(cardItem);
+      this._newCard = await this._setApi.addNewCard(name, link);
+      this._newCardInstance = new Card(this._newCard, "#cards-template");
+      this._cardItem = this._newCardInstance.generateCardInstance();
+      this._sectionCards.prepend(this._cardItem);
       this._btnSubmit.textContent = "Salvo";
-      animateOpacity(cardItem, 0, 1, 400);
+      animateOpacity(this._cardItem, 0, 1, 300);
       this.toggle();
-      this._popupCardAddForm.reset();
+      this._popupForm.reset();
       this._formValidator.enableValidation();
     }
   };
 
-  _getButtonsForFunctions = () => ({
+  _getButtonForFunctions = () => ({
     "button-add": this._getInputValues,
     "popup__button_card-add": this._setInputValues,
   });
 
-  _handleButtonsForFunctions = (evt) =>
-    addEvtButtonsForFunctions(this._getButtonsForFunctions(), evt);
+  _setButtonForFunctions = (evt) =>
+    setButtonFunctionId(this._getButtonForFunctions(), evt);
 
   setEventListeners = () => {
-    addEventToDOM("mousedown", this._handleButtonsForFunctions, document);
+    addEventToDOM("mousedown", this._setButtonForFunctions, document);
   };
 }

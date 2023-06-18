@@ -101,7 +101,7 @@ export default class Card {
     );
   }
 
-  async _updateDeleteIcon() {
+  async _updateDeleteButton() {
     await this._fetchCurrentUserId();
     if (this._data.owner._id === this._currentUserId) {
       this._btnTrashIcon.style.display = "block";
@@ -125,7 +125,7 @@ export default class Card {
     if (this._data.owner._id === currentUserId) {
       this._btnTrashIcon.style.display = "block";
     }
-    this._updateDeleteIcon();
+    this._updateDeleteButton();
     this._setEventListeners();
     return this._cardElement;
   }

@@ -13,8 +13,8 @@ import {
 export default class PopupWithConfirmation extends Popup {
   constructor() {
     super(".popup_with-confirmation");
-    this._popupForm = popupFormWithConfirmation;
     this._btnSubmit = popupBtnWithConfirmation;
+    this._popupForm = popupFormWithConfirmation;
     this.setEventListenersPopup();
     this._setApi = apiInstance();
   }

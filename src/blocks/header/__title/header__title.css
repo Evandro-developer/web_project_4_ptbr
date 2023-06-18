@@ -7,7 +7,7 @@
   color: #fff;
   margin: 0;
   padding: 0;
-  transition: 0.4s ease-in-out;
+  transition: 0.3s ease-in-out;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -15,7 +15,7 @@
 
 @media (max-width: 768px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .header__title {
     max-width: 243px;

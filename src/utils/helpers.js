@@ -116,7 +116,7 @@ export const addEventToDOM = (evt, handler, targetElement) =>
 export const removeEventFromDOM = (evt, handler, targetElement) =>
   targetElement.removeEventListener(evt, handler);
 
-export const addEvtButtonsForFunctions = (buttonFunctions, evt) => {
+export const setButtonFunctionId = (buttonFunctions, evt) => {
   const buttonFunctionId = buttonFunctions[evt.target.id];
   buttonFunctionId ? buttonFunctionId(evt) : null;
 };
@@ -162,7 +162,7 @@ export const handleLikeFunction = (
             alt: iconEnabledAlt,
           }
     );
-    animateOpacity(targetElement, 0, 1, 400);
+    animateOpacity(targetElement, 0, 1, 300);
   }
 };
 
@@ -197,7 +197,7 @@ export const handleLikeFunctionAsync = async (
 
     targetHeartIcon.setAttribute("data-liked", isLiked ? "false" : "true");
 
-    animateOpacity(targetHeartIcon, 0, 1, 400);
+    animateOpacity(targetHeartIcon, 0, 1, 300);
   }
 };
 
@@ -208,6 +208,6 @@ export const handleDeleteFunction = (
 ) => {
   if (isTargetElementClicked(deleteBtnSelector, evt.target)) {
     const btnDelete = evtTargetClosestElement(targetSelector, evt.target);
-    animateOpacity(btnDelete, 1, 0, 400, true);
+    animateOpacity(btnDelete, 1, 0, 300, true);
   }
 };

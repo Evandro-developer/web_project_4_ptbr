@@ -19,14 +19,14 @@ export default class Api {
     }
   }
 
-  async addNewUserInfo(name, about) {
+  async addNewUserInfo(name, job) {
     try {
       const response = await fetch(`${this.baseUrl}/users/me`, {
         method: "PATCH",
         headers: this.headers,
         body: JSON.stringify({
-          name,
-          about,
+          name: name,
+          about: job,
         }),
       });
       return response.ok

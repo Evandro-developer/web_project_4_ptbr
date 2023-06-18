@@ -10,12 +10,12 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  transition: 0.4s ease-in-out;
+  transition: 0.3s ease-in-out;
 }
 
 @media (max-width: 900px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .header {
     max-width: 768px;
@@ -24,7 +24,7 @@
 
 @media (max-width: 768px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .header {
     max-width: 320px;
@@ -33,7 +33,7 @@
 
 @media (max-width: 580px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .header {
     font-size: 22px;

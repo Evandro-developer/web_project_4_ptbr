@@ -9,12 +9,12 @@
   margin: 0;
   padding: 0;
   align-self: left;
-  transition: 0.4s ease-in-out;
+  transition: 0.3s ease-in-out;
 }
 
 @media (max-width: 900px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .footer__copyrights {
     margin: 0 0 0 19px;
@@ -23,7 +23,7 @@
 
 @media (max-width: 768px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .footer__copyrights {
     margin: 0;
@@ -32,7 +32,7 @@
 
 @media (max-width: 580px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .footer__copyrights {
     margin-left: 19px;

@@ -10,9 +10,9 @@
   align-items: center;
   justify-content: center;
   gap: 20px 17px;
-  transition: 0.4s ease-in-out;
+  transition: 0.3s ease-in-out;
   z-index: 0;
-  animation: fadeIn 0.4s ease-in-out forwards;
+  animation: fadeIn 0.3s ease-in-out forwards;
 }
 
 @keyframes fadeIn {
@@ -28,7 +28,7 @@
 
 @media (max-width: 900px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .cards {
     max-width: 842px;
@@ -37,7 +37,7 @@
 
 @media (max-width: 580px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .cards {
     padding-bottom: 50px;

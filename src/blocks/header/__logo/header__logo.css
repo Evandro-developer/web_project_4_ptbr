@@ -3,12 +3,12 @@
   height: 33px;
   padding: 0;
   margin: 45px 0 41px;
-  transition: 0.4s ease-in-out;
+  transition: 0.3s ease-in-out;
 }
 
 @media (max-width: 900px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .header__logo {
     padding-left: 19px;
@@ -17,7 +17,7 @@
 
 @media (max-width: 768px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .header__logo {
     width: 126px;
@@ -28,7 +28,7 @@
 
 @media (max-width: 580px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .header__logo {
     width: 126px;

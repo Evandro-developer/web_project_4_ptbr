@@ -1,7 +1,5 @@
 import { getElement } from "./helpers.js";
 
-export let currentUserId;
-
 export const heartIconEnabled = require("../images/heart_icon_enabled.png");
 
 export const heartIconDisabled = require("../images/heart_icon_disabled.png");

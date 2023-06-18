@@ -5,12 +5,12 @@
   line-height: 30px;
   padding-bottom: 40px;
   margin: 0;
-  transition: 0.4s ease-in-out;
+  transition: 0.3s ease-in-out;
 }
 
 @media (max-width: 768px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .popup__heading {
     font-size: 18px;

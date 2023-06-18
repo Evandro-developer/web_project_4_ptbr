@@ -1,6 +1,6 @@
 .popup_avatar-edit__opened {
   display: block;
-  animation: fadeIn 0.4s ease-in-out forwards;
+  animation: fadeIn 0.3s ease-in-out forwards;
   z-index: 1;
 }
 

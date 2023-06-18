@@ -6,12 +6,12 @@
   padding-bottom: 60px;
   display: flex;
   justify-content: flex-start;
-  transition: 0.4s ease-in-out;
+  transition: 0.3s ease-in-out;
 }
 
 @media (max-width: 900px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .footer {
     max-width: 768px;
@@ -20,7 +20,7 @@
 
 @media (max-width: 768px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .footer {
     max-width: 282px;
@@ -29,7 +29,7 @@
 
 @media (max-width: 580px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .footer {
     padding-bottom: 36px;

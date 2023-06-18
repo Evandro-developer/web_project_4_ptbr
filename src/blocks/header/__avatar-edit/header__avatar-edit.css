@@ -6,19 +6,19 @@
   justify-content: center;
   margin: 0;
   padding: 0;
-  transition: 0.4s ease-in-out;
+  transition: 0.3s ease-in-out;
   opacity: 1;
   position: relative;
 }
 
 .header__avatar-edit:hover .header__avatar {
-  transition: 0.4s ease-in-out;
+  transition: 0.3s ease-in-out;
   opacity: 0.2;
 }
 
 @media (max-width: 768px) {
   * {
-    transition: 0.4s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
   .header__avatar-edit {
     margin-bottom: 30px;
